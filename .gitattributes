@@ -2,3 +2,5 @@
 Assets/Plugins/Android/*.arr filter=lfs diff=lfs merge=lfs -text
 *.unitypakage filter=lfs diff=lfs merge=lfs -text
 Assets/Plugins/Andoid/*.aar filter=lfs diff=lfs merge=lfs -text
+Assets/Firebase/Plugins/x86_64/*.bundle filter=lfs diff=lfs merge=lfs -text
+Assets/Firebase/Plugins/x86_64/*.so filter=lfs diff=lfs merge=lfs -text
