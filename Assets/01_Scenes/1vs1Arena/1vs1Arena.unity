@@ -560,7 +560,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1532834462}
+  - {fileID: 1129427350}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &100240499
@@ -3175,7 +3175,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1129427350}
+  - {fileID: 1532834462}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &679515918
@@ -8598,22 +8598,22 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 100240498}
+    m_TransformParent: {fileID: 679515917}
     m_Modifications:
     - target: {fileID: 73379508467981798, guid: b77e1c6adaa548b4b97b902afc9494cb,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.02000001
+      value: 0.26
       objectReference: {fileID: 0}
     - target: {fileID: 73379508467981798, guid: b77e1c6adaa548b4b97b902afc9494cb,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.69
+      value: 0.07999998
       objectReference: {fileID: 0}
     - target: {fileID: 73379508467981798, guid: b77e1c6adaa548b4b97b902afc9494cb,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6.266
+      value: 0.97599983
       objectReference: {fileID: 0}
     - target: {fileID: 73379508467981798, guid: b77e1c6adaa548b4b97b902afc9494cb,
         type: 3}
@@ -8654,6 +8654,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Skeleton_Mage
+      objectReference: {fileID: 0}
+    - target: {fileID: 8615670974151929401, guid: b77e1c6adaa548b4b97b902afc9494cb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8871,7 +8876,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 679515917}
+    m_TransformParent: {fileID: 100240498}
     m_Modifications:
     - target: {fileID: 2188866137863241145, guid: 9990ead7124b17f40baabf3847604d0b,
         type: 3}
@@ -8881,17 +8886,17 @@ PrefabInstance:
     - target: {fileID: 3508091179337175680, guid: 9990ead7124b17f40baabf3847604d0b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.17
+      value: -3.45
       objectReference: {fileID: 0}
     - target: {fileID: 3508091179337175680, guid: 9990ead7124b17f40baabf3847604d0b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.5
+      value: 0.110000014
       objectReference: {fileID: 0}
     - target: {fileID: 3508091179337175680, guid: 9990ead7124b17f40baabf3847604d0b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.34
+      value: 0.9499998
       objectReference: {fileID: 0}
     - target: {fileID: 3508091179337175680, guid: 9990ead7124b17f40baabf3847604d0b,
         type: 3}
@@ -8932,6 +8937,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Skeleton_Golem
+      objectReference: {fileID: 0}
+    - target: {fileID: 7114386256712146724, guid: 9990ead7124b17f40baabf3847604d0b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
