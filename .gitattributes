@@ -1,10 +1,5 @@
-*unitypackage filter=lfs diff=lfs merge=lfs -text
-Assets/Plugins/Android/*.arr filter=lfs diff=lfs merge=lfs -text
-<<<<<<< HEAD
-*.unitypackage filter=lfs diff=lfs merge=lfs -text
-=======
+
 *.unitypakage filter=lfs diff=lfs merge=lfs -text
 Assets/Plugins/Andoid/*.aar filter=lfs diff=lfs merge=lfs -text
->>>>>>> 94147beb773156f448da6046c10db946030b3fb4
 Assets/Firebase/Plugins/x86_64/*.bundle filter=lfs diff=lfs merge=lfs -text
-Assets/Firebase/Plugins/x86_64/*so filter=lfs diff=lfs merge=lfs -text
+Assets/Firebase/Plugins/x86_64/*.so filter=lfs diff=lfs merge=lfs -text
