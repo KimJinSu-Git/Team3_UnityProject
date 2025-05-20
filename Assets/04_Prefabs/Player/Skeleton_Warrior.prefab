@@ -11,8 +11,6 @@ GameObject:
   - component: {fileID: 5063507491869721290}
   - component: {fileID: 4455000838998691986}
   - component: {fileID: 4446907902205245571}
-  - component: {fileID: 295906371674850391}
-  - component: {fileID: 8354929150336078614}
   m_Layer: 0
   m_Name: Skeleton_Warrior
   m_TagString: Untagged
@@ -88,31 +86,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &295906371674850391
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 407657189707489769}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 790bbfc550a3eda4fa56ca281d65413e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &8354929150336078614
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 407657189707489769}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2db695e3961c584aa3ae9638b12301d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  monsterData: {fileID: 11400000, guid: 66ffdff3a33468f42ae7c9a5d7ff6dab, type: 2}
 --- !u!1 &420563916917034800
 GameObject:
   m_ObjectHideFlags: 0

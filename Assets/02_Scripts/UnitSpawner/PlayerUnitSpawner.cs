@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerUnitSpawner : MonoBehaviour
 {
-
+    public Transform target;
     public GameObject unitPrefab;
 
 
@@ -16,7 +16,7 @@ public class PlayerUnitSpawner : MonoBehaviour
             return;
         }
 
-        Instantiate(unitPrefab, worldPosition, Quaternion.identity);
+        Instantiate(unitPrefab, worldPosition, Quaternion.identity, target);
     }
 
 }
