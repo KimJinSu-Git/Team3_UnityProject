@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 162728, guid: 33adbca995ce9484f9258d275aabac10, type: 3}
       propertyPath: m_Name
-      value: BoneKnightBase
+      value: SM_Bld_Tent_01 Variant
       objectReference: {fileID: 0}
     - target: {fileID: 483216, guid: 33adbca995ce9484f9258d275aabac10, type: 3}
       propertyPath: m_RootOrder
@@ -63,28 +63,5 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 162728, guid: 33adbca995ce9484f9258d275aabac10,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7771426721897880151}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 33adbca995ce9484f9258d275aabac10, type: 3}
---- !u!1 &8604211796710631484 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 162728, guid: 33adbca995ce9484f9258d275aabac10,
-    type: 3}
-  m_PrefabInstance: {fileID: 8604211796710773652}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &7771426721897880151
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8604211796710631484}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2db695e3961c584aa3ae9638b12301d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  monsterData: {fileID: 11400000, guid: 66ffdff3a33468f42ae7c9a5d7ff6dab, type: 2}

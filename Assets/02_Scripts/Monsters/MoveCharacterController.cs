@@ -10,7 +10,7 @@ public class MoveCharacterController : MonoBehaviour
     
     private Transform[] targetPosition;
     private bool walk;
-    private int brokenCastle = 0;
+    private int brokenCastle = 1;
     
     private void Start()
     {

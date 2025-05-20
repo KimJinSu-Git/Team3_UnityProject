@@ -1478,7 +1478,7 @@ Animator:
   m_GameObject: {fileID: 6028967880764688065}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 0b3da1f3c3be7b14bbbc3e7c0295b0b4, type: 2}
-  m_Controller: {fileID: 9100000, guid: d0dadf2462e554c4687729c4d21c5ad1, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1535,7 +1535,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2db695e3961c584aa3ae9638b12301d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterData: {fileID: 11400000, guid: 4d591c441ca193c4d8e4b02b5d4feb21, type: 2}
 --- !u!1 &6124267825655250341
 GameObject:
   m_ObjectHideFlags: 0
