@@ -23,7 +23,7 @@ public class CombatSystem : MonoBehaviour // MainGame에 CombatSystem 게임오�
 
             if (combatEvent.UseEffect == true)
             {
-                effectEvent.Invoke(combatEvent);
+                effectEvent?.Invoke(combatEvent);
             }
             combatEvent.Receiver.TakeDamage(combatEvent.Damage, true);
 
