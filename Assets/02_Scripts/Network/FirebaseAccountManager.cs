@@ -159,7 +159,7 @@ public class FirebaseAccountManager : MonoBehaviour
     
         if (GUI.Button(new Rect(centerX - 150, centerY + 50, 150, 30), "로그인"))
         {
-            SignIn(email, password);
+            SignIn(email, password); // ******************* 이것만 버튼에 연동 *******************
         }
     
         if (GUI.Button(new Rect(centerX + 10, centerY + 50, 150, 30), "회원가입"))
@@ -187,7 +187,7 @@ public class FirebaseAccountManager : MonoBehaviour
                 return;
             }
     
-            CreateAccount(email, password, nickname);
+            CreateAccount(email, password, nickname); // ******************* 이것만 버튼에 연동 *******************
         }
     
         if (GUI.Button(new Rect(centerX + 10, centerY + 70, 150, 30), "뒤로"))
