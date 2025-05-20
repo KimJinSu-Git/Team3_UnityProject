@@ -9,7 +9,6 @@ public class SkillData : ScriptableObject
     public string id;
     public string skillName; // 프리팹이름이랑 같게, 이걸 키값으로 Effect사용
     public string description;
-    public bool isSelected;
 
     [Header("Range")]
     public float range; // 범위    
@@ -17,9 +16,9 @@ public class SkillData : ScriptableObject
 
     [Header("SpawnInfo")]
     public int cost;
+    public float cooldown;      
     
     [Header("Image")]
     public Sprite icon;
-    public GameObject castingCircle; // 범위 이미지
-    public GameObject fireballShape;
+    public Sprite castingCircle; // 범위 이미지
 }
