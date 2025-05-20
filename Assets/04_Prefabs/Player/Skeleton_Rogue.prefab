@@ -1107,8 +1107,8 @@ GameObject:
   - component: {fileID: 5799173129499280277}
   - component: {fileID: 2201434495619119332}
   - component: {fileID: 1530683464143334041}
-  - component: {fileID: 5502183978677866546}
-  - component: {fileID: 8744037454306592601}
+  - component: {fileID: 6458420665665361064}
+  - component: {fileID: 8536863763214541608}
   m_Layer: 0
   m_Name: Skeleton_Rogue
   m_TagString: Untagged
@@ -1183,7 +1183,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &5502183978677866546
+--- !u!114 &6458420665665361064
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1192,22 +1192,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 3943412672516993462}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29823be90dfa1a04ba90cf780a39b850, type: 3}
+  m_Script: {fileID: 11500000, guid: 790bbfc550a3eda4fa56ca281d65413e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8536863763214541608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3943412672516993462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2db695e3961c584aa3ae9638b12301d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   monsterData: {fileID: 11400000, guid: badb2e7e3ffc7774f9973ccf2b4130e1, type: 2}
---- !u!114 &8744037454306592601
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3943412672516993462}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8f1db993c484444cb511f5cbe0189e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4996619513319722404
 GameObject:
   m_ObjectHideFlags: 0
