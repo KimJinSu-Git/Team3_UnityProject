@@ -1438,8 +1438,8 @@ GameObject:
   - component: {fileID: 3508091179337175680}
   - component: {fileID: 8148380211335183128}
   - component: {fileID: 2188866137863241145}
-  - component: {fileID: 1701798582778119515}
-  - component: {fileID: 8713526942310630855}
+  - component: {fileID: 2669497804523618428}
+  - component: {fileID: 2401732850195093882}
   m_Layer: 6
   m_Name: Skeleton_Golem
   m_TagString: Untagged
@@ -1514,7 +1514,7 @@ NavMeshAgent:
   m_BaseOffset: 1.8
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &1701798582778119515
+--- !u!114 &2669497804523618428
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1523,22 +1523,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 7114386256712146724}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 790bbfc550a3eda4fa56ca281d65413e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &8713526942310630855
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7114386256712146724}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2db695e3961c584aa3ae9638b12301d, type: 3}
+  m_Script: {fileID: 11500000, guid: 29823be90dfa1a04ba90cf780a39b850, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   monsterData: {fileID: 11400000, guid: 4dd494040cf16a74e9df518a3ba538b3, type: 2}
+--- !u!114 &2401732850195093882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7114386256712146724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8f1db993c484444cb511f5cbe0189e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7401818765000734205
 GameObject:
   m_ObjectHideFlags: 0

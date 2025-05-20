@@ -555,8 +555,8 @@ GameObject:
   - component: {fileID: 5884370825143228355}
   - component: {fileID: 7671331691976218323}
   - component: {fileID: 2063708313854649375}
-  - component: {fileID: 6747444757248716520}
-  - component: {fileID: 6619996749852821440}
+  - component: {fileID: 2762410263011243461}
+  - component: {fileID: 4931171288654372098}
   m_Layer: 0
   m_Name: Skeleton_Necromancer
   m_TagString: Untagged
@@ -630,7 +630,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &6747444757248716520
+--- !u!114 &2762410263011243461
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -639,22 +639,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 1790362108378987168}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 790bbfc550a3eda4fa56ca281d65413e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6619996749852821440
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1790362108378987168}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2db695e3961c584aa3ae9638b12301d, type: 3}
+  m_Script: {fileID: 11500000, guid: 29823be90dfa1a04ba90cf780a39b850, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   monsterData: {fileID: 11400000, guid: cf92199ab30643143af436f564d51642, type: 2}
+--- !u!114 &4931171288654372098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1790362108378987168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8f1db993c484444cb511f5cbe0189e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1844667260327286414
 GameObject:
   m_ObjectHideFlags: 0
