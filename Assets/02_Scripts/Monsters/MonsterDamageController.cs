@@ -7,6 +7,8 @@ public class MonsterDamageController : MonoBehaviour, IDamageAble
 {
     public GameObject GameObject => gameObject;
     public Collider Collider => MainCollider;
+    
+    
     private int currentHp;
     
     private Collider MainCollider;
