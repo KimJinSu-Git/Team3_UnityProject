@@ -1,67 +1,101 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using TMPro;
 
 [RequireComponent(typeof(CanvasGroup))]
+[RequireComponent(typeof(RectTransform))]
 public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    // CardHandManager에서 Init()으로 주입
-    private CardData             cardData;
-    private PlayerUnitSpawner    unitSpawner;
-    private Collider             enemyAreaCollider;
-    private Image                enemyAreaImage;
-    
-    public CardData CardData => cardData;
-    
-    // 드래그용 내부 필드
-    private CanvasGroup canvasGroup;
+    // 외부 주입 데이터
+    private CardData          cardData;
+    private PlayerUnitSpawner unitSpawner;
+    private Collider          enemyAreaCollider;
+    private Image             enemyAreaImage;
+    private int               slotIndex;
+    private Action<int>       onCardPlayed;
+    private bool              isDraggable;
+
+    // 내부 상태
+    private CanvasGroup   canvasGroup;
     private RectTransform rectTransform;
-    private Vector2 originalAnchoredPos;
-    private Transform originalParent;
-    private Camera worldCamera;
-    private GameObject previewInstance;
-    private bool returnedToSlot;
+    private Vector2       originalAnchoredPos;
+    private Transform     originalParent;
+    private Camera        worldCamera;
+    private GameObject    previewInstance;
+    private TMP_Text      cardNameText;
+    private bool          returnedToSlot;
 
-    
-    public void Init(CardData data, PlayerUnitSpawner spawner, Collider areaCollider, Image areaImage, Transform parentSlot)
-    {
-        cardData          = data;
-        unitSpawner       = spawner;
-        enemyAreaCollider = areaCollider;
-        enemyAreaImage    = areaImage;
+    // 카드 데이터 외부 조회용
+    public CardData CardData => cardData;
 
-        // 부모 슬롯(레이아웃) 지정
-        originalParent     = parentSlot;
-        transform.SetParent(parentSlot, false);
-    }
-    
     void Awake()
     {
+        // 컴포넌트 캐싱
         canvasGroup        = GetComponent<CanvasGroup>();
         rectTransform      = GetComponent<RectTransform>();
         originalParent     = transform.parent;
         originalAnchoredPos = rectTransform.anchoredPosition;
-        worldCamera = Camera.main;
+        worldCamera        = Camera.main;
+
+        // 이름 표시 텍스트 찾기
+        cardNameText = GetComponentInChildren<TMP_Text>();
+    }
+
+
+    /// 카드 초기화: 데이터, 부모 슬롯, 드래그 설정, 스케일, 콜백 등
+    public void Init(
+        CardData data,
+        PlayerUnitSpawner spawner,
+        Collider areaCollider,
+        Image areaImage,
+        Transform parentSlot,
+        int index,
+        Action<int> onCardPlayed,
+        bool draggable = true,
+        Vector3? startScale = null
+    )
+    {
+        // 데이터 & 콜백 할당
+        cardData          = data;
+        unitSpawner       = spawner;
+        enemyAreaCollider = areaCollider;
+        enemyAreaImage    = areaImage;
+        slotIndex         = index;
+        this.onCardPlayed = onCardPlayed;
+        isDraggable       = draggable;
+
+        // 슬롯 부모에 붙이고 위치·크기 초기화
+        transform.SetParent(parentSlot, false);
+        rectTransform         = GetComponent<RectTransform>();
+        originalParent        = parentSlot;
+        originalAnchoredPos   = rectTransform.anchoredPosition;
+        rectTransform.anchoredPosition = Vector2.zero;
+        transform.localScale  = startScale ?? Vector3.one;
+
+        // 카드 이름 표시
+        cardNameText.text = data.unitName;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (!isDraggable) return;
+
+        // 드래그 시작: 투명화, 프리뷰 생성
         returnedToSlot = false;
-        canvasGroup.alpha          = 0f;
+        canvasGroup.alpha = 0f;
         canvasGroup.blocksRaycasts = false;
-        enemyAreaImage.enabled     = true;
-
-        if (cardData?.previewPrefab != null)
-            previewInstance = Instantiate(cardData.previewPrefab);
-        else
-            Debug.LogWarning("Preview Prefab 누락");
-
-        transform.SetParent(transform.root, true);
+        enemyAreaImage.enabled = true;
+        previewInstance = Instantiate(cardData.previewPrefab);
+        transform.SetParent(transform.root, false);
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        
+        if (!isDraggable) return;
+
+        // 드래그 중: UI 위치 및 월드 프리뷰 갱신
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             transform.root as RectTransform,
             eventData.position,
@@ -70,48 +104,35 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         );
         rectTransform.localPosition = localPoint;
 
-      
-        if (previewInstance != null)
+        if (Physics.Raycast(worldCamera.ScreenPointToRay(eventData.position), out var hit, 100f) &&
+            !enemyAreaCollider.bounds.Contains(hit.point))
         {
-            Ray ray = worldCamera.ScreenPointToRay(eventData.position);
-            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
-            {
-                Vector3 spawnPos = hit.point;
-                if (enemyAreaCollider.bounds.Contains(spawnPos))
-                {
-                    return;
-                }
-                previewInstance.transform.position = hit.point;
-            }
+            previewInstance.transform.position = hit.point;
         }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (!isDraggable) return;
+
+        // 드래그 종료: 원상 복구 및 스폰/콜백 실행
         enemyAreaImage.enabled = false;
-        
-        if (eventData.pointerEnter == originalParent.gameObject)
-            returnedToSlot = true;
-        
-        canvasGroup.alpha          = 1f;
+        returnedToSlot = eventData.pointerEnter == originalParent.gameObject;
+
+        canvasGroup.alpha = 1f;
         canvasGroup.blocksRaycasts = true;
-        transform.SetParent(originalParent, true);
+        transform.SetParent(originalParent, false);
         rectTransform.anchoredPosition = originalAnchoredPos;
-        
-        if (previewInstance != null)
-            Destroy(previewInstance);
-        
-        if (returnedToSlot)
-            return;
-        
-        if (Physics.Raycast(worldCamera.ScreenPointToRay(eventData.position), out RaycastHit hit, Mathf.Infinity))
+
+        if (previewInstance != null) Destroy(previewInstance);
+        if (returnedToSlot) return;
+
+        if (Physics.Raycast(worldCamera.ScreenPointToRay(eventData.position), out var hit, 100f) &&
+            !enemyAreaCollider.bounds.Contains(hit.point))
         {
-            if (!enemyAreaCollider.bounds.Contains(hit.point))
-            {
-                unitSpawner.SpawnAt(cardData, hit.point);
-                Destroy(gameObject);
-            }
+            unitSpawner.SpawnAt(cardData, hit.point);
+            onCardPlayed?.Invoke(slotIndex);
+            Destroy(gameObject);
         }
     }
 }
-
