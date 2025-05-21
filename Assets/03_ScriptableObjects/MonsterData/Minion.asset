@@ -25,4 +25,6 @@ MonoBehaviour:
   cost: 3
   spawnTime: 1
   prefab: {fileID: 6028967880764688065, guid: ff3fa9d0748a9914ea7fde228f3a4402, type: 3}
+  previewPrefab: {fileID: 3698031327218383550, guid: 9839cbbc5841a0e4e898e955146a677a,
+    type: 3}
   icon: {fileID: 21300000, guid: 3ee8044c59baf4793bc9ffd4ddbd7518, type: 3}

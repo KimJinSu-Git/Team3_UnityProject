@@ -9,7 +9,7 @@ using TMPro;
 public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     // 외부 주입 데이터
-    private CardData          cardData;
+    private MonsterData         monsterData;
     private PlayerUnitSpawner unitSpawner;
     private Collider          enemyAreaCollider;
     private Image             enemyAreaImage;
@@ -28,7 +28,7 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     private bool          returnedToSlot;
 
     // 카드 데이터 외부 조회용
-    public CardData CardData => cardData;
+    public MonsterData MonsterData => monsterData;
 
     void Awake()
     {
@@ -46,7 +46,7 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
     /// 카드 초기화: 데이터, 부모 슬롯, 드래그 설정, 스케일, 콜백 등
     public void Init(
-        CardData data,
+        MonsterData data,
         PlayerUnitSpawner spawner,
         Collider areaCollider,
         Image areaImage,
@@ -58,7 +58,7 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     )
     {
         // 데이터 & 콜백 할당
-        cardData          = data;
+        monsterData          = data;
         unitSpawner       = spawner;
         enemyAreaCollider = areaCollider;
         enemyAreaImage    = areaImage;
@@ -75,7 +75,7 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         transform.localScale  = startScale ?? Vector3.one;
 
         // 카드 이름 표시
-        cardNameText.text = data.unitName;
+        cardNameText.text = data.monsterName;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -87,7 +87,7 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         canvasGroup.alpha = 0f;
         canvasGroup.blocksRaycasts = false;
         enemyAreaImage.enabled = true;
-        previewInstance = Instantiate(cardData.previewPrefab);
+        previewInstance = Instantiate(monsterData.previewPrefab);
         transform.SetParent(transform.root, false);
     }
 
@@ -130,7 +130,7 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         if (Physics.Raycast(worldCamera.ScreenPointToRay(eventData.position), out var hit, 100f) &&
             !enemyAreaCollider.bounds.Contains(hit.point))
         {
-            unitSpawner.SpawnAt(cardData, hit.point);
+            unitSpawner.SpawnAt(monsterData, hit.point);
             onCardPlayed?.Invoke(slotIndex);
             Destroy(gameObject);
         }

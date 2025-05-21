@@ -31,5 +31,6 @@ public class MonsterData : ScriptableObject
     
     [Header("Rendering")]
     public GameObject prefab;
+    public GameObject previewPrefab;
     public Sprite icon;
 }

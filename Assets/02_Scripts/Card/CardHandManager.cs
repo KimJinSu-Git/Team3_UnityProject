@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class CardHandManager : MonoBehaviour
 {
     [Header("덱 설정")]
-    public List<CardData> fullDeck;        // 전체 카드 데이터(8장)
+    public List<MonsterData> fullDeck;        // 전체 카드 데이터(8장)
 
     [Header("UI 슬롯 & 프리팹")]
     public CardUI      cardPrefab;         // 카드 UI 프리팹
@@ -23,14 +23,14 @@ public class CardHandManager : MonoBehaviour
     public Collider          enemyAreaCollider;
     public Image             enemyAreaImage;
 
-    private List<CardData> deck;          // 런타임용 덱
+    private List<MonsterData> deck;          // 런타임용 덱
     private List<CardUI>   hand  = new List<CardUI>(); // 현재 손패
     private CardUI         sideCard;      // 사이드 슬롯 카드
 
     void Start()
     {
         // 1) 덱 복사 후 셔플
-        deck = new List<CardData>(fullDeck);
+        deck = new List<MonsterData>(fullDeck);
         Shuffle(deck);
 
         // 2) 초기 손패 4장 뽑기
@@ -95,7 +95,7 @@ public class CardHandManager : MonoBehaviour
     private void OnCardPlayed(int slotIndex)    // 카드 유닛 배치 시 호출되는 콜백
     {
         // 1) 사용된 카드 데이터를 덱 뒤로 이동
-        var playedData = hand[slotIndex].CardData;
+        var playedData = hand[slotIndex].MonsterData;
         deck.Add(playedData);
 
         // 2) 손패에서 카드 UI 제거
@@ -130,7 +130,7 @@ public class CardHandManager : MonoBehaviour
 
         // 4) 다시 손패 카드로 재초기화 (드래그 가능, 콜백 설정)
         sideCard.Init(
-            sideCard.CardData,
+            sideCard.MonsterData,
             unitSpawner,
             enemyAreaCollider,
             enemyAreaImage,

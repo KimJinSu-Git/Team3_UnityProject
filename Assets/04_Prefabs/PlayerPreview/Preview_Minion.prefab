@@ -1116,7 +1116,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6989353131221651904}
   m_Layer: 0
-  m_Name: UnitPreview_Skeleton_Minion_Ghost
+  m_Name: Preview_Minion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
