@@ -3,60 +3,54 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// 최대치 10
-// 1초당 1씩 회복
-
 public class ElixirManager : MonoBehaviour
 {
     public static ElixirManager Instance;
 
     [Header("엘릭서 수치")]
-    [SerializeField] private float currentElixir = 5f; // 현재 엘릭서
-    [SerializeField] private float maxElixir = 10f; // 최대 엘릭서
-    [SerializeField] private float regenRate = 1f; // 엘릭서 회복량
+    [SerializeField] private float currentElixir = 5f;
+    [SerializeField] private float maxElixir = 10f;
     
-    private float regenTimer = 0f;
-    
-    public float GetCurrentElixir()
-    {
-        return currentElixir;
-    }
+    public float GetCurrentElixir() => currentElixir;
+    public float GetMaxElixir() => maxElixir;
 
-    public float GetMaxElixir()
-    {
-        return maxElixir;
-    }
-    
     private void Awake()
     {
         Instance = this;
     }
-    
+
     private void Update()
     {
         if (!IsGameActive()) return;
 
-        regenTimer += Time.deltaTime;
-        if (regenTimer >= 1f)
-        {
-            AddElixir(regenRate);
-            regenTimer = 0f;
-        }
-
-        // UI 업데이트 추가
         
+        float regenRate = GetElixirRegenRate();
+        currentElixir += regenRate * Time.deltaTime;
+        
+        currentElixir = Mathf.Clamp(currentElixir, 0f, maxElixir);
+
+        // 민규 씨 UI 연동 예정
+        // UIManager.Instance?.UpdateElixirUI(currentElixir, maxElixir);
     }
-    
+
     private bool IsGameActive()
     {
-        // 게임 상태가 Playing일 때만 엘릭서가 회복되기.
-        return GameManager.Instance != null && GameManager.Instance.currentState == GameState.Playing;
+        return GameManager.Instance != null &&
+               GameManager.Instance.currentState == GameState.Playing;
     }
 
-    public void AddElixir(float amount)
+    private float GetElixirRegenRate()
     {
-        currentElixir += amount;
-        currentElixir = Mathf.Clamp(currentElixir, 0f, maxElixir);
+        float elapsedTime = GameManager.Instance.MatchElapsedTime;
+
+        if (elapsedTime < 120f)                 
+            return 0.357f;                      
+        else if (elapsedTime < 180f)            
+            return 0.714f;                      
+        else if (elapsedTime < 240f && GameManager.Instance.IsInOvertime)
+            return 1.07f;                       
+        else
+            return 0f;                         
     }
 
     public bool UseElixir(float amount)
@@ -64,9 +58,13 @@ public class ElixirManager : MonoBehaviour
         if (currentElixir >= amount)
         {
             currentElixir -= amount;
-            
+
+            // 민규 씨 UI 연동 예정
+            // UIManager.Instance?.UpdateElixirUI(currentElixir, maxElixir);
+
             return true;
         }
+
         return false;
     }
 }

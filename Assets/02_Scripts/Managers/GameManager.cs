@@ -18,13 +18,17 @@ public class GameManager : MonoBehaviour
     private int myCrowns = 0;
     private int enemyCrowns = 0;
 
-    [Header("게임 상태")] 
+    [Header("게임 상태")]
     public GameState currentState = GameState.Ready;
 
-    [Header("게임 타이머")] 
-    public float matchTime = 180f; // 3분
+    [Header("게임 타이머")]
     private float timeLeft;
-    
+    private float gameStartTime;
+    private const float originalMatchDuration = 180f; 
+    public float MatchElapsedTime => Time.time - gameStartTime;
+
+    public bool IsInOvertime { get; private set; } = false;
+
     private void Awake()
     {
         Instance = this;
@@ -38,23 +42,33 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         if (currentState != GameState.Playing) return;
+        
+        Debug.Log($"gameStartTime ::: {gameStartTime} , MatchElapsedTime ::: {MatchElapsedTime}");
 
         timeLeft -= Time.deltaTime;
-        // UIManager.Instance.UpdateTimerUI(timeLeft);
+
+        float elapsed = MatchElapsedTime;
+
+        // 🕒 서든데스 진입 조건: 3분 경과 && 왕관 동점
+        if (!IsInOvertime && elapsed >= 180f && AreCrownsTied())
+        {
+            Debug.Log("서든데스 시작!");
+            IsInOvertime = true;
+            timeLeft = 60f; // 1분 추가
+            return; // 다음 프레임부터 종료 검사
+        }
 
         if (timeLeft <= 0)
         {
-            Debug.Log("시간 종료!");
+            Debug.Log("경기 종료!");
             EndGame();
         }
     }
-    
+
     private void PrepareGame()
     {
         Debug.Log("게임 준비 완료, 3초 뒤 시작");
         currentState = GameState.Ready;
-
-        // 3초 후 게임 시작
         Invoke(nameof(StartGame), 3f);
     }
 
@@ -62,42 +76,31 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("게임 시작!");
         currentState = GameState.Playing;
-        timeLeft = matchTime;
-    }
-
-    public void OnKingTowerDestroyed(TowerController tower)
-    {
-        if (currentState != GameState.Playing) return;
-        
-        Debug.Log($"킹 타워 파괴됨! 즉시 게임 종료");
-
-        if (IsEnemyTower(tower))
-        {
-            myCrowns += 1;
-        }
-        else
-        {
-            enemyCrowns += 1;
-        }
-
-        EndGame();
+        timeLeft = originalMatchDuration;
+        IsInOvertime = false;
+        gameStartTime = Time.time;
     }
 
     public void OnPrincessTowerDestroyed(TowerController tower)
     {
         if (currentState != GameState.Playing) return;
-        
-        Debug.Log($"{tower.towerType} 파괴됐어용 -> 왕관+1 ");
-        
-        // 부셔진 게 내 타워인지 상대 타워인지 판단
-        if(IsEnemyTower(tower))
-        {
-            myCrowns++;
-        }
-        else
-        {
-            enemyCrowns++;
-        }
+
+        Debug.Log($"{tower.towerType} 파괴 → 왕관 +1");
+
+        if (IsEnemyTower(tower)) myCrowns++;
+        else enemyCrowns++;
+    }
+
+    public void OnKingTowerDestroyed(TowerController tower)
+    {
+        if (currentState != GameState.Playing) return;
+
+        Debug.Log("킹 타워 파괴 → 즉시 종료");
+
+        if (IsEnemyTower(tower)) myCrowns++;
+        else enemyCrowns++;
+
+        EndGame();
     }
 
     private void EndGame()
@@ -105,27 +108,25 @@ public class GameManager : MonoBehaviour
         if (currentState == GameState.Ended) return;
 
         currentState = GameState.Ended;
-        Debug.Log("게임 종료");
 
         string result;
-        
-        if (myCrowns > enemyCrowns)
-            result = "승리!";
-        else if (myCrowns < enemyCrowns)
-            result = "패배!";
-        else
-            result = "무승부!";
+        if (myCrowns > enemyCrowns) result = "승리!";
+        else if (myCrowns < enemyCrowns) result = "패배!";
+        else result = "무승부!";
 
         Debug.Log($"게임 종료. 결과: {result}");
 
-        // 결과창 UI 호출 민규 씨 UI 연동 예시
+        // 민규 씨 UI 연동 예시
         // UIManager.Instance.ShowResult(result, myCrowns, enemyCrowns);
-        
-        // 씬 이동 or 대기 처리 등 기능 추가 가능
     }
 
     private bool IsEnemyTower(TowerController tower)
     {
         return tower.CompareTag("EnemyTower");
+    }
+
+    public bool AreCrownsTied()
+    {
+        return myCrowns == enemyCrowns;
     }
 }
