@@ -597,7 +597,7 @@ Animator:
   m_GameObject: {fileID: 1790362108378987168}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 0b3da1f3c3be7b14bbbc3e7c0295b0b4, type: 2}
-  m_Controller: {fileID: 9100000, guid: 14dbdca3f77b1f147ab241ce4448b1ae, type: 2}
+  m_Controller: {fileID: 22100000, guid: 0a4a7ca1ba68e8245bc82abd2ff68f24, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -622,7 +622,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -656,6 +656,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterData: {fileID: 11400000, guid: cf92199ab30643143af436f564d51642, type: 2}
+  towerControllers: []
   currentState: 0
   prevState: 0
 --- !u!1 &1844667260327286414

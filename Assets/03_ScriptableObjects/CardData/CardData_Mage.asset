@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a890609df3123b547a89e272a8369897, type: 3}
+  m_Name: CardData_Mage
+  m_EditorClassIdentifier: 
+  unitName: Mage
+  unitPrefab: {fileID: 8615670974151929401, guid: b77e1c6adaa548b4b97b902afc9494cb,
+    type: 3}
+  previewPrefab: {fileID: 2629951923687184274, guid: c6b1206460906a744bbfbd64bab78651,
+    type: 3}

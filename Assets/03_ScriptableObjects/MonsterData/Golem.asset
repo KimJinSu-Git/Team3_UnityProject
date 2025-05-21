@@ -18,12 +18,14 @@ MonoBehaviour:
     \uC0DD\uBA85\uCCB4\uC785\uB2C8\uB2E4. \uB9C8\uBC95\uC774\uB098 \uC758\uC2DD\uC744
     \uD1B5\uD574 \uC0DD\uBA85\uC744 \uBD80\uC5EC\uBC1B\uC73C\uBA70, \uC8FC\uC778\uC758
     \uBA85\uB839\uC5D0 \uC808\uB300 \uBCF5\uC885\uD569\uB2C8\uB2E4"
+  level: 1
   maxHP: 1000
   damage: 100
-  moveSpeed: 2
+  moveSpeed: 0.57
+  attackRange: 1.2
   attackSpeed: 0.5
+  attack: 2
   cost: 4
   spawnTime: 2
-  lifeTime: 0
   prefab: {fileID: 7114386256712146724, guid: 9990ead7124b17f40baabf3847604d0b, type: 3}
   icon: {fileID: 21300000, guid: cb5cc7f943c5e42a186fe52687b944f2, type: 3}
