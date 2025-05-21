@@ -2,22 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 
 public class MoveCharacterController : MonoBehaviour
 {
-
-    
     private NavMeshAgent agent;
     private Animator animator;
+    [SerializeField] MonsterData monsterData;
     
-    public enum CharacterState {Idle, Attack, Stunned, Die}
-    public CharacterState currentstate = CharacterState.Idle;
+    public enum CharacterState {Idle, Attack, Walk}
+    [FormerlySerializedAs("currentstate")] public CharacterState currentState = CharacterState.Idle;
     public CharacterState prevState;
-    private bool isStunned = false;
     
+    private bool isStunned = false;
     private Transform[] targetPosition;
     private bool walk;
     private int brokenCastle = 0;
+    
+    private float spawnTimer = 0f;
+    private bool isSpawnWaiting = true;
+
     private void Start()
     {
         walk = false;
@@ -36,9 +40,46 @@ public class MoveCharacterController : MonoBehaviour
     {
         if (isStunned)
         {
-            
             return;
         }
+
+        if (isSpawnWaiting)
+        {
+            spawnTimer += Time.deltaTime;
+            if (spawnTimer > monsterData.spawnTime)
+            {
+                ChangeState(CharacterState.Walk);
+                isSpawnWaiting = false;
+            }
+        }
+        switch (currentState)
+        {
+            case CharacterState.Idle:
+                PerformIdle();
+                break;
+            case CharacterState.Walk :
+                PerformWalk();
+                break;
+            case CharacterState.Attack:
+                PerformAttack();
+                break;
+        }
+
+    }
+
+    private void PerformIdle()
+    {
+        
+    }
+    
+    private void PerformAttack()
+    {
+        
+    }
+
+    private void PerformWalk()
+    {
+        animator.SetBool("Walk", true);
         switch (brokenCastle)
         {
             case 0:
@@ -55,7 +96,13 @@ public class MoveCharacterController : MonoBehaviour
                 break;
         }
     }
-
+    
+    private void ChangeState(CharacterState newState)
+    {
+        prevState = currentState;
+        currentState = newState;
+    }
+    
     private void MoveToClosest(int indexA, int indexB, int indexC = -1)
     {
         float distA = Vector3.Distance(transform.position, targetPosition[indexA].position);
