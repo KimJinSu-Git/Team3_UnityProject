@@ -97,8 +97,8 @@ public class GameManager : MonoBehaviour
 
         Debug.Log("킹 타워 파괴 → 즉시 종료");
 
-        if (IsEnemyTower(tower)) myCrowns++;
-        else enemyCrowns++;
+        if (IsEnemyTower(tower)) myCrowns = 3;
+        else enemyCrowns = 3;
 
         EndGame();
     }
