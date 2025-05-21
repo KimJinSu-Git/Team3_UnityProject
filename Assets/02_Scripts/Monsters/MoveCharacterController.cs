@@ -30,8 +30,15 @@ public class MoveCharacterController : MonoBehaviour
         // 부모에서 DestinationSetting 컴포넌트를 찾아 targetPosition 가져오기
         DestinationSetting destinationSetting = GetComponentInParent<DestinationSetting>();
         targetPosition = destinationSetting.targetPosition;
+
+        agent.baseOffset = 0;
+        agent.speed = monsterData.moveSpeed;
+        agent.acceleration = 999;
+        agent.autoBraking = false;
         
         BrokenCastleManager.OnBrokenCastle += SetDestination;
+        
+        
         //초기 위치 설정
         SetDestination(brokenCastle);
     }
