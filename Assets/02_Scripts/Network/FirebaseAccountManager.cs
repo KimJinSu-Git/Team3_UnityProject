@@ -5,11 +5,15 @@ using Firebase.Auth;
 using Firebase.Firestore;
 using Firebase.Extensions;
 using UnityEngine;
+using TMPro;
 
 public class FirebaseAccountManager : MonoBehaviour
 {
     private FirebaseAuth auth;
     private FirebaseFirestore firestore;
+    
+    public TMP_InputField emailInput;
+    public TMP_InputField passwordInput;
     
     private string email = "";
     private string password = "";
