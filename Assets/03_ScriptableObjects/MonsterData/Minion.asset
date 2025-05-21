@@ -15,10 +15,11 @@ MonoBehaviour:
   id: 8
   monsterName: Minion_Corp
   description: "\uC5B4\uB9B0 \uD574\uACE8 \uAD70\uB2E8\uC785\uB2C8\uB2E4."
+  level: 1
   maxHP: 5
   damage: 10
   moveSpeed: 1.5
-  attackRange: 0.5
+  attackRange: 1
   attackSpeed: 5
   attack: 2
   cost: 3

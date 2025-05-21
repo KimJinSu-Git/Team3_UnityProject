@@ -21,7 +21,7 @@ MonoBehaviour:
   maxHP: 500
   damage: 200
   moveSpeed: 1
-  attackRange: 3
+  attackRange: 2
   attackSpeed: 1.5
   attack: 3
   cost: 4
