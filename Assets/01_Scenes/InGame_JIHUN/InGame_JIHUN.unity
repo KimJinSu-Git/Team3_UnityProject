@@ -592,9 +592,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9d3582f6654a0e4fa3d39bb7449cdeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 100240498}
-  unitPrefab: {fileID: 6028967880764688065, guid: ff3fa9d0748a9914ea7fde228f3a4402,
-    type: 3}
 --- !u!1001 &114963105
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2737,7 +2734,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.033333335
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 951ac4984a5dc6747bd16e8bf7abb707, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 88aca03f93fb33e48a60875549316267, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1001 &595655808
 PrefabInstance:
@@ -3219,8 +3216,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9d3582f6654a0e4fa3d39bb7449cdeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  unitPrefab: {fileID: 0}
 --- !u!1 &691771280
 GameObject:
   m_ObjectHideFlags: 0
@@ -4343,6 +4338,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Skeleton_Golem
+      objectReference: {fileID: 0}
+    - target: {fileID: 7114386256712146724, guid: 9990ead7124b17f40baabf3847604d0b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7613,11 +7613,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2e1137b15b93224482b79ae10cb93f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitSpawner: {fileID: 100240500}
-  ghostPrefab: {fileID: 3698031327218383550, guid: 9839cbbc5841a0e4e898e955146a677a,
-    type: 3}
-  enemyAreaCollider: {fileID: 1521231054}
-  enemyeAreaImage: {fileID: 1394115092}
 --- !u!225 &1720944552
 CanvasGroup:
   m_ObjectHideFlags: 0
