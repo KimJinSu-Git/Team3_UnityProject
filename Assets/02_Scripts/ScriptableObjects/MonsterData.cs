@@ -19,7 +19,6 @@ public class MonsterData : ScriptableObject
     [Header("SpawnInfo")]
     public int cost;
     public float spawnTime;
-    public float lifeTime;
     
     [Header("Rendering")]
     public GameObject prefab;
