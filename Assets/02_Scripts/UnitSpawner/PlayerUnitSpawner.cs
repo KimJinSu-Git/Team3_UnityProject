@@ -4,19 +4,17 @@ using UnityEngine;
 
 public class PlayerUnitSpawner : MonoBehaviour
 {
-    public Transform target;
-    public GameObject unitPrefab;
-
-
-    public void SpawnAt(Vector3 worldPosition)
+    /// <summary>
+    /// 지정된 UnitType의 unitPrefab을 worldPosition에 스폰.
+    /// </summary>
+    public void SpawnAt(CardData type, Vector3 worldPosition)
     {
-        if (unitPrefab == null)
+        if (type == null || type.unitPrefab == null)
         {
-            Debug.LogWarning("EnemyPrefab이 할당되지 않았습니다.");
+            Debug.LogWarning("UnitType 또는 prefab이 할당되지 않았습니다.");
             return;
         }
-
-        Instantiate(unitPrefab, worldPosition, Quaternion.identity, target);
+        Instantiate(type.unitPrefab, worldPosition, Quaternion.identity, transform);
     }
 
 }

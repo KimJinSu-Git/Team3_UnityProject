@@ -3,27 +3,24 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(CanvasGroup))]
-public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    [Header("Spawner & Prefabs")]
-    public PlayerUnitSpawner unitSpawner;  // 실제 스폰용
-    public GameObject ghostPrefab;     // 미리보기 고스트 프리팹
+    [Header("CardData")]
+    public CardData cardData;  
     
+    [Header("Spawner & Prefabs")]
+    public PlayerUnitSpawner unitSpawner; 
     
     [Header("Enemy Area")]
     public Collider enemyAreaCollider;
-    
-    
-    [Header("Enemy Area")]
-    public Image enemyeAreaImage;
+    public Image enemyAreaImage;
     
     private CanvasGroup canvasGroup;
     private RectTransform rectTransform;
     private Vector2 originalAnchoredPos;
     private Transform originalParent;
-    private GameObject ghostInstance;
     private Camera worldCamera;
-
+    private GameObject previewInstance;
     private bool returnedToSlot;
 
     void Awake()
@@ -38,14 +35,14 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     public void OnBeginDrag(PointerEventData eventData)
     {
         returnedToSlot = false;
-        
         canvasGroup.alpha          = 0f;
         canvasGroup.blocksRaycasts = false;
-        
-        enemyeAreaImage.enabled = true;
-        
-       
-        ghostInstance = Instantiate(ghostPrefab);
+        enemyAreaImage.enabled     = true;
+
+        if (cardData?.previewPrefab != null)
+            previewInstance = Instantiate(cardData.previewPrefab);
+        else
+            Debug.LogWarning("Preview Prefab이 할당되지 않았습니다.");
 
         transform.SetParent(transform.root, true);
     }
@@ -62,7 +59,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         rectTransform.localPosition = localPoint;
 
       
-        if (ghostInstance != null)
+        if (previewInstance != null)
         {
             Ray ray = worldCamera.ScreenPointToRay(eventData.position);
             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
@@ -72,52 +69,36 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                 {
                     return;
                 }
-                ghostInstance.transform.position = hit.point;
+                previewInstance.transform.position = hit.point;
             }
-              
         }
-        
-        
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        enemyeAreaImage.enabled = false;
-        
+        enemyAreaImage.enabled = false;
         
         if (eventData.pointerEnter == originalParent.gameObject)
             returnedToSlot = true;
-
-    
+        
         canvasGroup.alpha          = 1f;
         canvasGroup.blocksRaycasts = true;
         transform.SetParent(originalParent, true);
         rectTransform.anchoredPosition = originalAnchoredPos;
-
- 
-        if (ghostInstance != null)
-            Destroy(ghostInstance);
-
-    
+        
+        if (previewInstance != null)
+            Destroy(previewInstance);
+        
         if (returnedToSlot)
             return;
-
-      
-        Ray ray = worldCamera.ScreenPointToRay(eventData.position);
         
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
+        if (Physics.Raycast(worldCamera.ScreenPointToRay(eventData.position), out RaycastHit hit, Mathf.Infinity))
         {
-           
-            Vector3 spawnPos = hit.point;
-            
-            if (enemyAreaCollider.bounds.Contains(spawnPos))
+            if (!enemyAreaCollider.bounds.Contains(hit.point))
             {
-                return;
+                unitSpawner.SpawnAt(cardData, hit.point);
+               // Destroy(gameObject);
             }
-            
-
-            unitSpawner.SpawnAt(spawnPos);
-            Destroy(gameObject);
         }
     }
 }
