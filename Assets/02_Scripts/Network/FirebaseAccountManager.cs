@@ -5,11 +5,16 @@ using Firebase.Auth;
 using Firebase.Firestore;
 using Firebase.Extensions;
 using UnityEngine;
+using TMPro;
+using UnityEngine.SceneManagement;
 
 public class FirebaseAccountManager : MonoBehaviour
 {
     private FirebaseAuth auth;
     private FirebaseFirestore firestore;
+    
+    public TMP_InputField emailInput;
+    public TMP_InputField passwordInput;
     
     private string email = "";
     private string password = "";
@@ -57,7 +62,8 @@ public class FirebaseAccountManager : MonoBehaviour
             
             UpdateUserNickname(newUser, nickname);
             CreateUserDocument(newUser.UserId, email, nickname);
-
+            
+            //SceneManager.LoadScene("MainMenu");
         });
     }
 
@@ -122,6 +128,7 @@ public class FirebaseAccountManager : MonoBehaviour
             isLoggedIn = true;
             Debug.Log("로그인성공");
             statusMessage = " 로그인 성공";
+            SceneManager.LoadScene("MainMenu");
         });
     }
 
