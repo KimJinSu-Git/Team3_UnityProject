@@ -1945,16 +1945,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d59ce457781df0448fccd6a7b4a17cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fullDeck: []
-  cardPrefab: {fileID: 822898753016986169, guid: b98a9d9bcf53e4c4982e4fece9e85e0f,
+  fullDeck:
+  - {fileID: 11400000, guid: 4e9b5b5c40f342e4ab91f11d0f5d7521, type: 2}
+  - {fileID: 11400000, guid: 1dd804b504294d14ca93031d40d896f7, type: 2}
+  - {fileID: 11400000, guid: d370b7e82cccf6b469494d74af83d4d5, type: 2}
+  - {fileID: 11400000, guid: 3635a2303fd57f94fbcb954015cf03ae, type: 2}
+  - {fileID: 11400000, guid: 8482e22ace93fc74da1f52df7457dbf3, type: 2}
+  cardPrefab: {fileID: 536418147371490894, guid: b32702e2fbcf2cf4c9f95528687a9f94,
     type: 3}
   slotParents:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  unitSpawner: {fileID: 0}
+  - {fileID: 2072216378}
+  - {fileID: 1065779980}
+  - {fileID: 1438431180}
+  - {fileID: 2074242977}
+  unitSpawner: {fileID: 100240500}
   enemyAreaCollider: {fileID: 0}
-  enemyAreaImage: {fileID: 0}
+  enemyAreaImage: {fileID: 1394115092}
 --- !u!1001 &358141013
 PrefabInstance:
   m_ObjectHideFlags: 0
