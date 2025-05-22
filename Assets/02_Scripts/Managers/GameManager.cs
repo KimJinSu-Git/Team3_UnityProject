@@ -24,38 +24,40 @@ public class GameManager : MonoBehaviour
     [Header("게임 타이머")]
     private float timeLeft;
     private float gameStartTime;
-    private const float originalMatchDuration = 180f; 
+    private const float originalMatchDuration = 180f;
     public float MatchElapsedTime => Time.time - gameStartTime;
 
     public bool IsInOvertime { get; private set; } = false;
+    public float GetTimeLeft() => timeLeft;
+
+    [Header("왕관 UI 컨트롤러")]
+    public CrownScoreController playerCrownUI;
+    public CrownScoreController enemyCrownUI;
+
+    [Header("타워 리스트")]
+    public List<TowerController> playerPrincessTowers;
+    public List<TowerController> enemyPrincessTowers;
 
     private void Awake()
     {
         Instance = this;
     }
 
-    private void Start()
-    {
-        PrepareGame();
-    }
+    private void Start() => PrepareGame();
 
     private void Update()
     {
         if (currentState != GameState.Playing) return;
-        
-        Debug.Log($"gameStartTime ::: {gameStartTime} , MatchElapsedTime ::: {MatchElapsedTime}");
 
         timeLeft -= Time.deltaTime;
 
         float elapsed = MatchElapsedTime;
-
-        // 🕒 서든데스 진입 조건: 3분 경과 && 왕관 동점
         if (!IsInOvertime && elapsed >= 180f && AreCrownsTied())
         {
             Debug.Log("서든데스 시작!");
             IsInOvertime = true;
-            timeLeft = 60f; // 1분 추가
-            return; // 다음 프레임부터 종료 검사
+            timeLeft = 60f;
+            return;
         }
 
         if (timeLeft <= 0)
@@ -87,8 +89,16 @@ public class GameManager : MonoBehaviour
 
         Debug.Log($"{tower.towerType} 파괴 → 왕관 +1");
 
-        if (IsEnemyTower(tower)) myCrowns++;
-        else enemyCrowns++;
+        if (IsEnemyTower(tower))
+        {
+            myCrowns++;
+            playerCrownUI.AddCrownsFromPositions(new List<Vector3> { tower.transform.position }, true);
+        }
+        else
+        {
+            enemyCrowns++;
+            enemyCrownUI.AddCrownsFromPositions(new List<Vector3> { tower.transform.position }, false);
+        }
     }
 
     public void OnKingTowerDestroyed(TowerController tower)
@@ -97,8 +107,29 @@ public class GameManager : MonoBehaviour
 
         Debug.Log("킹 타워 파괴 → 즉시 종료");
 
-        if (IsEnemyTower(tower)) myCrowns = 3;
-        else enemyCrowns = 3;
+        List<Vector3> crownSpawnPositions = new List<Vector3>();
+        crownSpawnPositions.Add(tower.transform.position);
+
+        List<TowerController> targetPrincessTowers = IsEnemyTower(tower) ? enemyPrincessTowers : playerPrincessTowers;
+        foreach (var pricessTower in targetPrincessTowers)
+        {
+            if (pricessTower != null && pricessTower.IsAlive)
+            {
+                pricessTower.ForceDestroy();
+                crownSpawnPositions.Add(pricessTower.transform.position);
+            }
+        }
+
+        if (IsEnemyTower(tower))
+        {
+            myCrowns = 3;
+            playerCrownUI.AddCrownsFromPositions(crownSpawnPositions, true);
+        }
+        else
+        {
+            enemyCrowns = 3;
+            enemyCrownUI.AddCrownsFromPositions(crownSpawnPositions, false);
+        }
 
         EndGame();
     }
@@ -109,24 +140,10 @@ public class GameManager : MonoBehaviour
 
         currentState = GameState.Ended;
 
-        string result;
-        if (myCrowns > enemyCrowns) result = "승리!";
-        else if (myCrowns < enemyCrowns) result = "패배!";
-        else result = "무승부!";
-
+        string result = (myCrowns > enemyCrowns) ? "승리!" : (myCrowns < enemyCrowns ? "패배!" : "무승부!");
         Debug.Log($"게임 종료. 결과: {result}");
-
-        // 민규 씨 UI 연동 예시
-        // UIManager.Instance.ShowResult(result, myCrowns, enemyCrowns);
     }
 
-    private bool IsEnemyTower(TowerController tower)
-    {
-        return tower.CompareTag("EnemyTower");
-    }
-
-    public bool AreCrownsTied()
-    {
-        return myCrowns == enemyCrowns;
-    }
+    private bool IsEnemyTower(TowerController tower) => tower.CompareTag("EnemyTower");
+    public bool AreCrownsTied() => myCrowns == enemyCrowns;
 }

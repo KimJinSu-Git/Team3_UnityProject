@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbd3c51ede291c44abf9f41b877e15e1, type: 3}
+  m_Name: Minion
+  m_EditorClassIdentifier: 
+  id: 8
+  monsterName: Minion
+  description: "\uC5B4\uB9B0 \uD574\uACE8 \uAD70\uB2E8\uC785\uB2C8\uB2E4."
+  level: 1
+  maxHP: 5
+  damage: 10
+  moveSpeed: 1.5
+  attackRange: 1
+  attackSpeed: 5
+  attack: 2
+  cardType: 0
+  rarity: 0
+  cost: 3
+  spawnTime: 1
+  prefab: {fileID: 6028967880764688065, guid: ff3fa9d0748a9914ea7fde228f3a4402, type: 3}
+  previewPrefab: {fileID: 3698031327218383550, guid: 9839cbbc5841a0e4e898e955146a677a,
+    type: 3}
+  icon: {fileID: 21300000, guid: fce7120816d736642a7a0d107f49ed8b, type: 3}
+  displayOrder: 1
+  keyword: 1
