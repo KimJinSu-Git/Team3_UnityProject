@@ -33,10 +33,11 @@ public class PlayerWallet : MonoBehaviour
             return;
         }
 
-        firestore.Collection("players").Document(uid).GetSnapshotAsync().ContinueWith(task =>
+        firestore.Collection("users").Document(uid).GetSnapshotAsync().ContinueWith(task =>
         {
             if (task.IsCompleted && task.Result.Exists)
             {
+                // data 불러오기
                 var data = task.Result.ToDictionary();
 
                 gold = data.ContainsKey("gold") ? Convert.ToInt32(data["gold"]) : 0;
@@ -44,6 +45,7 @@ public class PlayerWallet : MonoBehaviour
 
                 Debug.Log($"[Wallet] 로드 완료: Gold={gold}, Gem={gem}");
             }
+            //신규라면 초기 자금 지급
             else
             {
                 Debug.Log("[Wallet] 신규 유저이므로 기본값 설정");
@@ -59,13 +61,14 @@ public class PlayerWallet : MonoBehaviour
         string uid = auth.CurrentUser?.UserId;
         if (string.IsNullOrEmpty(uid)) return;
 
+        // data 저장
         var data = new Dictionary<string, object>
         {
             { "gold", gold },
             { "gem", gem }
         };
 
-        firestore.Collection("players").Document(uid).SetAsync(data, SetOptions.MergeAll);
+        firestore.Collection("users").Document(uid).SetAsync(data, SetOptions.MergeAll);
     }
 
     // ====== 사용 메서드 ======
