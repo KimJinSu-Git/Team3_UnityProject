@@ -10,7 +10,7 @@ public class TowerController : MonoBehaviour, IDamageAble
     [Header("타워 정보")]
     public TowerType towerType;
     public int maxHealth = 2000;
-    private int currentHealth;
+    [SerializeField] private int currentHealth;
     
     [Header("감지 대상")]
     public LayerMask targetLayer;
@@ -24,6 +24,15 @@ public class TowerController : MonoBehaviour, IDamageAble
     
     public GameObject GameObject => this.gameObject;
     public Collider Collider { get; private set; }
+    public bool IsAlive => currentHealth > 0;
+
+    public void ForceDestroy()
+    {
+        if (!IsAlive) return;
+
+        currentHealth = 0;
+        Die();
+    }
 
     private void Start()
     {
@@ -40,6 +49,16 @@ public class TowerController : MonoBehaviour, IDamageAble
         {
             TryAttackNearestUnit();
             attackTimer = 0f;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            currentHealth -= 500;
+            
+            if (currentHealth <= 0)
+            {
+                Die();
+            }
         }
     }
 
