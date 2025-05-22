@@ -20,8 +20,8 @@ public class CardHandManager : MonoBehaviour
 
     [Header("스포너 & 적 영역")]
     public PlayerUnitSpawner unitSpawner;
-    public Collider          enemyAreaCollider;
-    public Image             enemyAreaImage;
+    public Collider[]        noSpawnZones;
+    public Image[]             enemyAreaImages;
 
     private List<MonsterData> deck;          // 런타임용 덱
     private List<CardUI>   hand  = new List<CardUI>(); // 현재 손패
@@ -54,8 +54,8 @@ public class CardHandManager : MonoBehaviour
         card.Init(
             data,
             unitSpawner,
-            enemyAreaCollider,
-            enemyAreaImage,
+            noSpawnZones,
+            enemyAreaImages,
             slotParents[slotIndex], // 부모 슬롯 지정
             slotIndex,
             OnCardPlayed,
@@ -82,8 +82,8 @@ public class CardHandManager : MonoBehaviour
         sideCard.Init(
             data,
             unitSpawner,
-            enemyAreaCollider,
-            enemyAreaImage,
+            noSpawnZones,
+            enemyAreaImages,
             sideSlotParent,
             -1,               // 슬롯 인덱스 없음
             null,             // 콜백 없음
@@ -135,8 +135,8 @@ public class CardHandManager : MonoBehaviour
         sideCard.Init(
             sideCard.MonsterData,
             unitSpawner,
-            enemyAreaCollider,
-            enemyAreaImage,
+            noSpawnZones,
+            enemyAreaImages,
             slotParents[slotIndex],
             slotIndex,
             OnCardPlayed,
