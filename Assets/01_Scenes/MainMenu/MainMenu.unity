@@ -3254,11 +3254,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   costText: {fileID: 1145455970}
   currencyIcon: {fileID: 1626025532}
+  labelText: {fileID: 31597144}
+  refreshButtonImage: {fileID: 1740748200}
   displayCount: 6
   shopItemPrefab: {fileID: 1324795917534439217, guid: 0b52f0e13387a984fbecb9b26ec09ca9,
     type: 3}
   shopParent: {fileID: 1706903658}
-  cooldownTime: 10
+  cooldownTime: 5
 --- !u!1 &2019269778
 GameObject:
   m_ObjectHideFlags: 0

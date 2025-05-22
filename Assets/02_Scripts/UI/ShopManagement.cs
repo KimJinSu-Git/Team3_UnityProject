@@ -18,12 +18,14 @@ public class ShopManagement : MonoBehaviour
     [Header("Refresh")]
     public TMP_Text costText;
     public Image currencyIcon;
+    public TMP_Text labelText;
+    public Image refreshButtonImage;
 
     [Header("설정")]
     public int displayCount = 6;
     public GameObject shopItemPrefab;
     public Transform shopParent;
-    public float cooldownTime = 10f;
+    public float cooldownTime = 5f;
 
     private List<ShopOfferData> allOffers;
     private List<ShopOfferData> currentOffers;
@@ -41,15 +43,27 @@ public class ShopManagement : MonoBehaviour
     {
         LoadAllOffers();
 
+        refreshCount = PlayerPrefs.GetInt("refreshCount", 0); // 🟡 저장된 리프레시 카운트 불러오기
+
         if (PlayerWallet.Instance != null)
         {
-            PlayerWallet.Instance.AddGold(1000); // 테스트용
+            PlayerWallet.Instance.AddGold(10000);
+            PlayerWallet.Instance.AddGem(1000); // 테스트용
         }
-        
-        // 강제 초기화 전용 호출
-        ForceRefreshOnEnter();
 
+        ForceRefreshOnEnter();
         UpdateCostUI();
+    }
+    
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Backspace))
+        {
+            refreshCount = 0;
+            PlayerPrefs.DeleteKey("refreshCount");
+            UpdateCostUI();
+            Debug.Log("🔄 리프레시 카운트 초기화됨");
+        }
     }
 
     private void ForceRefreshOnEnter()
@@ -134,9 +148,13 @@ public class ShopManagement : MonoBehaviour
             }
             PlayerWallet.Instance.SpendGem(cost);
         }
+        
+        refreshCount++;
+        PlayerPrefs.SetInt("refreshCount", refreshCount);
 
         Debug.Log("[Shop] ✅ 비용 차감 완료, 리프레시 시작");
-
+        Debug.Log($"[Shop] Refresh Count = {refreshCount}");
+        
         // 슬롯 제거 및 생성
         foreach (Transform child in shopParent)
             Destroy(child.gameObject);
@@ -153,22 +171,9 @@ public class ShopManagement : MonoBehaviour
         StartCoroutine(CooldownCoroutine());
     }
 
-
-
-    IEnumerator CooldownCoroutine()
-    {
-        isCoolingDown = true;
-        currencyIcon.color = new Color(1, 1, 1, 0.5f); // 반투명 처리
-
-        yield return new WaitForSeconds(cooldownTime);
-
-        isCoolingDown = false;
-        currencyIcon.color = Color.white;
-    }
-
     int GetRefreshCost(out CurrencyType currency)
     {
-        if (refreshCount < 5)
+        if (refreshCount < 10)
         {
             currency = CurrencyType.Gold;
             return 100 + 50 * refreshCount;
@@ -176,7 +181,7 @@ public class ShopManagement : MonoBehaviour
         else
         {
             currency = CurrencyType.Gem;
-            return 50 + 25 * (refreshCount - 5);
+            return 50 + 25 * (refreshCount - 10);
         }
     }
 
@@ -186,5 +191,27 @@ public class ShopManagement : MonoBehaviour
         int cost = GetRefreshCost(out currency);
         costText.text = cost.ToString();
         currencyIcon.sprite = CurrencyIconManager.GetSprite(currency);
+    }
+    
+    IEnumerator CooldownCoroutine()
+    {
+        isCoolingDown = true;
+        refreshButtonImage.color = Color.gray;
+        currencyIcon.color = Color.gray;
+        
+        float timeLeft = cooldownTime;
+        while (timeLeft > 0)
+        {
+            labelText.text = $"{Mathf.CeilToInt(timeLeft)}초";
+            timeLeft -= Time.deltaTime;
+            yield return null;
+        }
+
+        labelText.text = "새로고침";
+
+        refreshButtonImage.color = Color.white;
+        currencyIcon.color = Color.white;
+
+        isCoolingDown = false;
     }
 }
