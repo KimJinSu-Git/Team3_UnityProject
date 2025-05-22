@@ -2,10 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TowerController : MonoBehaviour, IDamageAble
 {
-    public enum TowerType { Princess, King }
+    public enum TowerType { LeftPrincess, RightPrincess, King }
 
     [Header("타워 정보")]
     public TowerType towerType;
@@ -28,8 +29,13 @@ public class TowerController : MonoBehaviour, IDamageAble
     [Header("궁수 애니메이터")]
     public Animator archerAnimator;
 
+    public Image enemyAreaImage;
+
+    public GameObject enemyCollider;
+    
     private float attackTimer = 0f;
     private Transform target;
+    
 
     public GameObject GameObject => this.gameObject;
     public Collider Collider { get; private set; }
@@ -121,10 +127,23 @@ public class TowerController : MonoBehaviour, IDamageAble
     {
         Debug.Log($"{towerType} 파괴됨!");
 
+        if (enemyCollider != null)
+        {
+            enemyCollider.SetActive(false); 
+        }
+
         if (towerType == TowerType.King)
             GameManager.Instance.OnKingTowerDestroyed(this);
-        else
+        else if (towerType == TowerType.LeftPrincess)
+        {
+            BrokenCastleManager.OnTriggerCastleBroken(1);
             GameManager.Instance.OnPrincessTowerDestroyed(this);
+        }
+        else if (towerType == TowerType.RightPrincess)
+        {
+            BrokenCastleManager.OnTriggerCastleBroken(2);
+            GameManager.Instance.OnPrincessTowerDestroyed(this);
+        }
 
         Destroy(gameObject);
     }

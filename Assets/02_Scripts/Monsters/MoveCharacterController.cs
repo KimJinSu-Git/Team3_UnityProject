@@ -29,7 +29,7 @@ public class MoveCharacterController : MonoBehaviour
     [Header("이동로직")]
     private Transform[] targetPosition;
     private bool walk;
-    private int brokenCastle = 0;
+    private static int brokenCastle;
     
     [Header("처음 스폰했을 때 대기시간으로 사용되는 것")]
     private float spawnTimer = 0f;
@@ -195,9 +195,28 @@ public class MoveCharacterController : MonoBehaviour
     private void MoveToClosest(bool rightBuild = false, bool leftBuild = false)
     {
         // 거리 계산
-        float distA = Vector3.Distance(transform.position, targetPosition[0].position);
-        float distB = Vector3.Distance(transform.position, targetPosition[1].position);
-        float distC = Vector3.Distance(transform.position, targetPosition[2].position);
+        float distA = 90;
+        float distB = 90;
+        float distC = 90;
+        Debug.Log(brokenCastle);
+        switch (brokenCastle)
+        {
+            case 0:
+                 distA = Vector3.Distance(transform.position, targetPosition[0].position);
+                 distB = Vector3.Distance(transform.position, targetPosition[1].position);
+                 distC = Vector3.Distance(transform.position, targetPosition[2].position);
+                break;
+            case 1:
+                 //distB = Vector3.Distance(transform.position, targetPosition[1].position);
+                 distC = Vector3.Distance(transform.position, targetPosition[2].position);
+                break;
+            case 2:
+                 distA = Vector3.Distance(transform.position, targetPosition[0].position);
+                 distB = Vector3.Distance(transform.position, targetPosition[2].position);
+                 break;
+            default:
+                break;
+        }
 
         int targetIndex = 2; // 기본은 King
 
