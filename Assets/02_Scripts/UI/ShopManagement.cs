@@ -47,8 +47,8 @@ public class ShopManagement : MonoBehaviour
 
         if (PlayerWallet.Instance != null)
         {
-            PlayerWallet.Instance.AddGold(10000);
-            PlayerWallet.Instance.AddGem(1000); // 테스트용
+            PlayerWallet.Instance.AddGold(10000); // 테스트용
+            PlayerWallet.Instance.AddGem(1000); // 빌드 시 삭제해야함.
         }
 
         ForceRefreshOnEnter();
@@ -57,7 +57,7 @@ public class ShopManagement : MonoBehaviour
     
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Backspace))
+        if (Input.GetKeyDown(KeyCode.Backspace)) // 테스트용 빌드 시 삭제해야함.
         {
             refreshCount = 0;
             PlayerPrefs.DeleteKey("refreshCount");
