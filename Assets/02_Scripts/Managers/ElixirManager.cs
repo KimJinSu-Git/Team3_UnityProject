@@ -29,8 +29,11 @@ public class ElixirManager : MonoBehaviour
         
         currentElixir = Mathf.Clamp(currentElixir, 0f, maxElixir);
 
-        // 민규 씨 UI 연동 예정
-        // UIManager.Instance?.UpdateElixirUI(currentElixir, maxElixir);
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            UseElixir(3f);
+            Debug.Log("엘릭서 3 사용");
+        }
     }
 
     private bool IsGameActive()
@@ -58,9 +61,6 @@ public class ElixirManager : MonoBehaviour
         if (currentElixir >= amount)
         {
             currentElixir -= amount;
-
-            // 민규 씨 UI 연동 예정
-            // UIManager.Instance?.UpdateElixirUI(currentElixir, maxElixir);
 
             return true;
         }

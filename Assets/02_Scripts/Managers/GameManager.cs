@@ -43,8 +43,6 @@ public class GameManager : MonoBehaviour
     {
         if (currentState != GameState.Playing) return;
         
-        Debug.Log($"gameStartTime ::: {gameStartTime} , MatchElapsedTime ::: {MatchElapsedTime}");
-
         timeLeft -= Time.deltaTime;
 
         float elapsed = MatchElapsedTime;
