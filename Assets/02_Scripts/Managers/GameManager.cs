@@ -28,6 +28,11 @@ public class GameManager : MonoBehaviour
     public float MatchElapsedTime => Time.time - gameStartTime;
 
     public bool IsInOvertime { get; private set; } = false;
+    
+    public float GetTimeLeft()
+    {
+        return timeLeft;
+    }
 
     private void Awake()
     {

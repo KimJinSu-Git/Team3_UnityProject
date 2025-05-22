@@ -31,8 +31,12 @@ public class ElixirManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            UseElixir(3f);
-            Debug.Log("엘릭서 3 사용");
+            Time.timeScale = 20;
+        }
+
+        if (Input.GetKeyUp(KeyCode.E))
+        {
+            Time.timeScale = 1;
         }
     }
 
