@@ -555,10 +555,11 @@ GameObject:
   - component: {fileID: 5884370825143228355}
   - component: {fileID: 7671331691976218323}
   - component: {fileID: 2063708313854649375}
-  - component: {fileID: 2762410263011243461}
-  - component: {fileID: 4931171288654372098}
-  m_Layer: 0
-  m_Name: Skeleton_Necromancer
+  - component: {fileID: -193746988717303664}
+  - component: {fileID: 2984362828411654683}
+  - component: {fileID: 5369936573808271436}
+  m_Layer: 9
+  m_Name: Necromancer
   m_TagString: Untagged
   m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -630,7 +631,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &2762410263011243461
+--- !u!114 &-193746988717303664
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -639,11 +640,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1790362108378987168}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29823be90dfa1a04ba90cf780a39b850, type: 3}
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterData: {fileID: 11400000, guid: cf92199ab30643143af436f564d51642, type: 2}
---- !u!114 &4931171288654372098
+  SortKey: 652300518
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 2984362828411654683}
+  ForceRemoteRenderTimeframe: 0
+--- !u!114 &2984362828411654683
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -652,13 +659,34 @@ MonoBehaviour:
   m_GameObject: {fileID: 1790362108378987168}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8f1db993c484444cb511f5cbe0189e1, type: 3}
+  m_Script: {fileID: 11500000, guid: c22b262a9a154914fa98809f7afb0de4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   monsterData: {fileID: 11400000, guid: cf92199ab30643143af436f564d51642, type: 2}
-  towerControllers: []
-  currentState: 0
-  prevState: 0
+  _CurrentHp: 0
+--- !u!136 &5369936573808271436
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1790362108378987168}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &1844667260327286414
 GameObject:
   m_ObjectHideFlags: 0

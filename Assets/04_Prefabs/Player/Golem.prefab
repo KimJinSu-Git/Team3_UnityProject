@@ -1439,10 +1439,10 @@ GameObject:
   - component: {fileID: 8148380211335183128}
   - component: {fileID: 2188866137863241145}
   - component: {fileID: 6850130073575363186}
-  - component: {fileID: 2669497804523618428}
-  - component: {fileID: 2401732850195093882}
-  m_Layer: 6
-  m_Name: Skeleton_Golem
+  - component: {fileID: 2302880959962021192}
+  - component: {fileID: 5382147453373329759}
+  m_Layer: 9
+  m_Name: Golem
   m_TagString: Untagged
   m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -1457,7 +1457,7 @@ Transform:
   m_GameObject: {fileID: 7114386256712146724}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.77, y: 0.110000014, z: 0.95}
+  m_LocalPosition: {x: -2.77, y: 0, z: 0.95}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1535,10 +1535,10 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.893101
-  m_Height: 4.440155
+  m_Height: 4.5
   m_Direction: 1
-  m_Center: {x: -0.07129502, y: 1.7200775, z: 0}
---- !u!114 &2669497804523618428
+  m_Center: {x: 0, y: 2, z: 0}
+--- !u!114 &2302880959962021192
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1547,11 +1547,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7114386256712146724}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29823be90dfa1a04ba90cf780a39b850, type: 3}
+  m_Script: {fileID: 11500000, guid: 6b127e4ecc7a4f348ba6207bb50458ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   monsterData: {fileID: 11400000, guid: 4dd494040cf16a74e9df518a3ba538b3, type: 2}
---- !u!114 &2401732850195093882
+  _CurrentHp: 0
+--- !u!114 &5382147453373329759
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1560,13 +1561,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 7114386256712146724}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8f1db993c484444cb511f5cbe0189e1, type: 3}
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterData: {fileID: 11400000, guid: 4dd494040cf16a74e9df518a3ba538b3, type: 2}
-  towerControllers: []
-  currentState: 0
-  prevState: 0
+  SortKey: 2552454116
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 2302880959962021192}
+  ForceRemoteRenderTimeframe: 0
 --- !u!1 &7401818765000734205
 GameObject:
   m_ObjectHideFlags: 0

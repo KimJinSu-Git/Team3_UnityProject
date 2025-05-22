@@ -71,7 +71,11 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 162728, guid: 33adbca995ce9484f9258d275aabac10,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8805162865518456598}
+      addedObject: {fileID: -1212117830656288273}
+    - targetCorrespondingSourceObject: {fileID: 162728, guid: 33adbca995ce9484f9258d275aabac10,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4641016811128565872}
   m_SourcePrefab: {fileID: 100100000, guid: 33adbca995ce9484f9258d275aabac10, type: 3}
 --- !u!1 &8604211796710631484 stripped
 GameObject:
@@ -79,7 +83,7 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 8604211796710773652}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8805162865518456598
+--- !u!114 &-1212117830656288273
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -88,7 +92,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 8604211796710631484}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29823be90dfa1a04ba90cf780a39b850, type: 3}
+  m_Script: {fileID: 11500000, guid: 8f53a4d0096a3bf44ac7c767f41b8457, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterData: {fileID: 11400000, guid: a2014693351db234eacf1b4484220438, type: 2}
+--- !u!114 &4641016811128565872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8604211796710631484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 3944545055
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: -1212117830656288273}
+  ForceRemoteRenderTimeframe: 0

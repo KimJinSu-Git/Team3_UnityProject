@@ -1,13 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class CardHandManager : MonoBehaviour
 {
+    public static  CardHandManager Instance;
     [Header("덱 설정")]
     public List<MonsterData> fullDeck;        // 전체 카드 데이터(8장)
 
+    public Dictionary<string, MonsterData> monsterDatas; // 스텟등 확정성을 위해서 MonsterData전부를 넘겨줌
+
+    
     [Header("UI 슬롯 & 프리팹")]
     public CardUI      cardPrefab;         // 카드 UI 프리팹
     public Transform[] slotParents;        // 손패 슬롯 부모(4개)
@@ -19,7 +25,7 @@ public class CardHandManager : MonoBehaviour
     public float       sideAnimDuration = 0.5f; // 이동 애니메이션 시간
 
     [Header("스포너 & 적 영역")]
-    public PlayerUnitSpawner unitSpawner;
+    public Spawner_Network unitSpawner;
     public Collider[]        noSpawnZones;
     public Image[]             enemyAreaImages;
 
@@ -27,12 +33,21 @@ public class CardHandManager : MonoBehaviour
     private List<CardUI>   hand  = new List<CardUI>(); // 현재 손패
     private CardUI         sideCard;      // 사이드 슬롯 카드
 
+    private void Awake()
+    {
+        Instance = this;
+    }
     void Start()
     {
         // 1) 덱 복사 후 셔플
         deck = new List<MonsterData>(fullDeck);
         Shuffle(deck);
-
+        // 몬스터 데이터 캐싱
+        monsterDatas = new Dictionary<string, MonsterData>();
+        foreach (MonsterData monsterData in deck)
+        {
+            monsterDatas.Add(monsterData.name, monsterData);
+        }
         // 2) 초기 손패 4장 뽑기
         for (int i = 0; i < slotParents.Length; i++)
             DrawToSlot(i);
@@ -46,11 +61,11 @@ public class CardHandManager : MonoBehaviour
         if (deck.Count == 0) return;
 
         // 덱에서 카드 데이터 꺼내기
-        var data = deck[0];
+        MonsterData data = deck[0];
         deck.RemoveAt(0);
 
         // 카드 인스턴스 생성 및 초기화
-        var card = Instantiate(cardPrefab);
+        CardUI card = Instantiate(cardPrefab);
         card.Init(
             data,
             unitSpawner,
@@ -70,7 +85,7 @@ public class CardHandManager : MonoBehaviour
         if (deck.Count == 0) return;
 
         // 덱에서 카드 데이터 꺼내기
-        var data = deck[0];
+        MonsterData data = deck[0];
         deck.RemoveAt(0);
 
         // 기존 사이드 카드가 있으면 삭제 (사이드 슬롯에 남아 있는 경우만)
@@ -94,14 +109,12 @@ public class CardHandManager : MonoBehaviour
     
     private void OnCardPlayed(int slotIndex)    // 카드 유닛 배치 시 호출되는 콜백
     {
-
         // 3) 사이드 슬롯 카드 → 빈 슬롯으로 이동
         StartCoroutine(MoveSideToHand(slotIndex));
     }
     
     private IEnumerator MoveSideToHand(int slotIndex)   // 사이드 슬롯 카드를 빈 슬롯으로 이동시키고 재초기화
     {
-        
         // 1) 대기
         yield return new WaitForSeconds(sideDelay);
 

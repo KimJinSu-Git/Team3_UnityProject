@@ -11,10 +11,11 @@ GameObject:
   - component: {fileID: 5063507491869721290}
   - component: {fileID: 4455000838998691986}
   - component: {fileID: 4446907902205245571}
-  - component: {fileID: 4105454607785548362}
-  - component: {fileID: 2685938616869551366}
-  m_Layer: 0
-  m_Name: Skeleton_Warrior
+  - component: {fileID: -2654120556454589361}
+  - component: {fileID: 7279833739321921673}
+  - component: {fileID: 7651559513757387102}
+  m_Layer: 9
+  m_Name: Warrior
   m_TagString: Untagged
   m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -88,7 +89,7 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &4105454607785548362
+--- !u!114 &-2654120556454589361
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,11 +98,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 407657189707489769}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29823be90dfa1a04ba90cf780a39b850, type: 3}
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterData: {fileID: 11400000, guid: 66ffdff3a33468f42ae7c9a5d7ff6dab, type: 2}
---- !u!114 &2685938616869551366
+  SortKey: 2987525420
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 7279833739321921673}
+  ForceRemoteRenderTimeframe: 0
+--- !u!114 &7279833739321921673
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -110,13 +117,34 @@ MonoBehaviour:
   m_GameObject: {fileID: 407657189707489769}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8f1db993c484444cb511f5cbe0189e1, type: 3}
+  m_Script: {fileID: 11500000, guid: fcc8a568b191b624bbaf1da208e664c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   monsterData: {fileID: 11400000, guid: 66ffdff3a33468f42ae7c9a5d7ff6dab, type: 2}
-  towerControllers: []
-  currentState: 0
-  prevState: 0
+  _CurrentHp: 0
+--- !u!136 &7651559513757387102
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 407657189707489769}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2.3
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.1, z: 0}
 --- !u!1 &420563916917034800
 GameObject:
   m_ObjectHideFlags: 0

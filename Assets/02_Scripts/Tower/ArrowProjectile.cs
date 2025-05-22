@@ -28,7 +28,7 @@ public class ArrowProjectile : MonoBehaviour
         if (other.CompareTag("Enemy"))
         {
             IDamageAble target = CombatSystem.Instance.GetCreatureOrNull(other);
-            target?.TakeDamage(damage, true);
+            target?.TakeDamage(damage);
             Destroy(gameObject);
         }
     }

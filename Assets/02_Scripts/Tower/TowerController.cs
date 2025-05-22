@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Fusion;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -35,10 +36,15 @@ public class TowerController : MonoBehaviour, IDamageAble
     
     private float attackTimer = 0f;
     private Transform target;
+    private PlayerRef playerRef;
     
 
     public GameObject GameObject => this.gameObject;
     public Collider Collider { get; private set; }
+    public PlayerRef PlayerRef => playerRef; // 처음에 스폰해서 ref할당
+    public NetworkObject NetworkObject { get; }
+
+
     public bool IsAlive => currentHealth > 0;
     
     public void ForceDestroy()
@@ -111,8 +117,7 @@ public class TowerController : MonoBehaviour, IDamageAble
         }
         return closest;
     }
-
-    public void TakeDamage(int damage, bool playEffect)
+    public void TakeDamage(int damage)
     {
         currentHealth -= damage;
         Debug.Log($"{towerType} 피해: {damage} / 현재 체력: {currentHealth}");
@@ -122,7 +127,6 @@ public class TowerController : MonoBehaviour, IDamageAble
             Die();
         }
     }
-
     private void Die()
     {
         Debug.Log($"{towerType} 파괴됨!");

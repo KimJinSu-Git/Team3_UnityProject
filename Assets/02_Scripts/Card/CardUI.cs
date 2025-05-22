@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
+using Unity.Mathematics;
 
 [RequireComponent(typeof(CanvasGroup))]
 [RequireComponent(typeof(RectTransform))]
@@ -10,7 +11,7 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 {
     // 외부 주입 데이터
     private MonsterData         monsterData;
-    private PlayerUnitSpawner unitSpawner;
+    private Spawner_Network unitSpawner;
     private Collider[]        noSpawnZones; 
     private Image[]            enemyAreaImages;
     private int               slotIndex;
@@ -72,7 +73,7 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     /// 카드 초기화: 데이터, 부모 슬롯, 드래그 설정, 스케일, 콜백 등
     public void Init(
         MonsterData data,
-        PlayerUnitSpawner spawner,
+        Spawner_Network spawner,
         Collider[] noSpawnZones,
         Image[] areaImages,
         Transform parentSlot,
@@ -172,7 +173,7 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             && !IsInNoSpawnZone(hit.point))
         {
             ElixirManager.Instance.UseElixir(monsterData.cost);
-            unitSpawner.SpawnAt(monsterData, hit.point);
+            unitSpawner.RequestSpawn(monsterData.name, hit.point, quaternion.identity);
             onCardPlayed?.Invoke(slotIndex);
             Destroy(gameObject);
         }
