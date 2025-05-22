@@ -24,13 +24,15 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     private Transform     originalParent;
     private Camera        worldCamera;
     private GameObject    previewInstance;
+    private Image         selfImage;
     private TMP_Text      cardNameText;
     private bool          returnedToSlot;
-
+    private bool hasCheckedAfford = false;
+    
     // 카드 데이터 외부 조회용
     public MonsterData MonsterData => monsterData;
 
-    void Awake()
+    private void Awake()
     {
         // 컴포넌트 캐싱
         canvasGroup        = GetComponent<CanvasGroup>();
@@ -40,9 +42,29 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         worldCamera        = Camera.main;
 
         // 이름 표시 텍스트 찾기
+        selfImage     = GetComponent<Image>();
         cardNameText = GetComponentInChildren<TMP_Text>();
     }
 
+    private void Update()
+    {
+        if (ElixirManager.Instance.GetCurrentElixir() >= monsterData.cost)
+        {
+            SetVisualState(true);
+        }
+        else
+        {
+            SetVisualState(false);
+        }
+    }
+    private void SetVisualState(bool colorOn)
+    {
+        // Color.white = 원색, Color.gray = 흑백 느낌
+        var c = colorOn ? Color.white : Color.gray;
+
+        if (selfImage   != null) selfImage.color   = c;
+        if (cardNameText!= null) cardNameText.color = c;
+    }
 
     /// 카드 초기화: 데이터, 부모 슬롯, 드래그 설정, 스케일, 콜백 등
     public void Init(
@@ -118,11 +140,10 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         // 드래그 종료: 원상 복구 및 스폰/콜백 실행
         enemyAreaImage.enabled = false;
         returnedToSlot = eventData.pointerEnter == originalParent.gameObject;
-
         canvasGroup.alpha = 1f;
         canvasGroup.blocksRaycasts = true;
         transform.SetParent(originalParent, false);
-        rectTransform.anchoredPosition = originalAnchoredPos;
+        rectTransform.anchoredPosition = Vector2.zero;
 
         if (previewInstance != null) Destroy(previewInstance);
         if (returnedToSlot) return;
@@ -130,6 +151,7 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         if (Physics.Raycast(worldCamera.ScreenPointToRay(eventData.position), out var hit, 100f) &&
             !enemyAreaCollider.bounds.Contains(hit.point))
         {
+            ElixirManager.Instance.UseElixir(monsterData.cost);
             unitSpawner.SpawnAt(monsterData, hit.point);
             onCardPlayed?.Invoke(slotIndex);
             Destroy(gameObject);

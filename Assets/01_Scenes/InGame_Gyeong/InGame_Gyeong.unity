@@ -1963,7 +1963,7 @@ MonoBehaviour:
   - {fileID: 2074242977}
   sideSlotParent: {fileID: 995605573}
   sideScale: {x: 0.6, y: 0.6, z: 1}
-  sideDelay: 1
+  sideDelay: 2
   sideAnimDuration: 0.5
   unitSpawner: {fileID: 100240500}
   enemyAreaCollider: {fileID: 1521231054}

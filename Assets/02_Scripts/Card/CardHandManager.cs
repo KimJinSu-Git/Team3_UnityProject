@@ -94,13 +94,6 @@ public class CardHandManager : MonoBehaviour
     
     private void OnCardPlayed(int slotIndex)    // 카드 유닛 배치 시 호출되는 콜백
     {
-        // 1) 사용된 카드 데이터를 덱 뒤로 이동
-        var playedData = hand[slotIndex].MonsterData;
-        deck.Add(playedData);
-
-        // 2) 손패에서 카드 UI 제거
-        Destroy(hand[slotIndex].gameObject);
-        hand.RemoveAt(slotIndex);
 
         // 3) 사이드 슬롯 카드 → 빈 슬롯으로 이동
         StartCoroutine(MoveSideToHand(slotIndex));
@@ -108,9 +101,19 @@ public class CardHandManager : MonoBehaviour
     
     private IEnumerator MoveSideToHand(int slotIndex)   // 사이드 슬롯 카드를 빈 슬롯으로 이동시키고 재초기화
     {
+        
         // 1) 대기
         yield return new WaitForSeconds(sideDelay);
 
+        // 1) 사용된 카드 데이터를 덱 뒤로 이동
+        var playedData = hand[slotIndex].MonsterData;
+        deck.Add(playedData);
+
+        // 2) 손패에서 카드 UI 제거
+        hand.RemoveAt(slotIndex);
+        hand.Insert(slotIndex, sideCard);
+        
+        
         // 2) 위치 & 스케일 애니메이션
         Vector3 startPos   = sideCard.transform.position;
         Vector3 endPos     = slotParents[slotIndex].position;
@@ -140,9 +143,7 @@ public class CardHandManager : MonoBehaviour
             true,
             Vector3.one
         );
-
-        // 5) 손패 리스트에 삽입
-        hand.Insert(slotIndex, sideCard);
+        
 
         // 6) 다음 사이드 카드 뽑기
         DrawToSideSlot();
