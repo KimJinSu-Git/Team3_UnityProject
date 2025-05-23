@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using Fusion;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.TerrainTools;
 
-public class TowerController : NetworkBehaviour, IDamageAble
+public class TowerController : MonoBehaviour, IDamageAble
 {
     public enum TowerType { LeftPrincess, RightPrincess, King }
 
@@ -30,9 +31,12 @@ public class TowerController : NetworkBehaviour, IDamageAble
     [Header("궁수 애니메이터")]
     public Animator archerAnimator;
 
-    public Image enemyAreaImage;
-
-    public GameObject enemyCollider;
+    [Header("카드 스폰 불가 지역")]
+    public GameObject spawnAreaImage;
+    public GameObject spawnCollider;
+    
+    [Header("HP")]
+    public HealthBar healthBar;
     
     private float attackTimer = 0f;
     private Transform target;
@@ -44,6 +48,8 @@ public class TowerController : NetworkBehaviour, IDamageAble
     public PlayerRef PlayerRef => playerRef; // 처음에 스폰해서 ref할당
     public NetworkObject NetworkObject { get; }
 
+    public bool IsDead;
+    
     public bool IsAlive => currentHealth > 0;
     
     public void ForceDestroy()
@@ -57,13 +63,23 @@ public class TowerController : NetworkBehaviour, IDamageAble
     private void Start()
     {
         currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
         Collider = GetComponent<Collider>();
-
         CombatSystem.Instance.RegisterCreature(Collider, this);
     }
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            TakeDamage(100);
+        }
+        
+        if(IsDead)
+        {
+            Die();
+        }
+        
         attackTimer += Time.deltaTime;
 
         if (attackTimer >= attackInterval)
@@ -119,6 +135,7 @@ public class TowerController : NetworkBehaviour, IDamageAble
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
+        healthBar.SetHealth(currentHealth);
         Debug.Log($"{towerType} 피해: {damage} / 현재 체력: {currentHealth}");
 
         if (currentHealth <= 0)
@@ -126,13 +143,14 @@ public class TowerController : NetworkBehaviour, IDamageAble
             Die();
         }
     }
-    private void Die()
+    public void Die()
     {
         Debug.Log($"{towerType} 파괴됨!");
 
-        if (enemyCollider != null)
+        if (spawnCollider != null && spawnAreaImage != null)
         {
-            enemyCollider.SetActive(false); 
+            spawnCollider.SetActive(false);
+            spawnAreaImage.SetActive(false);
         }
 
         if (towerType == TowerType.King)

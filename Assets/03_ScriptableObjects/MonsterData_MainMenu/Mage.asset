@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbd3c51ede291c44abf9f41b877e15e1, type: 3}
   m_Name: Mage
   m_EditorClassIdentifier: 
-  id: 2
+  id: Mage
   monsterName: Mage
   description: "\uACE0\uB300\uC758 \uC9C0\uC2DD\uC744 \uD1B5\uD574 \uC790\uC5F0 \uBC95\uCE59\uC744
     \uAFF0\uB6AB\uACE0, \uC774\uB97C \uB9C8\uBC95\uC73C\uB85C \uBC14\uAFB8\uB294
