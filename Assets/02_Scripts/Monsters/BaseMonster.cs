@@ -119,7 +119,7 @@ public class BaseMonster : NetworkBehaviour, IDamageAble
     private void DetectTarget()
     {
         // 타워 우선 탐지
-        IDamageAble bestTarget = FindClosestTarget("Tower", 50f);
+        IDamageAble bestTarget = FindClosestTarget("Tower", 200f);
 
         // 유닛 조건부 탐지
         if (monsterData.targetPriority == MonsterData.TargetPriorityType.UnitAndTower)

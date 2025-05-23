@@ -5,7 +5,7 @@ using Fusion;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TowerController : MonoBehaviour, IDamageAble
+public class TowerController : NetworkBehaviour, IDamageAble
 {
     public enum TowerType { LeftPrincess, RightPrincess, King }
 
