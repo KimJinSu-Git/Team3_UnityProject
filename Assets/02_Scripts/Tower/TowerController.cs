@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Fusion;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class TowerController : MonoBehaviour, IDamageAble
 {
@@ -30,9 +29,9 @@ public class TowerController : MonoBehaviour, IDamageAble
     [Header("궁수 애니메이터")]
     public Animator archerAnimator;
 
-    public Image enemyAreaImage;
+    public GameObject spawnAreaImage;
 
-    public GameObject enemyCollider;
+    public GameObject spawnCollider;
     
     private float attackTimer = 0f;
     private Transform target;
@@ -133,13 +132,14 @@ public class TowerController : MonoBehaviour, IDamageAble
             Die();
         }
     }
-    private void Die()
+    public void Die()
     {
         Debug.Log($"{towerType} 파괴됨!");
 
-        if (enemyCollider != null)
+        if (spawnCollider != null && spawnAreaImage != null)
         {
-            enemyCollider.SetActive(false); 
+            spawnCollider.SetActive(false);
+            spawnAreaImage.SetActive(false);
         }
 
         if (towerType == TowerType.King)
