@@ -50,7 +50,7 @@ public class BaseMonster : NetworkBehaviour, IDamageAble
         {
             Vector3 pos = transform.position;
             pos.x = -pos.x;
-            pos.y = -pos.y;
+            pos.z = -pos.z;
             transform.position = pos;
         }
     }
