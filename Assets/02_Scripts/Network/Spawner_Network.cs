@@ -49,6 +49,7 @@ public class Spawner_Network : NetworkBehaviour
         if (!Runner.IsRunning) return;
         // 요청한 플레이어
         PlayerRef localPlayer = Runner.LocalPlayer;
+        //PlayerRef clientOrHost = SessionManager.Instance.PlayerRef;
         // 서버의 RPC를 호출해서 서버에 보냄
         RPC_SpawnMonster(prefabName, position, rotation, localPlayer);
     }

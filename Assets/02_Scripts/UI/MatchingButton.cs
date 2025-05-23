@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class MatchingButton : MonoBehaviour
 {
     public Button matchingButton;
+    public SessionManager sessionManager;
     void Start()
     {
         TryGetComponent(out matchingButton);
@@ -14,6 +15,6 @@ public class MatchingButton : MonoBehaviour
 
     void OnMyButtonClick()
     {
-        SessionManager.Instance.StartMatchMaking();
+        sessionManager.StartMatchMaking();
     }
 }
