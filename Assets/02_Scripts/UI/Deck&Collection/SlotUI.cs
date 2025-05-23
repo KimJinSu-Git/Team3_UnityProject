@@ -45,7 +45,10 @@ public class SlotUI : MonoBehaviour
         nameText.text = card.monsterName;
         levelText.text = $"Lv.{card.level}";
         costText.text = card.cost.ToString();
-        progressText.text = "";
+
+        int owned = manager.ownedCardDict.ContainsKey(card.id) ? manager.ownedCardDict[card.id] : 0;
+        int required = manager.upgradeDB.GetRequiredCards(card.rarity, card.level);
+        progressText.text = $"{owned}/{required}";
 
         SetupModeUI();
     }

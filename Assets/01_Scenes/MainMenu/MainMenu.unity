@@ -1227,6 +1227,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 446919033}
   m_CullTransparentMesh: 1
+--- !u!1 &447607799
+GameObject:
+  m_ObjectHideFlags: 8
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 447607801}
+  - component: {fileID: 447607800}
+  m_Layer: 0
+  m_Name: Fusion_PhotonBackgroundConnectionHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &447607800
+MonoBehaviour:
+  m_ObjectHideFlags: 8
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 447607799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1222927710, guid: 7de3b8b9e1263ad479e2d0c4261b7646, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DisconnectAfterKeepAlive: 0
+  KeepAliveInBackground: 60000
+  ApplyDontDestroyOnLoad: 1
+--- !u!4 &447607801
+Transform:
+  m_ObjectHideFlags: 8
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 447607799}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &469761187
 GameObject:
   m_ObjectHideFlags: 0
@@ -1814,37 +1861,6 @@ MonoBehaviour:
   goldIcon: {fileID: 249678495, guid: 248fcc6caf39c994582c7b67cf78d4a7, type: 3}
   gemIcon: {fileID: -478379876, guid: 248fcc6caf39c994582c7b67cf78d4a7, type: 3}
   elixirIcon: {fileID: -2115298580, guid: 248fcc6caf39c994582c7b67cf78d4a7, type: 3}
---- !u!1 &741825099
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 741825100}
-  m_Layer: 0
-  m_Name: UpgradeDBHolder
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &741825100
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 741825099}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1633204738}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &790002301
 GameObject:
   m_ObjectHideFlags: 0
@@ -3708,7 +3724,6 @@ Transform:
   - {fileID: 799125289}
   - {fileID: 476309646}
   - {fileID: 1990967263}
-  - {fileID: 741825100}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1681545615
@@ -4429,6 +4444,7 @@ MonoBehaviour:
   currentDeck: []
   maxDeckSize: 6
   collectionPanel: {fileID: 1481547991}
+  upgradeDB: {fileID: 11400000, guid: d30140f031b98544e80c4cb302950648, type: 2}
 --- !u!1 &1879405965
 GameObject:
   m_ObjectHideFlags: 0
@@ -5142,3 +5158,4 @@ SceneRoots:
   - {fileID: 1108533382}
   - {fileID: 987458166}
   - {fileID: 1633204738}
+  - {fileID: 447607801}

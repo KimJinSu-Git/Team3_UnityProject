@@ -12,6 +12,9 @@ public class DeckManager_UI : MonoBehaviour
     public int maxDeckSize = 6;
 
     public CollectionPanel collectionPanel;
+    
+    public Dictionary<string, int> ownedCardDict = new(); // 카드 보유 수량
+    public UpgradeRequirementDB upgradeDB; // 업그레이드 요구량 데이터
 
     public void TryAddCard(MonsterData_Mainmenu card)
     {
