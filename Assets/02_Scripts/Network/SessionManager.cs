@@ -18,6 +18,8 @@ public enum GameSessionState
 
 public class SessionManager : MonoBehaviour, INetworkRunnerCallbacks
 {
+    public static SessionManager Instance;
+
     public class GameRoomInfo
     {
         public PlayerRef HostPlayer { get; set; }
@@ -26,12 +28,13 @@ public class SessionManager : MonoBehaviour, INetworkRunnerCallbacks
     private const int LOBBY_SCENE_INDEX = 1;
     private const int IN_GAME_SCENE_INDEX = 2;
     
-    private const int MAX_PLAYER_COUNT = 2;
-
-    public static SessionManager Instance;
+    private const int MAX_PLAYER_COUNT = 1;
 
     private NetworkRunner runner;
     private NetworkSceneManagerDefault sceneManager;
+
+    //private SceneRef lobbySceneRef;
+    private SceneRef inGameSceneRef;
     
     private bool isInitialized = false;
 
@@ -43,7 +46,16 @@ public class SessionManager : MonoBehaviour, INetworkRunnerCallbacks
     public GameSessionState CurrentState = GameSessionState.Lobby;
     private void Awake()
     {
-        Instance = this;
+        if (Instance == null) 
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        } else 
+        {
+            Destroy(gameObject);
+        }
+        //lobbySceneRef = SceneRef.FromIndex(LOBBY_SCENE_INDEX);
+        inGameSceneRef = SceneRef.FromIndex(IN_GAME_SCENE_INDEX);
     }
 
     private void Start()
@@ -51,10 +63,11 @@ public class SessionManager : MonoBehaviour, INetworkRunnerCallbacks
         InitRunnerAsync();
     }
 
+    
     private void InitRunnerAsync()
     {
-        // if (isInitialized) return;
-        //     isInitialized = true;
+        if (isInitialized) return; 
+        isInitialized = true;
         if(runner != null) Destroy(runner);
         sceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>(); //  Fusion에서 기본으로 제공하는 씬 전환 매니저 클래스로, 네트워크 플레이어들이 씬을 같이 전환하고 동기화되도록 함
         runner = gameObject.AddComponent<NetworkRunner>();
@@ -62,13 +75,16 @@ public class SessionManager : MonoBehaviour, INetworkRunnerCallbacks
         runner.AddCallbacks(this);
         DontDestroyOnLoad(gameObject);
     }
+    public async void StartMatchMaking()
+    {
+        await runner.JoinSessionLobby(SessionLobby.ClientServer);
+    }
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
     {
         Debug.Log($"활성화된 방 = {sessionList.Count}");
         SessionInfo joinAble = sessionList.FirstOrDefault(sessionInfo =>
         {
-            return sessionInfo.PlayerCount <
-                   sessionInfo.MaxPlayers && // 여기의 PlayerCount는 접속해있는 Player수
+            return sessionInfo.PlayerCount < sessionInfo.MaxPlayers && // 여기의 PlayerCount는 접속해있는 Player수
                    sessionInfo.IsOpen && sessionInfo.IsVisible; // 이 결과가 true인 첫 번째 sessionInfo가 joinAble에 할당
         });
         if (joinAble != null)
@@ -80,10 +96,9 @@ public class SessionManager : MonoBehaviour, INetworkRunnerCallbacks
             CreateRoom("room_" + Guid.NewGuid());
         }
     }
-
     private async void CreateRoom(string roomName)
     {
-        StartGameArgs args = new StartGameArgs()
+        StartGameArgs args = new StartGameArgs() // 세션을 만듬
         {
             GameMode = GameMode.Host,
             SessionName = roomName,
@@ -115,23 +130,18 @@ public class SessionManager : MonoBehaviour, INetworkRunnerCallbacks
             CurrentGameRoomInfo.ClientPlayer = runner.IsServer ? player : runner.LocalPlayer; ;
         }
 
-        if (this.runner.IsServer && runner.ActivePlayers.Count() == MAX_PLAYER_COUNT &&
+        if (this.runner.IsServer && runner.ActivePlayers.Count() == MAX_PLAYER_COUNT && 
             CurrentState == GameSessionState.Match)
         {
-            StartInGame();
+            StartInGame(); 
         }
     }
-    private void StartInGame()
+    private async Task StartInGame()
     {
-        runner.LoadScene(SceneRef.FromIndex(IN_GAME_SCENE_INDEX));
+        await runner.LoadScene(inGameSceneRef);
     }
     public void OnSceneLoadDone(NetworkRunner runner)
     {
-        if (SceneManager.GetActiveScene().buildIndex == IN_GAME_SCENE_INDEX)
-        {
-            CurrentState = GameSessionState.InGame;
-        }
-        
         if (runner.IsServer)
         {
             // 프리팹생성해주기
@@ -140,13 +150,16 @@ public class SessionManager : MonoBehaviour, INetworkRunnerCallbacks
     private void ReturnToLobby()
     {
         runner.Shutdown(); // 기존 세션 종료
+        Destroy(runner);
+        CurrentGameRoomInfo = null;
+        CurrentState = GameSessionState.Lobby;
         SceneManager.LoadScene(LOBBY_SCENE_INDEX);
     }
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
         
     }
-
+    
     #region MyRegion
     public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
     {

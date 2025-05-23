@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Fusion;
 using UnityEngine;
 
 public class DummyAttacker : MonoBehaviour, IDamageAble
 {
     [Header("감지 대상")]
     public LayerMask targetLayer;
-    
+    private PlayerRef playerRef;
     public float attackInterval = 1.5f;
     public int attackDamage = 100;
     private float attackTimer = 0f;
@@ -49,8 +50,11 @@ public class DummyAttacker : MonoBehaviour, IDamageAble
 
     public GameObject GameObject { get; }
     public Collider Collider { get; }
-    public void TakeDamage(int combatEvent, bool OnDamage)
+    public PlayerRef PlayerRef => playerRef;
+    public NetworkObject NetworkObject { get; }
+
+    public void TakeDamage(int damage)
     {
-        throw new System.NotImplementedException();
+        
     }
 }
