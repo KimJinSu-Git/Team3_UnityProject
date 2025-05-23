@@ -36,11 +36,24 @@ public class BaseMonster : NetworkBehaviour, IDamageAble
     private Vector3 targetPoint;
     private float attackTimer = 0f;
     
+    private Renderer[] renderers;
+    private Color[] originalColors;
+    private Coroutine hitEffectCoroutine;
+    
     void Awake()
     {
         TryGetComponent(out collider);
         TryGetComponent(out agent);
         TryGetComponent(out animator);
+        
+        renderers = GetComponentsInChildren<Renderer>();
+        originalColors = new Color[renderers.Length];
+
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            renderers[i].material = Instantiate(renderers[i].material); 
+            originalColors[i] = renderers[i].material.color;
+        }
     }
     void Start()
     {
@@ -58,9 +71,11 @@ public class BaseMonster : NetworkBehaviour, IDamageAble
         switch (monsterState)
         {
             case MonsterState.Idle:
+                PlayAnimation("Idle");
                 DetectTarget();
                 break;
             case MonsterState.ChaseTarget:
+                PlayAnimation("Walk");
                 if (currentTarget != null)
                 {
                     targetPoint = currentTarget.GameObject.transform.position;
@@ -84,11 +99,20 @@ public class BaseMonster : NetworkBehaviour, IDamageAble
                     monsterState = MonsterState.Idle;
                     return;
                 }
+                PlayAnimation("Attack");
                 TryAttack();
                 break;
         }
         
         // TowerDetect();
+    }
+    
+    private void PlayAnimation(string animName)
+    {
+        if (animator == null || animator.GetCurrentAnimatorStateInfo(0).IsName(animName))
+            return;
+
+        animator.CrossFade(animName, 0.1f); 
     }
     
     // 타겟 탐색 메서드
@@ -187,11 +211,31 @@ public class BaseMonster : NetworkBehaviour, IDamageAble
         if (isDie) return;
 
         CurrentHp -= damage;
+        
+        if (hitEffectCoroutine != null)
+            StopCoroutine(hitEffectCoroutine);
+        hitEffectCoroutine = StartCoroutine(HitFlash());
+        
         if (CurrentHp <= 0)
         {
             isDie = true;
             monsterState = MonsterState.Die;
             RPC_OnDie();
+        }
+    }
+    
+    private IEnumerator HitFlash()
+    {
+        foreach (var rend in renderers)
+        {
+            rend.material.color = Color.red;
+        }
+
+        yield return new WaitForSeconds(0.1f);
+
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            renderers[i].material.color = originalColors[i];
         }
     }
 
