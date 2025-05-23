@@ -29,8 +29,13 @@ public class Spawner_Network : NetworkBehaviour
         Debug.Log(prefabName);
         // if (Object.HasStateAuthority) // 내가 클라면
         // {
-            NetworkObject networkMonster = Runner.Spawn(monsterData.prefab, spawnPos, spawnRot);
-            networkMonster.GetComponent<BaseMonster>().playerRef = player; // 식별자 세팅
+            // NetworkObject networkMonster = Runner.Spawn(monsterData.prefab, spawnPos, spawnRot);
+            // networkMonster.GetComponent<BaseMonster>().playerRef = player; // 식별자 세팅
+            Runner.Spawn(monsterData.prefab, spawnPos, spawnRot, inputAuthority: null,
+                onBeforeSpawned: (runner, obj) =>
+                {
+                    obj.GetComponent<BaseMonster>().playerRef = player;
+                });
         //}
         // else
         // {
