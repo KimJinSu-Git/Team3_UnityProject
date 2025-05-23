@@ -9,8 +9,9 @@ public class Minion : BaseMonster
         
     }
 
-    void Update()
+    public override void FixedUpdateNetwork()
     {
         base.FixedUpdateNetwork();
+
     }
 }

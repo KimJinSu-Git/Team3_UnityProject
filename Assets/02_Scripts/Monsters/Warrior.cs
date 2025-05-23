@@ -9,8 +9,9 @@ public class Warrior : BaseMonster
         
     }
 
-    void Update()
+    public override void FixedUpdateNetwork()
     {
-        
+        base.FixedUpdateNetwork();
+
     }
 }

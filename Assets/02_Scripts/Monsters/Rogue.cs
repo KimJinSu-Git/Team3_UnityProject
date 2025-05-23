@@ -9,8 +9,9 @@ public class Rogue : BaseMonster
         
     }
 
-    void Update()
+    public override void FixedUpdateNetwork()
     {
         base.FixedUpdateNetwork();
+
     }
 }
