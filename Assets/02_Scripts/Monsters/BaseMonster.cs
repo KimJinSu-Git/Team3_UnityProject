@@ -1,18 +1,12 @@
 using System.Collections;
-using System.Collections.Generic;
 using Fusion;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class BaseMonster : NetworkBehaviour, IDamageAble
+public abstract class BaseMonster : NetworkBehaviour, IDamageAble
 {
-    enum MonsterState
-    {
-        Idle,
-        ChaseTarget,
-        Attack,
-        Die
-    }
+    public enum MonsterState { Idle, ChaseTarget, Attack, Die }
+
     public GameObject GameObject => gameObject;
     public Collider Collider => collider;
     public PlayerRef PlayerRef => playerRef;
@@ -22,40 +16,46 @@ public class BaseMonster : NetworkBehaviour, IDamageAble
     public PlayerRef playerRef;
     public MonsterData monsterData;
 
-    private Collider collider;
-    private NavMeshAgent agent;
-    private Animator animator;
+    protected Collider collider;
+    protected NavMeshAgent agent;
+    protected Animator animator;
 
-    private float maxHp;
+    protected float maxHp;
     [Networked] public float CurrentHp { get; set; }
 
-    private bool isDie = false;
-    private MonsterState monsterState = MonsterState.Idle;
+    protected bool isDie = false;
+    protected MonsterState monsterState = MonsterState.Idle;
 
-    private IDamageAble currentTarget;
-    private Vector3 targetPoint;
-    private float attackTimer = 0f;
+    protected IDamageAble currentTarget;
+    protected Vector3 targetPoint;
+    protected float attackTimer = 0f;
+
+    protected Renderer[] renderers;
+    protected Color[] originalColors;
+    protected Coroutine hitEffectCoroutine;
     
-    private Renderer[] renderers;
-    private Color[] originalColors;
-    private Coroutine hitEffectCoroutine;
-    
-    void Awake()
+    public void Init(PlayerRef owner)
+    {
+        this.playerRef = owner;
+    }
+
+    protected virtual void Awake()
     {
         TryGetComponent(out collider);
         TryGetComponent(out agent);
         TryGetComponent(out animator);
-        
+
         renderers = GetComponentsInChildren<Renderer>();
         originalColors = new Color[renderers.Length];
 
         for (int i = 0; i < renderers.Length; i++)
         {
-            renderers[i].material = Instantiate(renderers[i].material); 
+            renderers[i].material = Instantiate(renderers[i].material);
             originalColors[i] = renderers[i].material.color;
         }
     }
-    void Start()
+
+    protected virtual void Start()
     {
         CombatSystem.Instance.RegisterCreature(collider, this);
         maxHp = monsterData.maxHP;
@@ -63,8 +63,7 @@ public class BaseMonster : NetworkBehaviour, IDamageAble
         agent.speed = monsterData.moveSpeed;
     }
 
-    // Fusion 네트워크에서 프레임마다 호출되는 메서드 (Update문)
-    public virtual void FixedUpdateNetwork()
+    public override void FixedUpdateNetwork()
     {
         if (isDie) return;
 
@@ -80,7 +79,6 @@ public class BaseMonster : NetworkBehaviour, IDamageAble
                 {
                     targetPoint = currentTarget.GameObject.transform.position;
                     agent.SetDestination(targetPoint);
-
                     float distance = Vector3.Distance(transform.position, targetPoint);
                     if (distance <= monsterData.attackRange)
                     {
@@ -88,10 +86,7 @@ public class BaseMonster : NetworkBehaviour, IDamageAble
                         agent.ResetPath();
                     }
                 }
-                else
-                {
-                    monsterState = MonsterState.Idle;
-                }
+                else monsterState = MonsterState.Idle;
                 break;
             case MonsterState.Attack:
                 if (currentTarget == null || !currentTarget.IsAlive)
@@ -103,25 +98,18 @@ public class BaseMonster : NetworkBehaviour, IDamageAble
                 TryAttack();
                 break;
         }
-        
-        // TowerDetect();
     }
-    
-    private void PlayAnimation(string animName)
-    {
-        if (animator == null || animator.GetCurrentAnimatorStateInfo(0).IsName(animName))
-            return;
 
-        animator.CrossFade(animName, 0.1f); 
-    }
-    
-    // 타겟 탐색 메서드
-    private void DetectTarget()
+    protected virtual void PlayAnimation(string animName)
     {
-        // 타워 우선 탐지
+        if (animator == null || animator.GetCurrentAnimatorStateInfo(0).IsName(animName)) return;
+        animator.CrossFade(animName, 0.1f);
+    }
+
+    protected virtual void DetectTarget()
+    {
         IDamageAble bestTarget = FindClosestTarget("Tower", 200f);
 
-        // 유닛 조건부 탐지
         if (monsterData.targetPriority == MonsterData.TargetPriorityType.UnitAndTower)
         {
             IDamageAble unitTarget = FindClosestTarget("Monster", 5f);
@@ -139,9 +127,8 @@ public class BaseMonster : NetworkBehaviour, IDamageAble
             monsterState = MonsterState.ChaseTarget;
         }
     }
-    
-    // 최적화된 경로 기반 가장 가까운 대상을 탐색하는 메서드임다.
-    private IDamageAble FindClosestTarget(string layerName, float radius)
+
+    protected virtual IDamageAble FindClosestTarget(string layerName, float radius)
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, radius, LayerMask.GetMask(layerName));
         NavMeshPath path = new NavMeshPath();
@@ -167,8 +154,8 @@ public class BaseMonster : NetworkBehaviour, IDamageAble
         }
         return result;
     }
-    
-    private void TryAttack()
+
+    protected virtual void TryAttack()
     {
         attackTimer += Time.deltaTime;
         if (attackTimer >= monsterData.attackSpeed)
@@ -188,34 +175,31 @@ public class BaseMonster : NetworkBehaviour, IDamageAble
 
                 CombatSystem.Instance.AddCombatEvent(combatEvent);
             }
-
             attackTimer = 0f;
         }
     }
-    
-    private float GetDistance(NavMeshPath path)
+
+    protected float GetDistance(NavMeshPath path)
     {
         float distance = 0f;
         if (path.corners.Length < 2) return distance;
-
         for (int i = 1; i < path.corners.Length; i++)
         {
             distance += Vector3.Distance(path.corners[i - 1], path.corners[i]);
         }
-
         return distance;
     }
 
-    public void TakeDamage(int damage)
+    public virtual void TakeDamage(int damage)
     {
         if (isDie) return;
 
         CurrentHp -= damage;
-        
+
         if (hitEffectCoroutine != null)
             StopCoroutine(hitEffectCoroutine);
         hitEffectCoroutine = StartCoroutine(HitFlash());
-        
+
         if (CurrentHp <= 0)
         {
             isDie = true;
@@ -223,8 +207,8 @@ public class BaseMonster : NetworkBehaviour, IDamageAble
             RPC_OnDie();
         }
     }
-    
-    private IEnumerator HitFlash()
+
+    protected virtual IEnumerator HitFlash()
     {
         foreach (var rend in renderers)
         {
@@ -240,7 +224,7 @@ public class BaseMonster : NetworkBehaviour, IDamageAble
     }
 
     [Rpc(sources: RpcSources.All, targets: RpcTargets.StateAuthority)]
-    public void RPC_OnDie()
+    public virtual void RPC_OnDie()
     {
         if (Object.HasStateAuthority == false) return;
         Runner.Despawn(Object);
@@ -248,50 +232,6 @@ public class BaseMonster : NetworkBehaviour, IDamageAble
 
     public override void Spawned()
     {
-        // if (playerRef != Runner.LocalPlayer)
-        // {
-        //     Vector3 pos = transform.position;
-        //     pos.x = -pos.x;
-        //     pos.y = -pos.y;
-        //     transform.position = pos;
-        // }
+        // Network 초기화 또는 위치 조정이 필요하다면 여기에 구현
     }
-    
-    // private void MonsterDetect()
-    // {
-    //     NearObjectDetect(5f, LayerMask.GetMask("Monster"));
-    // }
-    // private void TowerDetect()
-    // {
-    //     NearObjectDetect(50f, LayerMask.GetMask("Tower"));
-    // }
-    // private void NearObjectDetect(float detectRadius, LayerMask mask)
-    // {
-    //     Collider[] colliders= Physics.OverlapSphere(transform.position, detectRadius, mask);
-    //     if (colliders.Length > 0)
-    //     {
-    //         Collider nearTower = null;
-    //         float closetDist = float.MaxValue;
-    //         NavMeshPath path = new NavMeshPath();
-    //         foreach (Collider collider in colliders)
-    //         {
-    //             if(collider.GetComponent<IDamageAble>().PlayerRef ==  Runner.LocalPlayer) continue;
-    //             Vector3 targetPos = collider.ClosestPoint(transform.position);
-    //             if (NavMesh.CalculatePath(transform.position, targetPos, NavMesh.AllAreas, path)) // 경로 넣어줌
-    //             {
-    //                 float currentDistance = GetDistance(path);
-    //                 if ((path.status == NavMeshPathStatus.PathComplete) && currentDistance < closetDist)
-    //                 {
-    //                     closetDist = currentDistance;
-    //                     nearTower = collider;
-    //                 }
-    //             }
-    //         }
-    //         if (nearTower != null)
-    //         {
-    //             Vector3 ClosetPos = nearTower.ClosestPoint(transform.position);
-    //             agent.SetDestination(ClosetPos);
-    //         }
-    //     }
-    // }
 }

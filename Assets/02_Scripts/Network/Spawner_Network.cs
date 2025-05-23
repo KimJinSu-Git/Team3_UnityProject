@@ -24,19 +24,25 @@ public class Spawner_Network : NetworkBehaviour
     public void RPC_SpawnMonster(string prefabName, Vector3 spawnPos, Quaternion spawnRot, PlayerRef player)
     {
         if (Object.HasStateAuthority == false) return;
+        
+        NetworkObject networkMonster;
 
         CardHandManager.Instance.monsterDatas.TryGetValue(prefabName, out MonsterData monsterData);
         Debug.Log(prefabName);
         if (Object.HasStateAuthority) // 내가 클라면
         {
-            NetworkObject networkMonster = Runner.Spawn(monsterData.prefab, spawnPos, spawnRot);
+            networkMonster = Runner.Spawn(monsterData.prefab, spawnPos, spawnRot);
             networkMonster.GetComponent<BaseMonster>().playerRef = player; // 식별자 세팅
         }
         else
         {
-            NetworkObject networkMonster = Runner.Spawn(monsterData.prefab, -spawnPos, spawnRot);
+            networkMonster = Runner.Spawn(monsterData.prefab, -spawnPos, spawnRot);
             networkMonster.GetComponent<BaseMonster>().playerRef = player; // 식별자 세팅
         }
+        
+        var monster = networkMonster.GetComponent<BaseMonster>();
+        monster.Init(player);
+        
         Debug.Log(player.PlayerId);
     }
     public void RequestSpawn(string prefabName,Vector3 position, Quaternion rotation)
