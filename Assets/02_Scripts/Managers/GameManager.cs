@@ -106,29 +106,26 @@ public class GameManager : MonoBehaviour
         if (currentState != GameState.Playing) return;
 
         Debug.Log("킹 타워 파괴 → 즉시 종료");
-
-        List<Vector3> crownSpawnPositions = new List<Vector3>();
-        crownSpawnPositions.Add(tower.transform.position);
+        
 
         List<TowerController> targetPrincessTowers = IsEnemyTower(tower) ? enemyPrincessTowers : playerPrincessTowers;
         foreach (var pricessTower in targetPrincessTowers)
         {
             if (pricessTower != null && pricessTower.IsAlive)
             {
-                pricessTower.ForceDestroy();
-                crownSpawnPositions.Add(pricessTower.transform.position);
+                pricessTower.Die();
             }
         }
 
         if (IsEnemyTower(tower))
         {
-            myCrowns = 3;
-            playerCrownUI.AddCrownsFromPositions(crownSpawnPositions, true);
+            myCrowns++;
+            playerCrownUI.AddCrownsFromPositions(new List<Vector3> { tower.transform.position }, true);
         }
         else
         {
-            enemyCrowns = 3;
-            enemyCrownUI.AddCrownsFromPositions(crownSpawnPositions, false);
+            enemyCrowns++;
+            enemyCrownUI.AddCrownsFromPositions(new List<Vector3> { tower.transform.position }, false);
         }
 
         EndGame();

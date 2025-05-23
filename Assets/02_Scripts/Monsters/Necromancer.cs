@@ -10,8 +10,9 @@ public class Necromancer : BaseMonster
 
     }
 
-    void Update()
+    public override void FixedUpdateNetwork()
     {
         base.FixedUpdateNetwork();
+
     }
 }

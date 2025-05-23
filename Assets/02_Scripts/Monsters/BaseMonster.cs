@@ -1,139 +1,237 @@
 using System.Collections;
-using System.Collections.Generic;
 using Fusion;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class BaseMonster : NetworkBehaviour, IDamageAble
+public abstract class BaseMonster : NetworkBehaviour, IDamageAble
 {
-    enum MonsterState
-    {
-        Idle,
-        Move,
-        Attack,
-    }
+    public enum MonsterState { Idle, ChaseTarget, Attack, Die }
+
     public GameObject GameObject => gameObject;
     public Collider Collider => collider;
-    public PlayerRef PlayerRef => playerRef; // 소환할때 값 세팅됨
+    public PlayerRef PlayerRef => playerRef;
     public NetworkObject NetworkObject => Object;
+    public bool IsAlive => CurrentHp > 0;
+
     public PlayerRef playerRef;
     public MonsterData monsterData;
-    private Collider collider;
-    private NavMeshAgent agent;
-    private Animator animator;
-    private float maxHp;
+
+    protected Collider collider;
+    protected NavMeshAgent agent;
+    protected Animator animator;
+
+    protected float maxHp;
     [Networked] public float CurrentHp { get; set; }
-    //private float currentHp;
-    private bool isDie = false;
-    MonsterState monsterState = MonsterState.Idle;
-    void Awake()
+
+    protected bool isDie = false;
+    protected MonsterState monsterState = MonsterState.Idle;
+
+    protected IDamageAble currentTarget;
+    protected Vector3 targetPoint;
+    protected float attackTimer = 0f;
+
+    protected Renderer[] renderers;
+    protected Color[] originalColors;
+    protected Coroutine hitEffectCoroutine;
+    
+    public void Init(PlayerRef owner)
+    {
+        this.playerRef = owner;
+    }
+
+    protected virtual void Awake()
     {
         TryGetComponent(out collider);
         TryGetComponent(out agent);
         TryGetComponent(out animator);
+
+        renderers = GetComponentsInChildren<Renderer>();
+        originalColors = new Color[renderers.Length];
+
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            renderers[i].material = Instantiate(renderers[i].material);
+            originalColors[i] = renderers[i].material.color;
+        }
     }
-    public virtual void Start()
+
+    protected virtual void Start()
     {
         CombatSystem.Instance.RegisterCreature(collider, this);
         maxHp = monsterData.maxHP;
         CurrentHp = maxHp;
-        Debug.Log("playerRef" + playerRef);
-        Debug.Log("UserManager.Instance.FusionPlayerRef" + UserManager.Instance.FusionPlayerRef);
-        NetworkObject netObj = GetComponent<NetworkObject>();
-        // PlayerRef owner = netObj.StateAuthority;
-        if (playerRef != Runner.LocalPlayer) // 보낸사람이 호스트면
-        {
-            Vector3 pos = transform.position;
-            pos.x = -pos.x;
-            pos.z = -pos.z;
-            transform.position = pos;
-        }
-        //if(go)
+        agent.speed = monsterData.moveSpeed;
     }
 
-    public virtual void FixedUpdateNetwork()
+    public override void FixedUpdateNetwork()
     {
-        TowerDetect();
-    }
-    // public override void Spawned()
-    // {
-    //     //if (!Object.HasStateAuthority) return;
-    //     if (playerRef != UserManager.Instance.FusionPlayerRef) // 보낸사람이 호스트면
-    //     {
-    //         Vector3 pos = transform.position;
-    //         pos.x = -pos.x;
-    //         pos.z = -pos.z;
-    //         transform.position = pos;
-    //     }
-    // }
-    private void MonsterDetect()
-    {
-        NearObjectDetect(5f, LayerMask.GetMask("Monster"));
-    }
-    private void TowerDetect()
-    {
-        NearObjectDetect(50f, LayerMask.GetMask("Tower"));
-    }
-    private void NearObjectDetect(float detectRadius, LayerMask mask)
-    {
-        Collider[] colliders= Physics.OverlapSphere(transform.position, detectRadius, mask);
-        if (colliders.Length > 0)
+        if (isDie) return;
+
+        switch (monsterState)
         {
-            Collider nearTower = null;
-            float closetDist = float.MaxValue;
-            NavMeshPath path = new NavMeshPath();
-            foreach (Collider collider in colliders)
-            {
-                if(collider.GetComponent<IDamageAble>().PlayerRef ==  Runner.LocalPlayer) continue;
-                Vector3 targetPos = collider.ClosestPoint(transform.position);
-                if (NavMesh.CalculatePath(transform.position, targetPos, NavMesh.AllAreas, path)) // 경로 넣어줌
+            case MonsterState.Idle:
+                PlayAnimation("Idle");
+                DetectTarget();
+                break;
+            case MonsterState.ChaseTarget:
+                PlayAnimation("Walk");
+                if (currentTarget != null)
                 {
-                    float currentDistance = GetDistance(path);
-                    if ((path.status == NavMeshPathStatus.PathComplete) && currentDistance < closetDist)
+                    targetPoint = currentTarget.GameObject.transform.position;
+                    agent.SetDestination(targetPoint);
+                    float distance = Vector3.Distance(transform.position, targetPoint);
+                    if (distance <= monsterData.attackRange)
                     {
-                        closetDist = currentDistance;
-                        nearTower = collider;
+                        monsterState = MonsterState.Attack;
+                        agent.ResetPath();
                     }
                 }
-            }
-            if (nearTower != null)
-            {
-                Vector3 ClosetPos = nearTower.ClosestPoint(transform.position);
-                agent.SetDestination(ClosetPos);
-            }
+                else monsterState = MonsterState.Idle;
+                break;
+            case MonsterState.Attack:
+                if (currentTarget == null || !currentTarget.IsAlive)
+                {
+                    monsterState = MonsterState.Idle;
+                    return;
+                }
+                PlayAnimation("Attack");
+                TryAttack();
+                break;
         }
     }
-    private float GetDistance(NavMeshPath path)
+
+    protected virtual void PlayAnimation(string animName)
+    {
+        if (animator == null || animator.GetCurrentAnimatorStateInfo(0).IsName(animName)) return;
+        animator.CrossFade(animName, 0.1f);
+    }
+
+    protected virtual void DetectTarget()
+    {
+        IDamageAble bestTarget = FindClosestTarget("Tower", 200f);
+
+        if (monsterData.targetPriority == MonsterData.TargetPriorityType.UnitAndTower)
+        {
+            IDamageAble unitTarget = FindClosestTarget("Monster", 5f);
+            if (unitTarget != null)
+            {
+                bestTarget = unitTarget;
+            }
+        }
+
+        if (bestTarget != null)
+        {
+            currentTarget = bestTarget;
+            targetPoint = currentTarget.GameObject.transform.position;
+            agent.SetDestination(targetPoint);
+            monsterState = MonsterState.ChaseTarget;
+        }
+    }
+
+    protected virtual IDamageAble FindClosestTarget(string layerName, float radius)
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, radius, LayerMask.GetMask(layerName));
+        NavMeshPath path = new NavMeshPath();
+
+        float closestDist = float.MaxValue;
+        IDamageAble result = null;
+
+        foreach (var col in colliders)
+        {
+            IDamageAble damageable = col.GetComponent<IDamageAble>();
+            if (damageable == null || damageable == this) continue;
+            if (damageable.PlayerRef == this.PlayerRef) continue;
+
+            Vector3 point = col.ClosestPoint(transform.position);
+            if (!NavMesh.CalculatePath(transform.position, point, NavMesh.AllAreas, path)) continue;
+
+            float dist = GetDistance(path);
+            if (path.status == NavMeshPathStatus.PathComplete && dist < closestDist)
+            {
+                closestDist = dist;
+                result = damageable;
+            }
+        }
+        return result;
+    }
+
+    protected virtual void TryAttack()
+    {
+        attackTimer += Time.deltaTime;
+        if (attackTimer >= monsterData.attackSpeed)
+        {
+            if (currentTarget != null && currentTarget.PlayerRef != this.PlayerRef)
+            {
+                CombatEvent combatEvent = new CombatEvent
+                {
+                    Sender = this,
+                    Receiver = currentTarget,
+                    Damage = Mathf.RoundToInt(monsterData.damage),
+                    UseEffect = true,
+                    EffectName = "HitEffect",
+                    EffectPosition = currentTarget.GameObject.transform.position,
+                    NetworkObject = currentTarget.NetworkObject
+                };
+
+                CombatSystem.Instance.AddCombatEvent(combatEvent);
+            }
+            attackTimer = 0f;
+        }
+    }
+
+    protected float GetDistance(NavMeshPath path)
     {
         float distance = 0f;
-        if (path.corners.Length < 2) return distance; // 경로가 없으면
-
+        if (path.corners.Length < 2) return distance;
         for (int i = 1; i < path.corners.Length; i++)
         {
-            distance += Vector3.Distance(path.corners[i-1], path.corners[i]);
+            distance += Vector3.Distance(path.corners[i - 1], path.corners[i]);
         }
-
         return distance;
-
     }
-    public void TakeDamage(int damage)
+
+    public virtual void TakeDamage(int damage)
     {
-        if (isDie == false)
+        if (isDie) return;
+
+        CurrentHp -= damage;
+
+        if (hitEffectCoroutine != null)
+            StopCoroutine(hitEffectCoroutine);
+        hitEffectCoroutine = StartCoroutine(HitFlash());
+
+        if (CurrentHp <= 0)
         {
-            CurrentHp -= damage;
-            if (CurrentHp <= 0)
-            {
-                RPC_OnDie();
-            }
             isDie = true;
+            monsterState = MonsterState.Die;
+            RPC_OnDie();
         }
     }
-    // 풀링으로 바꿀예정
+
+    protected virtual IEnumerator HitFlash()
+    {
+        foreach (var rend in renderers)
+        {
+            rend.material.color = Color.red;
+        }
+
+        yield return new WaitForSeconds(0.1f);
+
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            renderers[i].material.color = originalColors[i];
+        }
+    }
+
     [Rpc(sources: RpcSources.All, targets: RpcTargets.StateAuthority)]
-    public void RPC_OnDie()
+    public virtual void RPC_OnDie()
     {
         if (Object.HasStateAuthority == false) return;
-        Runner.Despawn(Object); // Destroy안해도 Fusion이 자동으로 파괴
+        Runner.Despawn(Object);
+    }
+
+    public override void Spawned()
+    {
+        // Network 초기화 또는 위치 조정이 필요하다면 여기에 구현
     }
 }

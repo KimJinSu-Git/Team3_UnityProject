@@ -11,6 +11,7 @@ public class DummyPlayer : MonoBehaviour, IDamageAble
     public Collider Collider { get; private set; }
     public PlayerRef PlayerRef => playerRef;
     public NetworkObject NetworkObject { get; }
+    public bool IsAlive => currentHealth > 0;
 
     private void Start()
     {

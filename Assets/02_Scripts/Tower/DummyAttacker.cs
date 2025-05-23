@@ -11,6 +11,9 @@ public class DummyAttacker : MonoBehaviour, IDamageAble
     public float attackInterval = 1.5f;
     public int attackDamage = 100;
     private float attackTimer = 0f;
+    
+    private float currentHealth;
+    public bool IsAlive => currentHealth > 0;
 
     private void Update()
     {
