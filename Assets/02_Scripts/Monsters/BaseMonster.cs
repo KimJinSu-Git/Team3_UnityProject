@@ -46,6 +46,8 @@ public class BaseMonster : NetworkBehaviour, IDamageAble
     }
     public override void Spawned()
     {
+        Debug.Log("PlayerRef : "+ playerRef);
+        Debug.Log("Runner.LocalPlayer : "+ Runner.LocalPlayer);
         if (playerRef != Runner.LocalPlayer)
         {
             Vector3 pos = transform.position;
