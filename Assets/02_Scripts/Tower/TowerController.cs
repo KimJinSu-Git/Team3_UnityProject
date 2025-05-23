@@ -44,7 +44,8 @@ public class TowerController : MonoBehaviour, IDamageAble
     public PlayerRef PlayerRef => playerRef; // 처음에 스폰해서 ref할당
     public NetworkObject NetworkObject { get; }
 
-
+    public bool IsDead;
+    
     public bool IsAlive => currentHealth > 0;
     
     public void ForceDestroy()
@@ -65,6 +66,11 @@ public class TowerController : MonoBehaviour, IDamageAble
 
     private void Update()
     {
+        if(IsDead)
+        {
+            Die();
+        }
+        
         attackTimer += Time.deltaTime;
 
         if (attackTimer >= attackInterval)
