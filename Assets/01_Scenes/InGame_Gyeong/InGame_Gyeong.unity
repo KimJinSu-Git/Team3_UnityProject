@@ -11336,7 +11336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f4a9832fe6a0ef41bc848dbd3d3bb94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerType: 1
+  towerType: 2
   maxHealth: 3500
   currentHealth: 0
   targetLayer:
