@@ -10,4 +10,5 @@ public interface IDamageAble
     public PlayerRef PlayerRef { get; }
     public NetworkObject NetworkObject { get; }
     public void TakeDamage(int damage);
+    bool IsAlive { get; }
 }

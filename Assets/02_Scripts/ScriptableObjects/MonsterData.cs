@@ -12,6 +12,16 @@ public class MonsterData : ScriptableObject
         OnlyGroundAttack,
         FlyWalkAttack,
     }
+    
+    public enum TargetPriorityType
+    {
+        TowerOnly,          // 타워만 바라보는 해바라기 사랑꾼
+        UnitAndTower       // 자기를 바라봐주는 친구에게 맘이 변하는 금사빠
+    }
+    
+    [Header("AI Behavior")]
+    public TargetPriorityType targetPriority;
+    
     [Header("BaseInfo")]
     public string id;
     public string monsterName;   

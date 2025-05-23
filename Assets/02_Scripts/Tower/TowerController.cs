@@ -44,7 +44,6 @@ public class TowerController : MonoBehaviour, IDamageAble
     public PlayerRef PlayerRef => playerRef; // 처음에 스폰해서 ref할당
     public NetworkObject NetworkObject { get; }
 
-
     public bool IsAlive => currentHealth > 0;
     
     public void ForceDestroy()
