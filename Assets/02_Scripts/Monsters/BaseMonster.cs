@@ -46,13 +46,13 @@ public class BaseMonster : NetworkBehaviour, IDamageAble
     }
     public override void Spawned()
     {
-        // if (playerRef != Runner.LocalPlayer)
-        // {
-        //     Vector3 pos = transform.position;
-        //     pos.x = -pos.x;
-        //     pos.y = -pos.y;
-        //     transform.position = pos;
-        // }
+        if (playerRef != Runner.LocalPlayer)
+        {
+            Vector3 pos = transform.position;
+            pos.x = -pos.x;
+            pos.y = -pos.y;
+            transform.position = pos;
+        }
     }
     private void MonsterDetect()
     {
