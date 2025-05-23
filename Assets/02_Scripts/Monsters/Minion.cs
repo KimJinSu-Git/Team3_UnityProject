@@ -6,7 +6,8 @@ public class Minion : BaseMonster
 {
     void Start()
     {
-        
+        base.Start();
+
     }
 
     void Update()

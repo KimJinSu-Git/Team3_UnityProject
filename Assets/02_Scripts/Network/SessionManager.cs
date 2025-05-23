@@ -18,7 +18,7 @@ public enum GameSessionState
 
 public class SessionManager : MonoBehaviour, INetworkRunnerCallbacks
 {
-    //public static SessionManager Instance;
+    public static SessionManager Instance;
 
     public class GameRoomInfo
     {
@@ -46,14 +46,14 @@ public class SessionManager : MonoBehaviour, INetworkRunnerCallbacks
     public GameSessionState CurrentState = GameSessionState.Lobby;
     private void Awake()
     {
-        // if (Instance == null) 
-        // {
-        //     Instance = this;
-        //     DontDestroyOnLoad(gameObject);
-        // } else 
-        // {
-        //     Destroy(gameObject);
-        // }
+        if (Instance == null) 
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        } else 
+        {
+            Destroy(gameObject);
+        }
         //lobbySceneRef = SceneRef.FromIndex(LOBBY_SCENE_INDEX);
         inGameSceneRef = SceneRef.FromIndex(IN_GAME_SCENE_INDEX);
     }
@@ -66,14 +66,14 @@ public class SessionManager : MonoBehaviour, INetworkRunnerCallbacks
     
     private void InitRunnerAsync()
     {
-        // if (isInitialized) return; 
-        // isInitialized = true;
+        if (isInitialized) return; 
+        isInitialized = true;
         if(runner != null) Destroy(runner);
         sceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>(); //  Fusion에서 기본으로 제공하는 씬 전환 매니저 클래스로, 네트워크 플레이어들이 씬을 같이 전환하고 동기화되도록 함
         runner = gameObject.AddComponent<NetworkRunner>();
         runner.ProvideInput = true;
         runner.AddCallbacks(this);
-        //DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(gameObject);
     }
     public async void StartMatchMaking()
     {
@@ -127,7 +127,7 @@ public class SessionManager : MonoBehaviour, INetworkRunnerCallbacks
         if (player != this.runner.LocalPlayer)
         {
             CurrentGameRoomInfo.HostPlayer = runner.IsServer ? runner.LocalPlayer : player;
-            CurrentGameRoomInfo.ClientPlayer = runner.IsServer ? player : runner.LocalPlayer; ;
+            CurrentGameRoomInfo.ClientPlayer = runner.IsServer ? player : runner.LocalPlayer;
         }
 
         if (this.runner.IsServer && runner.ActivePlayers.Count() == MAX_PLAYER_COUNT && 
@@ -139,11 +139,14 @@ public class SessionManager : MonoBehaviour, INetworkRunnerCallbacks
     private async Task StartInGame()
     {
         await runner.LoadScene(inGameSceneRef);
+        
     }
     public void OnSceneLoadDone(NetworkRunner runner)
     {
+        //UserManager.Instance.SetFusionPlayerRef(runner.LocalPlayer);
         if (runner.IsServer)
         {
+            
             // 프리팹생성해주기
         }
     }

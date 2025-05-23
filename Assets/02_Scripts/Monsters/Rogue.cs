@@ -6,7 +6,8 @@ public class Rogue : BaseMonster
 {
     void Start()
     {
-        
+        base.Start();
+
     }
 
     void Update()

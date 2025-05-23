@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Fusion;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -32,30 +33,40 @@ public class BaseMonster : NetworkBehaviour, IDamageAble
         TryGetComponent(out agent);
         TryGetComponent(out animator);
     }
-    void Start()
+    public virtual void Start()
     {
         CombatSystem.Instance.RegisterCreature(collider, this);
         maxHp = monsterData.maxHP;
         CurrentHp = maxHp;
-       
-    }
-
-    public virtual void FixedUpdateNetwork()
-    {
-        TowerDetect();
-    }
-    public override void Spawned()
-    {
-        Debug.Log("PlayerRef : "+ playerRef);
-        Debug.Log("Runner.LocalPlayer : "+ Runner.LocalPlayer);
-        if (playerRef != Runner.LocalPlayer)
+        Debug.Log("playerRef" + playerRef);
+        Debug.Log("UserManager.Instance.FusionPlayerRef" + UserManager.Instance.FusionPlayerRef);
+        NetworkObject netObj = GetComponent<NetworkObject>();
+        // PlayerRef owner = netObj.StateAuthority;
+        if (playerRef != Runner.LocalPlayer) // 보낸사람이 호스트면
         {
             Vector3 pos = transform.position;
             pos.x = -pos.x;
             pos.z = -pos.z;
             transform.position = pos;
         }
+        //if(go)
     }
+
+    public virtual void FixedUpdateNetwork()
+    {
+        TowerDetect();
+    }
+    // public override void Spawned()
+    // {
+    //     //if (!Object.HasStateAuthority) return;
+    //     if (playerRef != UserManager.Instance.FusionPlayerRef) // 보낸사람이 호스트면
+    //     {
+    //         Vector3 pos = transform.position;
+    //         pos.x = -pos.x;
+    //         pos.z = -pos.z;
+    //         transform.position = pos;
+    //     }
+    // }
     private void MonsterDetect()
     {
         NearObjectDetect(5f, LayerMask.GetMask("Monster"));

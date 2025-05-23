@@ -31,7 +31,7 @@ public class Spawner_Network : NetworkBehaviour
         // {
             // NetworkObject networkMonster = Runner.Spawn(monsterData.prefab, spawnPos, spawnRot);
             // networkMonster.GetComponent<BaseMonster>().playerRef = player; // 식별자 세팅
-            Runner.Spawn(monsterData.prefab, spawnPos, spawnRot, inputAuthority: null,
+            Runner.Spawn(monsterData.prefab, spawnPos, spawnRot, player,
                 onBeforeSpawned: (runner, obj) =>
                 {
                     obj.GetComponent<BaseMonster>().playerRef = player;

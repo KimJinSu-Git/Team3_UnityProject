@@ -6,7 +6,8 @@ public class Necromancer : BaseMonster
 {
     void Start()
     {
-        
+        base.Start();
+
     }
 
     void Update()

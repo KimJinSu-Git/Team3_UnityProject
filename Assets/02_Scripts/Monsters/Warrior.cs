@@ -6,7 +6,8 @@ public class Warrior : BaseMonster
 {
     void Start()
     {
-        
+        base.Start();
+
     }
 
     void Update()
