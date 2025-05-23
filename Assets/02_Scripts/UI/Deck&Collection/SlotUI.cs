@@ -21,6 +21,8 @@ public class SlotUI : MonoBehaviour
     private int slotIndex;
     private SlotMode mode;
     
+    
+    
     private void Awake()
     {
         // 보통 Setup() 또는 Start()에서 초기화
@@ -36,6 +38,8 @@ public class SlotUI : MonoBehaviour
 
     public void Setup(MonsterData_Mainmenu card, int index, DeckManager_UI manager, SlotMode slotMode)
     {
+        
+        
         cardData = card;
         slotIndex = index;
         deckManager = manager;
@@ -45,7 +49,19 @@ public class SlotUI : MonoBehaviour
         nameText.text = card.monsterName;
         levelText.text = $"Lv.{card.level}";
         costText.text = card.cost.ToString();
-        progressText.text = "";
+        
+        int owned = manager.ownedCardDict.ContainsKey(card.id) ? manager.ownedCardDict[card.id] : 0;
+        int required = manager.upgradeDB.GetRequiredCards(card.rarity, card.level);
+        
+        if (manager == null)
+        {
+            Debug.LogError("[SlotUI] ❌ manager is null in Setup!");
+            return;
+        }
+        if (manager.ownedCardDict == null) Debug.LogError("❌ ownedCardDict is null!");
+        if (manager.upgradeDB == null) Debug.LogError("❌ upgradeDB is null!");
+        
+        progressText.text = $"{owned}/{required}";
 
         SetupModeUI();
     }

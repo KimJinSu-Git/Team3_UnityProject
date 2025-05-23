@@ -12,6 +12,9 @@ public class DeckManager_UI : MonoBehaviour
     public int maxDeckSize = 6;
 
     public CollectionPanel collectionPanel;
+    
+    public Dictionary<string, int> ownedCardDict = new();
+    public UpgradeRequirementDB upgradeDB;
 
     public void TryAddCard(MonsterData_Mainmenu card)
     {
@@ -25,12 +28,20 @@ public class DeckManager_UI : MonoBehaviour
 
     public void RemoveCard(int index)
     {
-        if (index < 0 || index >= currentDeck.Count) return;
+        if (index < 0 || index >= currentDeck.Count)
+        {
+            Debug.LogWarning($"[DeckManager] ❌ 잘못된 인덱스 접근 시도: {index}");
+            return;
+        }
+
+        Debug.Log($"[DeckManager] ✅ RemoveCard 실행: index = {index}");
 
         currentDeck.RemoveAt(index);
         RefreshDeckUI();
         collectionPanel.Refresh();
     }
+
+
 
     public void RefreshDeckUI()
     {
@@ -42,12 +53,16 @@ public class DeckManager_UI : MonoBehaviour
         }
 
         // ✅ 현재 덱 기준으로 슬롯 생성
-        for (int i = 0; i < currentDeck.Count; i++)
+        for (int i = 0; i < slotPositions.Length; i++)
         {
-            GameObject slotGO = Instantiate(slotPrefab, slotPositions[i], false);
+            if (i >= currentDeck.Count) break;
+
+            GameObject slotGO = Instantiate(slotPrefab);
             var slot = slotGO.GetComponent<SlotUI>();
             slot.Setup(currentDeck[i], i, this, SlotMode.Deck);
+            slotGO.transform.SetParent(slotPositions[i], false);
         }
+
     }
 
     public bool IsInDeck(string id) => currentDeck.Any(c => c.id == id);
