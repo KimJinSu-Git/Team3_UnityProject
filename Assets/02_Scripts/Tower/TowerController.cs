@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Fusion;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.TerrainTools;
 
 public class TowerController : MonoBehaviour, IDamageAble
 {
@@ -29,9 +31,12 @@ public class TowerController : MonoBehaviour, IDamageAble
     [Header("궁수 애니메이터")]
     public Animator archerAnimator;
 
+    [Header("카드 스폰 불가 지역")]
     public GameObject spawnAreaImage;
-
     public GameObject spawnCollider;
+    
+    [Header("HP")]
+    public HealthBar healthBar;
     
     private float attackTimer = 0f;
     private Transform target;
@@ -58,13 +63,18 @@ public class TowerController : MonoBehaviour, IDamageAble
     private void Start()
     {
         currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
         Collider = GetComponent<Collider>();
-
         CombatSystem.Instance.RegisterCreature(Collider, this);
     }
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            TakeDamage(100);
+        }
+        
         if(IsDead)
         {
             Die();
@@ -125,6 +135,7 @@ public class TowerController : MonoBehaviour, IDamageAble
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
+        healthBar.SetHealth(currentHealth);
         Debug.Log($"{towerType} 피해: {damage} / 현재 체력: {currentHealth}");
 
         if (currentHealth <= 0)
