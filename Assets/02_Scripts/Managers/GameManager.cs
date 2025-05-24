@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
     public List<TowerController> playerPrincessTowers;
     public List<TowerController> enemyPrincessTowers;
 
+    public Transform Area;
     private void Awake()
     {
         Instance = this;
@@ -71,6 +72,11 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("게임 준비 완료, 3초 뒤 시작");
         currentState = GameState.Ready;
+        if (UserManager.Instance.FusionPlayerRef == SessionManager.Instance.CurrentGameRoomInfo.ClientPlayer)
+        {
+            Vector3 rotation = Area.transform.rotation.eulerAngles;
+            rotation.y = 180;
+        }
         Invoke(nameof(StartGame), 3f);
     }
 

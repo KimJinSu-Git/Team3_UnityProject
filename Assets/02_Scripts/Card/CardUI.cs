@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
+using Unity.Mathematics;
 
 [RequireComponent(typeof(CanvasGroup))]
 [RequireComponent(typeof(RectTransform))]
@@ -10,7 +11,7 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 {
     // 외부 주입 데이터
     private MonsterData         monsterData;
-    private CardHandManager unitSpawner;
+    private Spawner_Network unitSpawner;
     private Collider[]        noSpawnZones; 
     private Image[]            enemyAreaImages;
     private int               slotIndex;
@@ -29,33 +30,35 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     private bool          returnedToSlot;
     private bool hasCheckedAfford = false;
     
+    // 스폰할 맵
+    public Transform Area;
+    
     // 카드 데이터 외부 조회용
     public MonsterData MonsterData => monsterData;
 
     private void Awake()
     {
         // 컴포넌트 캐싱
-        TryGetComponent(out canvasGroup);
-        TryGetComponent(out rectTransform);
-
+        canvasGroup        = GetComponent<CanvasGroup>();
+        rectTransform      = GetComponent<RectTransform>();
         originalParent     = transform.parent;
         originalAnchoredPos = rectTransform.anchoredPosition;
         worldCamera        = Camera.main;
 
         // 이름 표시 텍스트 찾기
-        TryGetComponent(out selfImage);
+        selfImage     = GetComponent<Image>();
         cardNameText = GetComponentInChildren<TMP_Text>();
     }
 
     private void Update()
     {
         
-        if (ElixirManager.Instance.GetCurrentElixir() >= monsterData.cost)
+        if (ElixirManager.Instance.GetCurrentElixir() >= monsterData.cost && isDraggable)
         {
             isDraggable = true;
             SetVisualState(true);
         }
-        else
+        else 
         {
             isDraggable = false;
             SetVisualState(false);
@@ -73,24 +76,25 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     /// 카드 초기화: 데이터, 부모 슬롯, 드래그 설정, 스케일, 콜백 등
     public void Init(
         MonsterData data,
+        Spawner_Network spawner,
         Collider[] noSpawnZones,
-        CardHandManager spawner,
         Image[] areaImages,
         Transform parentSlot,
         int index,
         Action<int> onCardPlayed,
+        Transform Area,
         bool draggable = true,
         Vector3? startScale = null
-        
     )
     {
         // 데이터 & 콜백 할당
         monsterData          = data;
-        unitSpawner = spawner;
+        unitSpawner       = spawner;
         this.noSpawnZones = noSpawnZones;
         this.enemyAreaImages     = areaImages;
         slotIndex         = index;
         this.onCardPlayed = onCardPlayed;
+        this.Area = Area;
         isDraggable       = draggable;
 
         // 슬롯 부모에 붙이고 위치·크기 초기화
@@ -131,7 +135,6 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             enemyAreaImages[i].enabled = true;
         }
     }
-
     public void OnDrag(PointerEventData eventData)
     {
         if (!isDraggable) return;
@@ -174,7 +177,8 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             && !IsInNoSpawnZone(hit.point))
         {
             ElixirManager.Instance.UseElixir(monsterData.cost);
-            unitSpawner.SpawnAt(monsterData, hit.point);
+            Vector3 localSpawnPos = Area.InverseTransformPoint(hit.point);
+            unitSpawner.RequestSpawn(monsterData.name, localSpawnPos, quaternion.identity);
             onCardPlayed?.Invoke(slotIndex);
             Destroy(gameObject);
         }

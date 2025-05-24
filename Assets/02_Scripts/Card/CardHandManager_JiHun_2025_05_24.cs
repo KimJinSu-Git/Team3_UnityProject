@@ -1,17 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class CardHandManager : MonoBehaviour
 {
-    //임시로 Player1, Player2를 구분할 수 있는 것.
-    public bool PlayerSetting;
-    [SerializeField] private Transform symmetryPoint;
-    
+    public static  CardHandManager Instance;
     [Header("덱 설정")]
     public List<MonsterData> fullDeck;        // 전체 카드 데이터(8장)
 
+    public Dictionary<string, MonsterData> monsterDatas; // 스텟등 확정성을 위해서 MonsterData전부를 넘겨줌
+
+    
     [Header("UI 슬롯 & 프리팹")]
     public CardUI      cardPrefab;         // 카드 UI 프리팹
     public Transform[] slotParents;        // 손패 슬롯 부모(4개)
@@ -23,6 +25,7 @@ public class CardHandManager : MonoBehaviour
     public float       sideAnimDuration = 0.5f; // 이동 애니메이션 시간
 
     [Header("스포너 & 적 영역")]
+    public Spawner_Network unitSpawner;
     public Collider[]        noSpawnZones;
     public Image[]             enemyAreaImages;
 
@@ -30,12 +33,23 @@ public class CardHandManager : MonoBehaviour
     private List<CardUI>   hand  = new List<CardUI>(); // 현재 손패
     private CardUI         sideCard;      // 사이드 슬롯 카드
 
+    public Transform Area;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
     void Start()
     {
         // 1) 덱 복사 후 셔플
         deck = new List<MonsterData>(fullDeck);
         Shuffle(deck);
-
+        // 몬스터 데이터 캐싱
+        monsterDatas = new Dictionary<string, MonsterData>();
+        foreach (MonsterData monsterData in deck)
+        {
+            monsterDatas.Add(monsterData.name, monsterData);
+        }
         // 2) 초기 손패 4장 뽑기
         for (int i = 0; i < slotParents.Length; i++)
             DrawToSlot(i);
@@ -49,19 +63,20 @@ public class CardHandManager : MonoBehaviour
         if (deck.Count == 0) return;
 
         // 덱에서 카드 데이터 꺼내기
-        var data = deck[0];
+        MonsterData data = deck[0];
         deck.RemoveAt(0);
 
         // 카드 인스턴스 생성 및 초기화
-        var card = Instantiate(cardPrefab);
+        CardUI card = Instantiate(cardPrefab);
         card.Init(
             data,
+            unitSpawner,
             noSpawnZones,
-            this,
             enemyAreaImages,
             slotParents[slotIndex], // 부모 슬롯 지정
             slotIndex,
             OnCardPlayed,
+            Area,
             true,                    // 드래그 가능
             Vector3.one              // 기본 크기
         );
@@ -73,7 +88,7 @@ public class CardHandManager : MonoBehaviour
         if (deck.Count == 0) return;
 
         // 덱에서 카드 데이터 꺼내기
-        var data = deck[0];
+        MonsterData data = deck[0];
         deck.RemoveAt(0);
 
         // 기존 사이드 카드가 있으면 삭제 (사이드 슬롯에 남아 있는 경우만)
@@ -84,12 +99,13 @@ public class CardHandManager : MonoBehaviour
         sideCard = Instantiate(cardPrefab);
         sideCard.Init(
             data,
+            unitSpawner,
             noSpawnZones,
-            this, 
             enemyAreaImages,
             sideSlotParent,
             -1,               // 슬롯 인덱스 없음
             null,             // 콜백 없음
+            Area,
             false,            // 드래그 불가
             sideScale         // 축소된 크기
         );
@@ -97,14 +113,12 @@ public class CardHandManager : MonoBehaviour
     
     private void OnCardPlayed(int slotIndex)    // 카드 유닛 배치 시 호출되는 콜백
     {
-
         // 3) 사이드 슬롯 카드 → 빈 슬롯으로 이동
         StartCoroutine(MoveSideToHand(slotIndex));
     }
     
     private IEnumerator MoveSideToHand(int slotIndex)   // 사이드 슬롯 카드를 빈 슬롯으로 이동시키고 재초기화
     {
-        
         // 1) 대기
         yield return new WaitForSeconds(sideDelay);
 
@@ -137,12 +151,13 @@ public class CardHandManager : MonoBehaviour
         // 4) 다시 손패 카드로 재초기화 (드래그 가능, 콜백 설정)
         sideCard.Init(
             sideCard.MonsterData,
+            unitSpawner,
             noSpawnZones,
-            this, 
             enemyAreaImages,
             slotParents[slotIndex],
             slotIndex,
             OnCardPlayed,
+            Area,
             true,
             Vector3.one
         );
@@ -160,31 +175,6 @@ public class CardHandManager : MonoBehaviour
             T tmp    = list[i];
             list[i]  = list[j];
             list[j]  = tmp;
-        }
-    }
-    /// <summary>
-    /// 지정된 UnitType의 unitPrefab을 worldPosition에 스폰.
-    /// </summary>
-    
-    public void SpawnAt(MonsterData type, Vector3 worldPosition)
-    {
-        GameObject player = Instantiate(type.prefab, worldPosition, Quaternion.identity, transform);
-        player.SetActive(false);
-        if (player.TryGetComponent(out MoveCharacterController move))
-        {
-            if (PlayerSetting)
-            {
-                move.ownerType = OwnerPlayerType.Player1;
-            }
-            else
-            {
-                move.ownerType = OwnerPlayerType.Player2;
-                Vector3 dir = worldPosition - symmetryPoint.position;
-                Vector3 mirroredPosition = symmetryPoint.position - dir;
-                player.transform.position = mirroredPosition;
-                player.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
-            }
-            player.SetActive(true);
         }
     }
 }
