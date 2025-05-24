@@ -28,7 +28,7 @@ public class SessionManager : MonoBehaviour, INetworkRunnerCallbacks
     private const int LOBBY_SCENE_INDEX = 1;
     private const int IN_GAME_SCENE_INDEX = 2;
     
-    private const int MAX_PLAYER_COUNT = 2;
+    private const int MAX_PLAYER_COUNT = 1;
 
     private NetworkRunner runner;
     private NetworkSceneManagerDefault sceneManager;
@@ -37,13 +37,12 @@ public class SessionManager : MonoBehaviour, INetworkRunnerCallbacks
     private SceneRef inGameSceneRef;
     
     private bool isInitialized = false;
-
     //[Header("Prefabs")]
     // 플레이어 프리팹
-    
     public GameRoomInfo CurrentGameRoomInfo { get; private set; } 
     
     public GameSessionState CurrentState = GameSessionState.Lobby;
+    
     private void Awake()
     {
         if (Instance == null) 
@@ -62,8 +61,6 @@ public class SessionManager : MonoBehaviour, INetworkRunnerCallbacks
     {
         InitRunnerAsync();
     }
-
-    
     private void InitRunnerAsync()
     {
         if (isInitialized) return; 
@@ -124,6 +121,10 @@ public class SessionManager : MonoBehaviour, INetworkRunnerCallbacks
     }
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
+        if (player == this.runner.LocalPlayer)
+        {
+            UserManager.Instance.FusionPlayerRef = player;
+        }
         if (player != this.runner.LocalPlayer)
         {
             CurrentGameRoomInfo.HostPlayer = runner.IsServer ? runner.LocalPlayer : player;
@@ -146,7 +147,6 @@ public class SessionManager : MonoBehaviour, INetworkRunnerCallbacks
         //UserManager.Instance.SetFusionPlayerRef(runner.LocalPlayer);
         if (runner.IsServer)
         {
-            
             // 프리팹생성해주기
         }
     }

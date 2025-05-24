@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.TerrainTools;
 
-public class TowerController : MonoBehaviour, IDamageAble
+public class TowerController : NetworkBehaviour, IDamageAble
 {
     public enum TowerType { LeftPrincess, RightPrincess, King }
 
@@ -36,12 +36,12 @@ public class TowerController : MonoBehaviour, IDamageAble
     public GameObject spawnCollider;
     
     [Header("HP")]
-    public HealthBar healthBar;
+    //public HealthBar healthBar;
     
     private float attackTimer = 0f;
     private Transform target;
     private PlayerRef playerRef;
-    
+    public PlayerRef tempPlayerRef;
 
     public GameObject GameObject => this.gameObject;
     public Collider Collider { get; private set; }
@@ -51,7 +51,8 @@ public class TowerController : MonoBehaviour, IDamageAble
     public bool IsDead;
     
     public bool IsAlive => currentHealth > 0;
-    
+
+    public int RefID;
     public void ForceDestroy()
     {
         if (!IsAlive) return;
@@ -62,8 +63,31 @@ public class TowerController : MonoBehaviour, IDamageAble
 
     private void Start()
     {
+        tempPlayerRef = UserManager.Instance.FusionPlayerRef;
+
+        if ( transform.position.z <= 0f )
+        {
+            playerRef = tempPlayerRef;
+            RefID = playerRef.PlayerId;
+            
+        }
+        else if (transform.position.z > 0f)
+        {
+            if (tempPlayerRef == SessionManager.Instance.CurrentGameRoomInfo.HostPlayer)
+            {
+                playerRef = SessionManager.Instance.CurrentGameRoomInfo.ClientPlayer;
+                RefID = playerRef.PlayerId;
+
+            }
+            else if(tempPlayerRef == SessionManager.Instance.CurrentGameRoomInfo.ClientPlayer)
+            {
+                playerRef = SessionManager.Instance.CurrentGameRoomInfo.HostPlayer;
+                RefID = playerRef.PlayerId;
+
+            }
+        }
         currentHealth = maxHealth;
-        healthBar.SetMaxHealth(maxHealth);
+        //healthBar.SetMaxHealth(maxHealth);
         Collider = GetComponent<Collider>();
         CombatSystem.Instance.RegisterCreature(Collider, this);
     }
@@ -135,7 +159,7 @@ public class TowerController : MonoBehaviour, IDamageAble
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-        healthBar.SetHealth(currentHealth);
+        //healthBar.SetHealth(currentHealth);
         Debug.Log($"{towerType} 피해: {damage} / 현재 체력: {currentHealth}");
 
         if (currentHealth <= 0)

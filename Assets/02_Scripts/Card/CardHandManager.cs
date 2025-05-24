@@ -33,6 +33,8 @@ public class CardHandManager : MonoBehaviour
     private List<CardUI>   hand  = new List<CardUI>(); // 현재 손패
     private CardUI         sideCard;      // 사이드 슬롯 카드
 
+    public Transform Area;
+
     private void Awake()
     {
         Instance = this;
@@ -74,6 +76,7 @@ public class CardHandManager : MonoBehaviour
             slotParents[slotIndex], // 부모 슬롯 지정
             slotIndex,
             OnCardPlayed,
+            Area,
             true,                    // 드래그 가능
             Vector3.one              // 기본 크기
         );
@@ -102,6 +105,7 @@ public class CardHandManager : MonoBehaviour
             sideSlotParent,
             -1,               // 슬롯 인덱스 없음
             null,             // 콜백 없음
+            Area,
             false,            // 드래그 불가
             sideScale         // 축소된 크기
         );
@@ -153,6 +157,7 @@ public class CardHandManager : MonoBehaviour
             slotParents[slotIndex],
             slotIndex,
             OnCardPlayed,
+            Area,
             true,
             Vector3.one
         );

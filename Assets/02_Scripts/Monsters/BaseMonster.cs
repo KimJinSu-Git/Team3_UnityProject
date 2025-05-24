@@ -33,11 +33,6 @@ public abstract class BaseMonster : NetworkBehaviour, IDamageAble
     protected Renderer[] renderers;
     protected Color[] originalColors;
     protected Coroutine hitEffectCoroutine;
-    
-    public void Init(PlayerRef owner)
-    {
-        this.playerRef = owner;
-    }
 
     protected virtual void Awake()
     {
@@ -54,7 +49,6 @@ public abstract class BaseMonster : NetworkBehaviour, IDamageAble
             originalColors[i] = renderers[i].material.color;
         }
     }
-
     protected virtual void Start()
     {
         CombatSystem.Instance.RegisterCreature(collider, this);
@@ -63,6 +57,24 @@ public abstract class BaseMonster : NetworkBehaviour, IDamageAble
         agent.speed = monsterData.moveSpeed;
     }
 
+    public override void Spawned()
+    {
+        // if (playerRef != UserManager.Instance.FusionPlayerRef)
+        // {
+        //     Vector3 pos = transform.position;
+        //     pos.x = -pos.x;
+        //     pos.y = -pos.y;
+        //     transform.position = pos;
+        // }
+        //
+        // if (Object.HasInputAuthority == false)
+        // {
+        //     Vector3 pos = transform.position;
+        //     pos.x = -pos.x;
+        //     pos.y = -pos.y;
+        //     transform.position = pos;
+        // }
+    }
     public override void FixedUpdateNetwork()
     {
         if (isDie) return;
@@ -228,10 +240,5 @@ public abstract class BaseMonster : NetworkBehaviour, IDamageAble
     {
         if (Object.HasStateAuthority == false) return;
         Runner.Despawn(Object);
-    }
-
-    public override void Spawned()
-    {
-        // Network 초기화 또는 위치 조정이 필요하다면 여기에 구현
     }
 }

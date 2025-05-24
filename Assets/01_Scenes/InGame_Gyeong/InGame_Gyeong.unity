@@ -358,6 +358,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1acb50c61ba8dd849aac82f3cfe8800f, type: 3}
+--- !u!114 &25267260 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7591885361277204362, guid: 1acb50c61ba8dd849aac82f3cfe8800f,
+    type: 3}
+  m_PrefabInstance: {fileID: 25267259}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &34644482 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6861120589263217392, guid: 7c7e43089058a1645b8520bdbebe07e4,
@@ -6413,6 +6425,7 @@ GameObject:
   - component: {fileID: 785708094}
   - component: {fileID: 785708095}
   - component: {fileID: 785708096}
+  - component: {fileID: 785708097}
   m_Layer: 8
   m_Name: EnemyRightBuild
   m_TagString: EnemyTower
@@ -6509,6 +6522,25 @@ MonoBehaviour:
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
+--- !u!114 &785708097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 785708091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 3576240885
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 785708095}
+  ForceRemoteRenderTimeframe: 0
 --- !u!1 &825136999
 GameObject:
   m_ObjectHideFlags: 0
@@ -6598,6 +6630,7 @@ GameObject:
   - component: {fileID: 834735231}
   - component: {fileID: 834735232}
   - component: {fileID: 834735233}
+  - component: {fileID: 834735234}
   m_Layer: 8
   m_Name: PlayerLeftBuild
   m_TagString: Untagged
@@ -6715,6 +6748,26 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.1877394, y: 2.7616775, z: 2.1846108}
   m_Center: {x: -0.009443343, y: 1.4355634, z: 0.0022695065}
+--- !u!114 &834735234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834735227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 3027059298
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects:
+  - {fileID: 1709700292}
+  NetworkedBehaviours:
+  - {fileID: 834735232}
+  ForceRemoteRenderTimeframe: 0
 --- !u!1 &835237493
 GameObject:
   m_ObjectHideFlags: 0
@@ -6880,6 +6933,7 @@ GameObject:
   - component: {fileID: 849473031}
   - component: {fileID: 849473032}
   - component: {fileID: 849473033}
+  - component: {fileID: 849473034}
   m_Layer: 8
   m_Name: PlayerRightBuild
   m_TagString: Untagged
@@ -7014,6 +7068,26 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.1877394, y: 2.7616775, z: 2.1846108}
   m_Center: {x: -0.009443343, y: 1.4355634, z: 0.0022695065}
+--- !u!114 &849473034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 849473026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 4270514653
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects:
+  - {fileID: 1844311637}
+  NetworkedBehaviours:
+  - {fileID: 849473032}
+  ForceRemoteRenderTimeframe: 0
 --- !u!1 &852784113
 GameObject:
   m_ObjectHideFlags: 0
@@ -9779,6 +9853,7 @@ GameObject:
   - component: {fileID: 1215162384}
   - component: {fileID: 1215162385}
   - component: {fileID: 1215162386}
+  - component: {fileID: 1215162387}
   m_Layer: 8
   m_Name: EnemyLeftBuild
   m_TagString: EnemyTower
@@ -9875,6 +9950,25 @@ MonoBehaviour:
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
+--- !u!114 &1215162387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1215162381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 1874643960
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 1215162385}
+  ForceRemoteRenderTimeframe: 0
 --- !u!1001 &1247360838
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10423,6 +10517,7 @@ GameObject:
   - component: {fileID: 1376012145}
   - component: {fileID: 1376012146}
   - component: {fileID: 1376012147}
+  - component: {fileID: 1376012148}
   m_Layer: 8
   m_Name: EnemymainBuild
   m_TagString: EnemyTower
@@ -10517,6 +10612,26 @@ MonoBehaviour:
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
+--- !u!114 &1376012148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1376012142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 304781673
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects:
+  - {fileID: 25267260}
+  NetworkedBehaviours:
+  - {fileID: 1376012146}
+  ForceRemoteRenderTimeframe: 0
 --- !u!1001 &1376722033
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11260,6 +11375,7 @@ GameObject:
   - component: {fileID: 1538714231}
   - component: {fileID: 1538714232}
   - component: {fileID: 1538714233}
+  - component: {fileID: 1538714234}
   m_Layer: 8
   m_Name: PlayermainBuild
   m_TagString: Untagged
@@ -11375,6 +11491,26 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.4240336, y: 2.7616775, z: 2.2847543}
   m_Center: {x: 0.07956076, y: 1.4355634, z: 0.052341223}
+--- !u!114 &1538714234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1538714227}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 18603805
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects:
+  - {fileID: 2023339519}
+  NetworkedBehaviours:
+  - {fileID: 1538714232}
+  ForceRemoteRenderTimeframe: 0
 --- !u!1001 &1545492330
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12505,6 +12641,18 @@ Animator:
     type: 3}
   m_PrefabInstance: {fileID: 1709700287}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1709700292 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7591885361277204362, guid: 1acb50c61ba8dd849aac82f3cfe8800f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1709700287}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1728817023
 GameObject:
   m_ObjectHideFlags: 0
@@ -13480,6 +13628,18 @@ MonoBehaviour:
   m_IgnoreFromBuild: 0
   m_ApplyToChildren: 1
   m_AffectedAgents: ffffffff
+--- !u!114 &1844311637 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7591885361277204362, guid: 1acb50c61ba8dd849aac82f3cfe8800f,
+    type: 3}
+  m_PrefabInstance: {fileID: 919460502}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1851729869
 GameObject:
   m_ObjectHideFlags: 0
@@ -14816,6 +14976,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2013624383}
   m_CullTransparentMesh: 1
+--- !u!114 &2023339519 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7591885361277204362, guid: 1acb50c61ba8dd849aac82f3cfe8800f,
+    type: 3}
+  m_PrefabInstance: {fileID: 259667893}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2032070777
 GameObject:
   m_ObjectHideFlags: 0

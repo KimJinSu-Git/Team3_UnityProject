@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/01_Scenes/InGame_JINSU/InGame_JINSU.unity
     guid: dd9137826d9e3a84299266b3b4a7b973
   - enabled: 1
+    path: Assets/01_Scenes/InGame_Gyeong/InGame_Gyeong.unity
+    guid: 37fec22261badc345820c99513c341c5
+  - enabled: 1
     path: Assets/01_Scenes/1vs1Arena/GameScene.unity
     guid: f154cbff548f275419a37c81c0c85a00
   m_configObjects: {}

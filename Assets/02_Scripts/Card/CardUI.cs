@@ -30,6 +30,9 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     private bool          returnedToSlot;
     private bool hasCheckedAfford = false;
     
+    // 스폰할 맵
+    public Transform Area;
+    
     // 카드 데이터 외부 조회용
     public MonsterData MonsterData => monsterData;
 
@@ -79,6 +82,7 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         Transform parentSlot,
         int index,
         Action<int> onCardPlayed,
+        Transform Area,
         bool draggable = true,
         Vector3? startScale = null
     )
@@ -90,6 +94,7 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         this.enemyAreaImages     = areaImages;
         slotIndex         = index;
         this.onCardPlayed = onCardPlayed;
+        this.Area = Area;
         isDraggable       = draggable;
 
         // 슬롯 부모에 붙이고 위치·크기 초기화
@@ -130,7 +135,6 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             enemyAreaImages[i].enabled = true;
         }
     }
-
     public void OnDrag(PointerEventData eventData)
     {
         if (!isDraggable) return;
@@ -173,7 +177,8 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             && !IsInNoSpawnZone(hit.point))
         {
             ElixirManager.Instance.UseElixir(monsterData.cost);
-            unitSpawner.RequestSpawn(monsterData.name, hit.point, quaternion.identity);
+            Vector3 localSpawnPos = Area.InverseTransformPoint(hit.point);
+            unitSpawner.RequestSpawn(monsterData.name, localSpawnPos, quaternion.identity);
             onCardPlayed?.Invoke(slotIndex);
             Destroy(gameObject);
         }
