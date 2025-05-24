@@ -1,17 +1,13 @@
-using Fusion;
 using UnityEngine;
 
 public class DummyPlayer : MonoBehaviour, IDamageAble
 {
-    private PlayerRef playerRef;
     public int maxHealth = 500;
     private int currentHealth;
 
     public GameObject GameObject => this.gameObject;
     public Collider Collider { get; private set; }
-    public PlayerRef PlayerRef => playerRef;
-    public NetworkObject NetworkObject { get; }
-    public bool IsAlive => currentHealth > 0;
+    public OwnerPlayerType PlayerType { get; }
 
     private void Start()
     {
@@ -22,7 +18,7 @@ public class DummyPlayer : MonoBehaviour, IDamageAble
         CombatSystem.Instance.RegisterCreature(Collider, this);
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, bool showEffect)
     {
         currentHealth -= damage;
         Debug.Log($"DummyUnit 피격! 데미지: {damage}, 남은 체력: {currentHealth}");

@@ -1,10 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Fusion;
 using UnityEngine;
 
-public class CombatSystem : NetworkBehaviour // MainGame에 CombatSystem 게임오브젝트 만들어서 넣기 
+public class CombatSystem : MonoBehaviour // MainGame에 CombatSystem 게임오브젝트 만들어서 넣기 
 {
     public static CombatSystem Instance;
     public Action<CombatEvent> effectEvent;
@@ -24,18 +23,13 @@ public class CombatSystem : NetworkBehaviour // MainGame에 CombatSystem 게임�
 
             if (combatEvent.UseEffect == true)
             {
-                effectEvent?.Invoke(combatEvent);
+                effectEvent.Invoke(combatEvent);
             }
-            RPC_TakeDamage(combatEvent.NetworkObject.Id, combatEvent.Damage);
+            combatEvent.Receiver.TakeDamage(combatEvent.Damage, true);
+
         }
     }
 
-    [Rpc(sources: RpcSources.All, targets: RpcTargets.StateAuthority)]
-    public void RPC_TakeDamage(NetworkId receiverId, int damage)
-    {
-        NetworkObject networkObject = Runner.FindObject(receiverId);
-        networkObject.GetComponent<IDamageAble>().TakeDamage(damage);
-    }
     public void RegisterCreature(Collider collider, IDamageAble damageAble)
     {
         if (creatureDic.ContainsKey(collider) == false)

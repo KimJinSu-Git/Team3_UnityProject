@@ -16,13 +16,13 @@ MonoBehaviour:
   monsterName: BoneKnightBase
   description: "BoneKnight\uC758 \uAE30\uC9C0\uC785\uB2C8\uB2E4. BoneKnight\uB97C
     \uC18C\uD658\uD569\uB2C8\uB2E4."
+  characterType: 2
   level: 1
   maxHP: 400
   damage: 0
   moveSpeed: 0
-  attackRange: 4
+  attackareaRange: 5
   attackSpeed: 1
-  attack: 0
   cost: 3
   spawnTime: 1
   prefab: {fileID: 8604211796710631484, guid: 8e88b8189d473be40bb48bf869d0df8a, type: 3}

@@ -33,7 +33,7 @@ public class SessionManager : MonoBehaviour, INetworkRunnerCallbacks
     private NetworkRunner runner;
     private NetworkSceneManagerDefault sceneManager;
 
-    //private SceneRef lobbySceneRef;
+    private SceneRef lobbySceneRef;
     private SceneRef inGameSceneRef;
     
     private bool isInitialized = false;
@@ -54,7 +54,7 @@ public class SessionManager : MonoBehaviour, INetworkRunnerCallbacks
         {
             Destroy(gameObject);
         }
-        //lobbySceneRef = SceneRef.FromIndex(LOBBY_SCENE_INDEX);
+        lobbySceneRef = SceneRef.FromIndex(LOBBY_SCENE_INDEX);
         inGameSceneRef = SceneRef.FromIndex(IN_GAME_SCENE_INDEX);
     }
 
@@ -63,7 +63,6 @@ public class SessionManager : MonoBehaviour, INetworkRunnerCallbacks
         InitRunnerAsync();
     }
 
-    
     private void InitRunnerAsync()
     {
         if (isInitialized) return; 
@@ -75,16 +74,13 @@ public class SessionManager : MonoBehaviour, INetworkRunnerCallbacks
         runner.AddCallbacks(this);
         DontDestroyOnLoad(gameObject);
     }
-    public async void StartMatchMaking()
-    {
-        await runner.JoinSessionLobby(SessionLobby.ClientServer);
-    }
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
     {
         Debug.Log($"활성화된 방 = {sessionList.Count}");
         SessionInfo joinAble = sessionList.FirstOrDefault(sessionInfo =>
         {
-            return sessionInfo.PlayerCount < sessionInfo.MaxPlayers && // 여기의 PlayerCount는 접속해있는 Player수
+            return sessionInfo.PlayerCount <
+                   sessionInfo.MaxPlayers && // 여기의 PlayerCount는 접속해있는 Player수
                    sessionInfo.IsOpen && sessionInfo.IsVisible; // 이 결과가 true인 첫 번째 sessionInfo가 joinAble에 할당
         });
         if (joinAble != null)
@@ -96,9 +92,10 @@ public class SessionManager : MonoBehaviour, INetworkRunnerCallbacks
             CreateRoom("room_" + Guid.NewGuid());
         }
     }
+
     private async void CreateRoom(string roomName)
     {
-        StartGameArgs args = new StartGameArgs() // 세션을 만듬
+        StartGameArgs args = new StartGameArgs()
         {
             GameMode = GameMode.Host,
             SessionName = roomName,
@@ -127,7 +124,7 @@ public class SessionManager : MonoBehaviour, INetworkRunnerCallbacks
         if (player != this.runner.LocalPlayer)
         {
             CurrentGameRoomInfo.HostPlayer = runner.IsServer ? runner.LocalPlayer : player;
-            CurrentGameRoomInfo.ClientPlayer = runner.IsServer ? player : runner.LocalPlayer;
+            CurrentGameRoomInfo.ClientPlayer = runner.IsServer ? player : runner.LocalPlayer; ;
         }
 
         if (this.runner.IsServer && runner.ActivePlayers.Count() == MAX_PLAYER_COUNT && 
@@ -139,14 +136,11 @@ public class SessionManager : MonoBehaviour, INetworkRunnerCallbacks
     private async Task StartInGame()
     {
         await runner.LoadScene(inGameSceneRef);
-        
     }
     public void OnSceneLoadDone(NetworkRunner runner)
     {
-        //UserManager.Instance.SetFusionPlayerRef(runner.LocalPlayer);
         if (runner.IsServer)
         {
-            
             // 프리팹생성해주기
         }
     }
@@ -162,7 +156,6 @@ public class SessionManager : MonoBehaviour, INetworkRunnerCallbacks
     {
         
     }
-    
     #region MyRegion
     public void OnObjectExitAOI(NetworkRunner runner, NetworkObject obj, PlayerRef player)
     {

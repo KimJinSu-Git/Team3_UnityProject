@@ -17,13 +17,13 @@ MonoBehaviour:
   description: "\uACE0\uB300\uC758 \uC9C0\uC2DD\uC744 \uD1B5\uD574 \uC790\uC5F0 \uBC95\uCE59\uC744
     \uAFF0\uB6AB\uACE0, \uC774\uB97C \uB9C8\uBC95\uC73C\uB85C \uBC14\uAFB8\uB294
     \uC874\uC7AC"
+  characterType: 1
   level: 1
   maxHP: 400
   damage: 120
   moveSpeed: 1
-  attackRange: 1.8
+  attackareaRange: 2
   attackSpeed: 1
-  attack: 3
   cost: 4
   spawnTime: 2
   prefab: {fileID: 8615670974151929401, guid: b77e1c6adaa548b4b97b902afc9494cb, type: 3}

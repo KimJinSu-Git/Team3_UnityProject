@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Firebase;
 using Firebase.Auth;
 using Firebase.Firestore;
@@ -132,6 +131,7 @@ public class FirebaseAccountManager : MonoBehaviour
             SceneManager.LoadScene("MainMenu");
         });
     }
+
     private void SignOut()
     {
         auth.SignOut();

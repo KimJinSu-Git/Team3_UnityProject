@@ -1,18 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using Fusion;
-using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PoolManager
 {
     public Dictionary<string , Pool> pools= new Dictionary<string, Pool>();
-
-    private NetworkRunner runner;
     
-    // 부모를 정해주면서 만들때
-    public void ObjInit(GameObject go, int count, Transform transform) // pool 생성해주면서 pool안에 gameObject세팅
+    public void ObjInit(GameObject go, int count, Transform transform)
     {
         Pool pool = new Pool();
         pool.poolCreate(go, transform);
@@ -24,11 +18,10 @@ public class PoolManager
 
             pool.poolQueue.Enqueue(enemy);
         }
-        pools.Add(pool.Original.name, pool); // 게임오브젝트의 이름을 키값으로 pool에 넣은 게임오브젝트 정보들을 pools에 넣어줌
+        pools.Add(pool.Original.name, pool);
         
     }
-    // 그냥 만들때
-    public void ObjInit(GameObject go, int count) // pool 생성해주면서 pool안에 gameObject세팅
+    public void ObjInit(GameObject go, int count)
     {
         Pool pool = new Pool();
         pool.poolCreate(go);
@@ -40,9 +33,9 @@ public class PoolManager
 
             pool.poolQueue.Enqueue(enemy);
         }
-        pools.Add(pool.Original.name, pool); // 게임오브젝트의 이름을 키값으로 pool에 넣은 게임오브젝트 정보들을 pools에 넣어줌
+        pools.Add(pool.Original.name, pool);
     }
-    public GameObject ObjPop(string key,Vector3 transform) // pool안에 있는 gameObject꺼내기
+    public GameObject ObjPop(string key,Vector3 transform)
     {
         GameObject go = null;
         if (pools[key].poolQueue.Count != 0)

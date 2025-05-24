@@ -1,19 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
-using Fusion;
 using UnityEngine;
 
 public class DummyAttacker : MonoBehaviour, IDamageAble
 {
+    
+    public GameObject GameObject { get; }
+    public Collider Collider { get; }
+    public OwnerPlayerType PlayerType { get; }// 임시로 만들어둠.
+    
     [Header("감지 대상")]
     public LayerMask targetLayer;
-    private PlayerRef playerRef;
+    
     public float attackInterval = 1.5f;
     public int attackDamage = 100;
     private float attackTimer = 0f;
-    
-    private float currentHealth;
-    public bool IsAlive => currentHealth > 0;
 
     private void Update()
     {
@@ -51,13 +52,7 @@ public class DummyAttacker : MonoBehaviour, IDamageAble
         }
     }
 
-    public GameObject GameObject { get; }
-    public Collider Collider { get; }
-    public PlayerRef PlayerRef => playerRef;
-    public NetworkObject NetworkObject { get; }
-
-    public void TakeDamage(int damage)
+    public void TakeDamage(int combatEvent, bool OnDamage)
     {
-        
     }
 }

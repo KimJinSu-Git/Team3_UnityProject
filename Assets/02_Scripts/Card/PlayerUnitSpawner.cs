@@ -9,7 +9,8 @@ public class PlayerUnitSpawner : MonoBehaviour
     /// </summary>
     public void SpawnAt(MonsterData type, Vector3 worldPosition)
     {
-        Instantiate(type.prefab, worldPosition, Quaternion.identity, transform);
+        GameObject player = Instantiate(type.prefab, worldPosition, Quaternion.identity, transform);
+        
     }
 
 }

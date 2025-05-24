@@ -4,10 +4,19 @@ using System.Collections.Generic;
 using Fusion;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.TerrainTools;
 
-public class TowerController : MonoBehaviour, IDamageAble
+public class TowerController : NetworkBehaviour, IDamageAble
 {
+    //IDamageable 요소
+    public GameObject GameObject => this.gameObject;
+    public Collider Collider { get; private set; }
+    public OwnerPlayerType PlayerType => ownerType;
+    public OwnerPlayerType ownerType; //임시로 만들어둠.
+    public bool IsAlive => currentHealth > 0;
+    
+    /// <summary>
+    /// 중요로직
+    /// </summary>
     public enum TowerType { LeftPrincess, RightPrincess, King }
 
     [Header("타워 정보")]
@@ -31,26 +40,15 @@ public class TowerController : MonoBehaviour, IDamageAble
     [Header("궁수 애니메이터")]
     public Animator archerAnimator;
 
-    [Header("카드 스폰 불가 지역")]
-    public GameObject spawnAreaImage;
-    public GameObject spawnCollider;
-    
-    [Header("HP")]
-    public HealthBar healthBar;
+    public Image enemyAreaImage;
+
+    public GameObject enemyCollider;
     
     private float attackTimer = 0f;
     private Transform target;
-    private PlayerRef playerRef;
+    
     
 
-    public GameObject GameObject => this.gameObject;
-    public Collider Collider { get; private set; }
-    public PlayerRef PlayerRef => playerRef; // 처음에 스폰해서 ref할당
-    public NetworkObject NetworkObject { get; }
-
-    public bool IsDead;
-    
-    public bool IsAlive => currentHealth > 0;
     
     public void ForceDestroy()
     {
@@ -63,23 +61,13 @@ public class TowerController : MonoBehaviour, IDamageAble
     private void Start()
     {
         currentHealth = maxHealth;
-        healthBar.SetMaxHealth(maxHealth);
         Collider = GetComponent<Collider>();
+
         CombatSystem.Instance.RegisterCreature(Collider, this);
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            TakeDamage(100);
-        }
-        
-        if(IsDead)
-        {
-            Die();
-        }
-        
         attackTimer += Time.deltaTime;
 
         if (attackTimer >= attackInterval)
@@ -132,10 +120,10 @@ public class TowerController : MonoBehaviour, IDamageAble
         }
         return closest;
     }
-    public void TakeDamage(int damage)
+
+    public void TakeDamage(int damage, bool playEffect)
     {
         currentHealth -= damage;
-        healthBar.SetHealth(currentHealth);
         Debug.Log($"{towerType} 피해: {damage} / 현재 체력: {currentHealth}");
 
         if (currentHealth <= 0)
@@ -143,14 +131,14 @@ public class TowerController : MonoBehaviour, IDamageAble
             Die();
         }
     }
-    public void Die()
+
+    private void Die()
     {
         Debug.Log($"{towerType} 파괴됨!");
 
-        if (spawnCollider != null && spawnAreaImage != null)
+        if (enemyCollider != null)
         {
-            spawnCollider.SetActive(false);
-            spawnAreaImage.SetActive(false);
+            enemyCollider.SetActive(false); 
         }
 
         if (towerType == TowerType.King)

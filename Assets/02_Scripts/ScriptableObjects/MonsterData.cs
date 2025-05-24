@@ -1,40 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "MonsterData", menuName = "ScriptableObjects/MonsterData")]
 public class MonsterData : ScriptableObject
 {
-    public enum AttackType
+    public enum CharacterType
     {
-        AttackNull,
-        FlyAttack,
-        OnlyGroundAttack,
-        FlyWalkAttack,
+        //Fly,
+        NearAttack,
+        FarAttack,
+        Building
     }
-    
-    public enum TargetPriorityType
-    {
-        TowerOnly,          // 타워만 바라보는 해바라기 사랑꾼
-        UnitAndTower       // 자기를 바라봐주는 친구에게 맘이 변하는 금사빠
-    }
-    
-    [Header("AI Behavior")]
-    public TargetPriorityType targetPriority;
-    
     [Header("BaseInfo")]
     public string id;
     public string monsterName;   
     public string description;
+    public CharacterType characterType;
     
     [Header("Stat")] 
     public int level;
     public int maxHP;
-    public float damage;
+    public int damage;
     public float moveSpeed;
-    public float attackRange;
+
+    public float attackareaRange;
+
     public float attackSpeed;
-    public AttackType attack;
+    
     [Header("SpawnInfo")]
     public int cost;
     public float spawnTime;
