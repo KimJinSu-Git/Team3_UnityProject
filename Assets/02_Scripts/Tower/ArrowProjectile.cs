@@ -4,31 +4,45 @@ using UnityEngine;
 
 public class ArrowProjectile : MonoBehaviour
 {
-    public float speed = 10f;
     private Transform target;
     private int damage;
+    private IDamageAble sender;
 
-    public void Init(Transform target, int damage)
+    public void Init(Transform target, int damage, IDamageAble sender)
     {
         this.target = target;
         this.damage = damage;
-        Destroy(gameObject, 2f);
+        this.sender = sender;
     }
 
     private void Update()
     {
-        if (target == null) return;
-        Vector3 dir = (target.position - transform.position).normalized;
-        transform.position += dir * (speed * Time.deltaTime);
-        transform.LookAt(target);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Enemy"))
+        if (target == null)
         {
-            IDamageAble target = CombatSystem.Instance.GetCreatureOrNull(other);
-            target?.TakeDamage(damage);
+            Destroy(gameObject);
+            return;
+        }
+
+        transform.position = Vector3.MoveTowards(transform.position, target.position, 20f * Time.deltaTime);
+
+        if (Vector3.Distance(transform.position, target.position) < 0.2f)
+        {
+            if (target.TryGetComponent<IDamageAble>(out var receiver))
+            {
+                CombatEvent combatEvent = new CombatEvent
+                {
+                    Sender = sender,
+                    Receiver = receiver,
+                    Damage = damage,
+                    UseEffect = true,
+                    EffectName = "ArrowHit",
+                    EffectPosition = receiver.GameObject.transform.position,
+                    NetworkObject = receiver.NetworkObject
+                };
+
+                CombatSystem.Instance.AddCombatEvent(combatEvent);
+            }
+
             Destroy(gameObject);
         }
     }

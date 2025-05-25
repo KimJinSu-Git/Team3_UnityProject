@@ -1,13 +1,17 @@
 using Fusion;
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections;
 
 /// <summary>
-/// 데이터 드리븐 방식: MonsterData를 통해 스탯을 읽어와 타겟 탐지 및 전투를 수행하는 몬스터 컨트롤러
+/// 데이터 드리븐 방식 + 애니메이션/CombatSystem 연동: 몬스터 유닛 컨트롤러
 /// </summary>
+[RequireComponent(typeof(NavMeshAgent))]
 public class BaseMonsterController : NetworkBehaviour, IDamageAble
 {
-    // 네트워크 객체 참조
+    public GameObject GameObject => gameObject;
+    public Collider Collider => GetComponent<Collider>();
+    public PlayerRef PlayerRef => playerRef;
     public NetworkObject NetworkObject => Object;
 
     [Header("Data")]
@@ -20,28 +24,43 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
     [SerializeField] private float unitAggroRadius = 3f;
     [SerializeField] private float towerDetectRadius = 40f;
 
-    private NavMeshAgent agent;
-    private Transform currentTarget;
-    private float attackTimer;
-    private bool isDead;
-    private float currentHp;
+    protected NavMeshAgent agent;
+    protected Animator animator;
+    protected Renderer[] renderers;
+    protected Color[] originalColors;
 
-    private enum State { Idle, Moving, Attacking }
-    private State currentState = State.Idle;
+    protected Transform currentTarget;
+    protected float attackTimer;
+    protected bool isDead = false;
+    protected float currentHp;
 
-    void Awake()
+    protected enum State { Idle, Moving, Attacking }
+    protected State currentState = State.Idle;
+
+    protected virtual void Awake()
     {
-        // 스탯 초기화
+        agent = GetComponent<NavMeshAgent>();
+        animator = GetComponent<Animator>();
+
+        renderers = GetComponentsInChildren<Renderer>();
+        originalColors = new Color[renderers.Length];
+
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            renderers[i].material = Instantiate(renderers[i].material);
+            originalColors[i] = renderers[i].material.color;
+        }
+    }
+
+    protected virtual void Start()
+    {
         if (monsterData != null)
         {
-            agent = GetComponent<NavMeshAgent>();
             agent.speed = monsterData.moveSpeed;
             agent.autoBraking = false;
-
             currentHp = monsterData.maxHP;
         }
 
-        // CombatSystem 등록
         var col = GetComponent<Collider>();
         if (CombatSystem.Instance != null)
             CombatSystem.Instance.RegisterCreature(col, this);
@@ -49,8 +68,7 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
 
     public override void FixedUpdateNetwork()
     {
-        if (!Object.HasStateAuthority || isDead)
-            return;
+        if (!Object.HasStateAuthority || isDead) return;
 
         if (currentState != State.Attacking)
             UpdateTarget();
@@ -67,16 +85,14 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
         }
     }
 
-    private void UpdateTarget()
+    protected virtual void UpdateTarget()
     {
-        // 유닛 우선 탐지
         var unit = FindNearestEnemy(unitAggroRadius, LayerMask.GetMask("Monster"));
         if (unit != null)
         {
             SetNewTarget(unit);
             return;
         }
-        // 타워 탐지
         var tower = FindNearestEnemy(towerDetectRadius, LayerMask.GetMask("Tower"));
         if (tower != null)
         {
@@ -85,9 +101,10 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
         }
         currentTarget = null;
         currentState = State.Idle;
+        PlayAnimation("Idle");
     }
 
-    private Transform FindNearestEnemy(float radius, int layerMask)
+    protected virtual Transform FindNearestEnemy(float radius, int layerMask)
     {
         Collider[] hits = Physics.OverlapSphere(transform.position, radius, layerMask);
         Transform nearest = null;
@@ -107,24 +124,30 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
         return nearest;
     }
 
-    private void SetNewTarget(Transform target)
+    protected virtual void SetNewTarget(Transform target)
     {
         currentTarget = target;
         currentState = State.Moving;
         attackTimer = 0f;
+        PlayAnimation("Walk");
     }
 
-    private void UpdateMovement()
+    protected virtual void UpdateMovement()
     {
         if (currentTarget == null)
+        {
+            currentState = State.Idle;
+            PlayAnimation("Idle");
             return;
+        }
 
         float dist = Vector3.Distance(transform.position, currentTarget.position);
-        if (dist <= monsterData.attackareaRange)
+        if (dist <= monsterData.attackRange)
         {
             agent.isStopped = true;
             currentState = State.Attacking;
             attackTimer = 0f;
+            PlayAnimation("Attack");
         }
         else
         {
@@ -133,61 +156,109 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
         }
     }
 
-    private void UpdateAttack()
+    protected virtual void UpdateAttack()
     {
         if (currentTarget == null)
         {
             currentState = State.Idle;
+            PlayAnimation("Idle");
             return;
         }
+
         attackTimer += Runner.DeltaTime;
         if (attackTimer >= monsterData.attackSpeed)
         {
             attackTimer = 0f;
             if (currentTarget.TryGetComponent<IDamageAble>(out var dmg))
             {
-                dmg.TakeDamage(monsterData.damage);
+                CombatEvent combatEvent = new CombatEvent
+                {
+                    Sender = this,
+                    Receiver = dmg,
+                    Damage = monsterData.damage,
+                    UseEffect = true,
+                    EffectName = "HitEffect",
+                    EffectPosition = dmg.GameObject.transform.position,
+                    NetworkObject = dmg.NetworkObject
+                };
+                CombatSystem.Instance.AddCombatEvent(combatEvent);
+                OnAttackEffect();
             }
         }
+
         float dist = Vector3.Distance(transform.position, currentTarget.position);
-        if (dist > monsterData.attackareaRange)
+        if (dist > monsterData.attackRange)
+        {
             currentState = State.Moving;
+            PlayAnimation("Walk");
+        }
     }
 
-    public void TakeDamage(int damage)
+    protected virtual void PlayAnimation(string animName)
+    {
+        if (animator == null) return;
+
+        var stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        if (stateInfo.IsName(animName) && stateInfo.normalizedTime < 0.9f) return;
+
+        animator.CrossFade(animName, 0.1f);
+    }
+
+    protected virtual void OnAttackEffect()
+    {
+        // 이펙트나 타격 파티클 처리 오버라이드 용도
+    }
+
+    public virtual void TakeDamage(int damage)
     {
         if (isDead) return;
+
         currentHp -= damage;
+        StartCoroutine(HitFlash());
+
         if (currentHp <= 0)
+        {
             Die();
+        }
+    }
+
+    private IEnumerator HitFlash()
+    {
+        foreach (var rend in renderers)
+            rend.material.color = Color.red;
+
+        yield return new WaitForSeconds(0.1f);
+
+        for (int i = 0; i < renderers.Length; i++)
+            renderers[i].material.color = originalColors[i];
+    }
+
+    protected virtual void Die()
+    {
+        isDead = true;
+        PlayAnimation("Die");
+        RPC_OnDie();
     }
 
     [Rpc(sources: RpcSources.All, targets: RpcTargets.StateAuthority)]
-    private void RPC_OnDie()
+    protected virtual void RPC_OnDie()
     {
         if (!Object.HasStateAuthority) return;
         Runner.Despawn(Object);
     }
 
-    private void Die()
-    {
-        isDead = true;
-        RPC_OnDie();
-    }
-
-    public GameObject GameObject => gameObject;
-    public Collider Collider => GetComponent<Collider>();
-    public PlayerRef PlayerRef => playerRef;
-
 #if UNITY_EDITOR
-    private void OnDrawGizmosSelected()
+    protected virtual void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, monsterData.attackareaRange);
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, unitAggroRadius);
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, towerDetectRadius);
+        if (monsterData != null)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(transform.position, monsterData.attackRange);
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, unitAggroRadius);
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position, towerDetectRadius);
+        }
     }
 #endif
 }

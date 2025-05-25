@@ -1464,7 +1464,7 @@ GameObject:
   - component: {fileID: 4711309952869659479}
   - component: {fileID: 4086494356411411215}
   - component: {fileID: -5115944342748799225}
-  - component: {fileID: -8126107873730428113}
+  - component: {fileID: 3588401959727988631}
   m_Layer: 8
   m_Name: Mage
   m_TagString: Untagged
@@ -1481,7 +1481,7 @@ Transform:
   m_GameObject: {fileID: 8615670974151929401}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.26, y: 0.08, z: 0.976}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1573,7 +1573,7 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 4086494356411411215}
   ForceRemoteRenderTimeframe: 0
---- !u!136 &-8126107873730428113
+--- !u!136 &3588401959727988631
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

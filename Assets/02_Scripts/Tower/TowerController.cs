@@ -16,7 +16,7 @@ public class TowerController : NetworkBehaviour, IDamageAble
     [SerializeField] private int currentHealth;
 
     [Header("감지 대상")]
-    public LayerMask targetLayer;
+    public LayerMask targetLayer; // 이제 Monster 포함해야 함
 
     [Header("공격 관련 정보")]
     public float attackRange = 5f;
@@ -34,44 +34,46 @@ public class TowerController : NetworkBehaviour, IDamageAble
     [Header("카드 스폰 불가 지역")]
     public GameObject spawnAreaImage;
     public GameObject spawnCollider;
-    
-    [Header("HP")]
-    //public HealthBar healthBar;
-    
+
+    [Header("렌더러")]
+    private Renderer[] renderers;
+    private Color[] originalColors;
+
     private float attackTimer = 0f;
     private Transform target;
-    private PlayerRef playerRef;
+    public PlayerRef playerRef;
     public PlayerRef tempPlayerRef;
 
     public Collider collider;
     public GameObject GameObject => gameObject;
     public Collider Collider => collider;
-    public NetworkObject NetworkObject => networkObject;
-    public PlayerRef PlayerRef => playerRef; // 처음에 스폰해서 ref할당
-    public NetworkObject networkObject;
+    public NetworkObject NetworkObject => GetComponent<NetworkObject>();
+    public PlayerRef PlayerRef => playerRef;
 
     public bool IsDead;
-    
     public bool IsAlive => currentHealth > 0;
-
     public int RefID;
-    public void ForceDestroy()
-    {
-        if (!IsAlive) return;
 
-        currentHealth = 0;
-        Die();
+    private void Awake()
+    {
+        renderers = GetComponentsInChildren<Renderer>();
+        originalColors = new Color[renderers.Length];
+
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            renderers[i].material = Instantiate(renderers[i].material);
+            originalColors[i] = renderers[i].material.color;
+        }
     }
 
     private void Start()
     {
         tempPlayerRef = UserManager.Instance.FusionPlayerRef;
-        networkObject = Object;
-        if ( transform.position.z <= 0f )
+
+        if (transform.position.z <= 0f)
         {
             playerRef = tempPlayerRef;
             RefID = playerRef.PlayerId;
-            
         }
         else if (transform.position.z > 0f)
         {
@@ -79,35 +81,25 @@ public class TowerController : NetworkBehaviour, IDamageAble
             {
                 playerRef = SessionManager.Instance.CurrentGameRoomInfo.ClientPlayer;
                 RefID = playerRef.PlayerId;
-
             }
-            else if(tempPlayerRef == SessionManager.Instance.CurrentGameRoomInfo.ClientPlayer)
+            else if (tempPlayerRef == SessionManager.Instance.CurrentGameRoomInfo.ClientPlayer)
             {
                 playerRef = SessionManager.Instance.CurrentGameRoomInfo.HostPlayer;
                 RefID = playerRef.PlayerId;
-
             }
         }
+
         currentHealth = maxHealth;
-        //healthBar.SetMaxHealth(maxHealth);
         collider = GetComponent<Collider>();
         CombatSystem.Instance.RegisterCreature(Collider, this);
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            TakeDamage(100);
-        }
-        
-        if(IsDead)
-        {
-            Die();
-        }
-        
-        attackTimer += Time.deltaTime;
+        if (Input.GetKeyDown(KeyCode.R)) TakeDamage(100);
+        if (IsDead) Die();
 
+        attackTimer += Time.deltaTime;
         if (attackTimer >= attackInterval)
         {
             target = FindNearestTarget();
@@ -122,23 +114,24 @@ public class TowerController : NetworkBehaviour, IDamageAble
                 archerAnimator?.Play("Idle");
             }
         }
-        
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             currentHealth -= 500;
-            if (currentHealth <= 0)
-                Die();
+            if (currentHealth <= 0) Die();
         }
     }
 
     private IEnumerator FireArrowAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-
         if (target == null) yield break;
 
         GameObject arrow = Instantiate(arrowPrefab, firePoint.position, Quaternion.identity);
-        arrow.GetComponent<ArrowProjectile>().Init(target, attackDamage);
+        if (arrow.TryGetComponent(out ArrowProjectile projectile))
+        {
+            projectile.Init(target, attackDamage, this);
+        }
     }
 
     private Transform FindNearestTarget()
@@ -149,26 +142,39 @@ public class TowerController : NetworkBehaviour, IDamageAble
 
         foreach (var hit in hits)
         {
-            float dist = Vector3.Distance(transform.position, hit.transform.position);
-            if (dist < minDist)
+            if (hit.TryGetComponent<IDamageAble>(out var dmg) && dmg.PlayerRef != playerRef)
             {
-                minDist = dist;
-                closest = hit.transform;
+                float dist = Vector3.Distance(transform.position, hit.transform.position);
+                if (dist < minDist)
+                {
+                    minDist = dist;
+                    closest = hit.transform;
+                }
             }
         }
         return closest;
     }
+
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-        //healthBar.SetHealth(currentHealth);
-        Debug.Log($"{towerType} 피해: {damage} / 현재 체력: {currentHealth}");
+        StartCoroutine(HitFlash());
 
-        if (currentHealth <= 0)
-        {
-            Die();
-        }
+        Debug.Log($"{towerType} 피해: {damage} / 현재 체력: {currentHealth}");
+        if (currentHealth <= 0) Die();
     }
+
+    private IEnumerator HitFlash()
+    {
+        foreach (var rend in renderers)
+            rend.material.color = Color.red;
+
+        yield return new WaitForSeconds(0.1f);
+
+        for (int i = 0; i < renderers.Length; i++)
+            renderers[i].material.color = originalColors[i];
+    }
+
     public void Die()
     {
         Debug.Log($"{towerType} 파괴됨!");
@@ -199,5 +205,12 @@ public class TowerController : NetworkBehaviour, IDamageAble
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
+    }
+
+    public void ForceDestroy()
+    {
+        if (!IsAlive) return;
+        currentHealth = 0;
+        Die();
     }
 }

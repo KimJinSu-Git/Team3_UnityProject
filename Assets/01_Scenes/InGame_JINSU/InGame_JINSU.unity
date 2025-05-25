@@ -4991,7 +4991,7 @@ MonoBehaviour:
   currentHealth: 0
   targetLayer:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 768
   attackRange: 3.5
   attackInterval: 1.5
   attackDamage: 100
@@ -5238,7 +5238,7 @@ MonoBehaviour:
   currentHealth: 0
   targetLayer:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 768
   attackRange: 3.5
   attackInterval: 1.5
   attackDamage: 100
@@ -5536,12 +5536,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f4a9832fe6a0ef41bc848dbd3d3bb94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerType: 0
+  towerType: 1
   maxHealth: 2000
   currentHealth: 0
   targetLayer:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 768
   attackRange: 3.5
   attackInterval: 1.5
   attackDamage: 100
@@ -7744,7 +7744,7 @@ MonoBehaviour:
   currentHealth: 0
   targetLayer:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 768
   attackRange: 3.5
   attackInterval: 1.5
   attackDamage: 100
@@ -8230,7 +8230,7 @@ MonoBehaviour:
   currentHealth: 0
   targetLayer:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 768
   attackRange: 3
   attackInterval: 1.5
   attackDamage: 100
@@ -8946,12 +8946,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f4a9832fe6a0ef41bc848dbd3d3bb94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerType: 1
+  towerType: 2
   maxHealth: 3500
   currentHealth: 0
   targetLayer:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 768
   attackRange: 3
   attackInterval: 1.5
   attackDamage: 100

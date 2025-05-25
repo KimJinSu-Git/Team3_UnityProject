@@ -22,7 +22,8 @@ MonoBehaviour:
   maxHP: 400
   damage: 120
   moveSpeed: 1
-  attackareaRange: 2
+  attackRange: 2
+  detectionRadius: 0
   attackSpeed: 1
   cost: 4
   spawnTime: 2
