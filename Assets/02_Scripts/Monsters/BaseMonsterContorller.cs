@@ -164,6 +164,14 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
             PlayAnimation("Idle");
             return;
         }
+        
+        Vector3 direction = (currentTarget.position - transform.position).normalized;
+        direction.y = 0;
+        if (direction != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+        }
 
         attackTimer += Runner.DeltaTime;
         if (attackTimer >= monsterData.attackSpeed)
@@ -199,9 +207,9 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
         if (animator == null) return;
 
         var stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-        if (stateInfo.IsName(animName) && stateInfo.normalizedTime < 0.9f) return;
+        if (stateInfo.IsName(animName) && stateInfo.normalizedTime < 0.8f) return;
 
-        animator.CrossFade(animName, 0.1f);
+        animator.Play(animName);
     }
 
     protected virtual void OnAttackEffect()

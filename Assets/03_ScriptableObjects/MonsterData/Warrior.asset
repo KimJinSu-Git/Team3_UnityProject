@@ -23,7 +23,7 @@ MonoBehaviour:
   moveSpeed: 2
   attackRange: 2
   detectionRadius: 0
-  attackSpeed: 0.5
+  attackSpeed: 1.5
   cost: 3
   spawnTime: 1
   prefab: {fileID: 407657189707489769, guid: ea39231a5c9e64f44817f495f2042ad4, type: 3}
