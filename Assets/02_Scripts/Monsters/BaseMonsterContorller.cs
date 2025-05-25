@@ -32,7 +32,7 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
     protected Transform currentTarget;
     protected float attackTimer;
     protected bool isDead = false;
-    protected float currentHp;
+    [Networked] protected float currentHp { get; set; }
 
     protected enum State { Idle, Moving, Attacking }
     protected State currentState = State.Idle;
@@ -209,7 +209,7 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
         // 이펙트나 타격 파티클 처리 오버라이드 용도
     }
 
-    public virtual void TakeDamage(int damage)
+    public void TakeDamage(int damage)
     {
         if (isDead) return;
 

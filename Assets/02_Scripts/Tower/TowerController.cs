@@ -13,7 +13,7 @@ public class TowerController : NetworkBehaviour, IDamageAble
     [Header("타워 정보")]
     public TowerType towerType;
     public int maxHealth = 2000;
-    [SerializeField] private int currentHealth;
+    [Networked] public int currentHealth { get; set; }
 
     [Header("감지 대상")]
     public LayerMask targetLayer; // 이제 Monster 포함해야 함
@@ -47,7 +47,7 @@ public class TowerController : NetworkBehaviour, IDamageAble
     public Collider collider;
     public GameObject GameObject => gameObject;
     public Collider Collider => collider;
-    public NetworkObject NetworkObject => GetComponent<NetworkObject>();
+    public NetworkObject NetworkObject => Object;
     public PlayerRef PlayerRef => playerRef;
 
     public bool IsDead;
@@ -66,6 +66,10 @@ public class TowerController : NetworkBehaviour, IDamageAble
         }
     }
 
+    public override void Spawned()
+    {
+        currentHealth = maxHealth;
+    }
     private void Start()
     {
         tempPlayerRef = UserManager.Instance.FusionPlayerRef;
@@ -89,7 +93,7 @@ public class TowerController : NetworkBehaviour, IDamageAble
             }
         }
 
-        currentHealth = maxHealth;
+        //currentHealth = maxHealth;
         collider = GetComponent<Collider>();
         CombatSystem.Instance.RegisterCreature(Collider, this);
     }
