@@ -37,7 +37,7 @@ public class Spawner_Network : NetworkBehaviour
                 onBeforeSpawned: (runner, obj) =>
                 {
                     obj.GetComponent<BaseMonsterController>().playerRef = player;
-                    obj.transform.SetParent(Area);
+                    obj.transform.SetParent(Area, worldPositionStays: true);
                 });
         }
         Debug.Log(player.PlayerId);

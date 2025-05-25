@@ -177,8 +177,8 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             && !IsInNoSpawnZone(hit.point))
         {
             ElixirManager.Instance.UseElixir(monsterData.cost);
-            Vector3 localSpawnPos = Area.InverseTransformPoint(hit.point);
-            unitSpawner.RequestSpawn(monsterData.name, localSpawnPos, quaternion.identity);
+            Vector3 worldSpawnPos = hit.point;
+            unitSpawner.RequestSpawn(monsterData.name, worldSpawnPos, quaternion.identity);
             onCardPlayed?.Invoke(slotIndex);
             Destroy(gameObject);
         }
