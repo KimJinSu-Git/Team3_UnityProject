@@ -29,11 +29,11 @@ public class Spawner_Network : NetworkBehaviour
         NetworkObject networkMonster;
 
         CardHandManager.Instance.monsterDatas.TryGetValue(prefabName, out MonsterData monsterData);
-        Vector3 WorldSpawnPos = Area.TransformPoint(spawnPos);
+        //Vector3 WorldSpawnPos = Area.TransformPoint(spawnPos);
         Debug.Log(prefabName);
         if (Object.HasStateAuthority) // 내가 클라면
         {
-            Runner.Spawn(monsterData.prefab, WorldSpawnPos, spawnRot, player,
+            Runner.Spawn(monsterData.prefab, spawnPos, spawnRot, player,
                 onBeforeSpawned: (runner, obj) =>
                 {
                     obj.GetComponent<BaseMonsterContorller>().playerRef = player;

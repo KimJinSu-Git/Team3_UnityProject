@@ -2760,7 +2760,7 @@ MonoBehaviour:
   sideScale: {x: 0.6, y: 0.6, z: 1}
   sideDelay: 1
   sideAnimDuration: 0.5
-  unitSpawner: {fileID: 2127208868}
+  unitSpawner: {fileID: 2127208871}
   noSpawnZones:
   - {fileID: 695841535}
   - {fileID: 68595548}
@@ -5117,6 +5117,8 @@ MonoBehaviour:
   archerAnimator: {fileID: 5724217165346283525}
   spawnAreaImage: {fileID: 0}
   spawnCollider: {fileID: 0}
+  collider: {fileID: 0}
+  networkObject: {fileID: 0}
   IsDead: 0
   RefID: 0
 --- !u!114 &785708096
@@ -5362,6 +5364,8 @@ MonoBehaviour:
   archerAnimator: {fileID: 5724217166576992812}
   spawnAreaImage: {fileID: 0}
   spawnCollider: {fileID: 0}
+  collider: {fileID: 0}
+  networkObject: {fileID: 0}
   IsDead: 0
   RefID: 0
 --- !u!65 &834735233
@@ -5663,6 +5667,8 @@ MonoBehaviour:
   archerAnimator: {fileID: 5724217165509877142}
   spawnAreaImage: {fileID: 0}
   spawnCollider: {fileID: 0}
+  collider: {fileID: 0}
+  networkObject: {fileID: 0}
   IsDead: 0
   RefID: 0
 --- !u!65 &849473033
@@ -6174,6 +6180,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7439970061191168305, guid: 9990ead7124b17f40baabf3847604d0b,
+        type: 3}
+      propertyPath: SortKey
+      value: 830134250
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7859,6 +7870,8 @@ MonoBehaviour:
   archerAnimator: {fileID: 5724217166001266255}
   spawnAreaImage: {fileID: 0}
   spawnCollider: {fileID: 0}
+  collider: {fileID: 0}
+  networkObject: {fileID: 0}
   IsDead: 0
   RefID: 0
 --- !u!114 &1215162386
@@ -8343,6 +8356,8 @@ MonoBehaviour:
   archerAnimator: {fileID: 5724217166647260766}
   spawnAreaImage: {fileID: 0}
   spawnCollider: {fileID: 0}
+  collider: {fileID: 0}
+  networkObject: {fileID: 0}
   IsDead: 0
   RefID: 0
 --- !u!114 &1376012147
@@ -9062,6 +9077,8 @@ MonoBehaviour:
   archerAnimator: {fileID: 5724217167287663340}
   spawnAreaImage: {fileID: 0}
   spawnCollider: {fileID: 0}
+  collider: {fileID: 0}
+  networkObject: {fileID: 0}
   IsDead: 0
   RefID: 0
 --- !u!65 &1538714233
@@ -12524,8 +12541,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2127208869}
-  - component: {fileID: 2127208868}
   - component: {fileID: 2127208870}
+  - component: {fileID: 2127208871}
   m_Layer: 0
   m_Name: Spanwer_Network
   m_TagString: Untagged
@@ -12533,19 +12550,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2127208868
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2127208867}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4507d43f5e68534da205d16709e78d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Area: {fileID: 229061871}
 --- !u!4 &2127208869
 Transform:
   m_ObjectHideFlags: 0
@@ -12578,8 +12582,21 @@ MonoBehaviour:
   Flags: 262145
   NestedObjects: []
   NetworkedBehaviours:
-  - {fileID: 2127208868}
+  - {fileID: 2127208871}
   ForceRemoteRenderTimeframe: 0
+--- !u!114 &2127208871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2127208867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 640d1a2623b672246a22e1fb399d7abf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Area: {fileID: 229061871}
 --- !u!1 &2128881381
 GameObject:
   m_ObjectHideFlags: 0

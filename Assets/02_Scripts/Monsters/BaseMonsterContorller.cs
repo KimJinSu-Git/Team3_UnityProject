@@ -100,7 +100,8 @@ public class BaseMonsterContorller : NetworkBehaviour, IDamageAble
         Runner.Despawn(Object);
     }
     //////////////////////////////////////////////////
-    private void Update()
+ 
+    public override void FixedUpdateNetwork()
     {
         //상속 받고 나서 이동목표물을 Setting 메소드를 TowerDestinationSet인지 MonsterTowerDestinationSet 구분해줄 것.
         //MonsterTowerDestinationSet();
@@ -287,22 +288,6 @@ public class BaseMonsterContorller : NetworkBehaviour, IDamageAble
         }
     }
     
-    public void TakeDamage(int combatEvent, bool OnDamage)
-    {   
-        MonsterStat.currentHp -= combatEvent;
-        Debug.Log($"아파용 {monsterData.monsterName} : HP = {MonsterStat.currentHp}/{monsterData.maxHP}"); 
-        
-        if (MonsterStat.currentHp <= 0)
-        {
-            Die();
-        }
-    }
-
-    private void Die()
-    {
-        Debug.Log($"{monsterData.monsterName}이 죽었어요");
-        Destroy(gameObject);
-    }
     private void ChangeState(CharacterState newState)
     {
         prevState = currentState;
@@ -339,7 +324,7 @@ public class BaseMonsterContorller : NetworkBehaviour, IDamageAble
     private void TowerDestinationSet()
     {
         Collider[] TowerColliders = Physics.OverlapSphere(transform.position + Vector3.up * 0.1f,
-            40f, 1 << LayerMask.NameToLayer("Tower"));
+            40f, 1 << LayerMask.GetMask("Tower"));
 
         foreach (Collider TowerCollider in TowerColliders)
         {
@@ -367,7 +352,7 @@ public class BaseMonsterContorller : NetworkBehaviour, IDamageAble
     {
         //단순히 타워때리는 애일 경우
         Collider[] towerColliders = Physics.OverlapSphere(transform.position + Vector3.up * 0.1f,
-            monsterData.attackareaRange, 1 << LayerMask.NameToLayer("Tower"));
+            monsterData.attackareaRange, LayerMask.GetMask("Tower"));
         
         foreach (var col in towerColliders)
         {
@@ -381,9 +366,9 @@ public class BaseMonsterContorller : NetworkBehaviour, IDamageAble
     private void MonsterTowerDestinationSet()
     {
         Collider[] TowerColliders = Physics.OverlapSphere(transform.position + Vector3.up * 0.1f,
-            40f, 1 << LayerMask.NameToLayer("Tower"));
+            40f, LayerMask.GetMask("Tower"));
         Collider[] MonsterColliders = Physics.OverlapSphere(transform.position + Vector3.up * 0.1f,
-            monsterData.attackareaRange + 5f, 1 << LayerMask.NameToLayer("Monster"));
+            monsterData.attackareaRange + 5f, LayerMask.GetMask("Monster"));
         
         foreach (Collider TowerCollider in TowerColliders)
         {

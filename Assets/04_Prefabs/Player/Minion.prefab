@@ -1438,7 +1438,7 @@ GameObject:
   - component: {fileID: 7018392030774548785}
   - component: {fileID: 1094254883613168772}
   m_Layer: 0
-  m_Name: Skeleton_Minion
+  m_Name: Minion
   m_TagString: Untagged
   m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0

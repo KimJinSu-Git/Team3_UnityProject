@@ -1442,7 +1442,7 @@ GameObject:
   - component: {fileID: 2401732850195093882}
   - component: {fileID: 7439970061191168305}
   m_Layer: 6
-  m_Name: Skeleton_Golem
+  m_Name: Golem
   m_TagString: Untagged
   m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0

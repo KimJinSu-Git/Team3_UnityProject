@@ -1110,7 +1110,7 @@ GameObject:
   - component: {fileID: 8744037454306592601}
   - component: {fileID: -50556518080143023}
   m_Layer: 0
-  m_Name: Skeleton_Rogue
+  m_Name: Rogue
   m_TagString: Untagged
   m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
