@@ -1,13 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
+using Fusion;
 using UnityEngine;
 
 public class DummyAttacker : MonoBehaviour, IDamageAble
 {
+
+    public GameObject GameObject => gameObject;
+    public Collider Collider => collider;
+    public PlayerRef PlayerRef => playerRef;
+    public NetworkObject NetworkObject => networkObject;
     
-    public GameObject GameObject { get; }
-    public Collider Collider { get; }
-    public OwnerPlayerType PlayerType { get; }// 임시로 만들어둠.
+    private Collider collider;
+    private PlayerRef playerRef;
+    private NetworkObject networkObject;
+    public void TakeDamage(int damage)
+    {
+        throw new System.NotImplementedException();
+    }
+/// <summary>
+/// //////////////////////////////////////////////////////
+/// </summary>
+    public bool IsAlive { get; }
     
     [Header("감지 대상")]
     public LayerMask targetLayer;
@@ -50,9 +64,5 @@ public class DummyAttacker : MonoBehaviour, IDamageAble
                 break;
             }
         }
-    }
-
-    public void TakeDamage(int combatEvent, bool OnDamage)
-    {
     }
 }

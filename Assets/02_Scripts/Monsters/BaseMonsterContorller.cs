@@ -7,22 +7,21 @@ using UnityEngine.AI;
 using UnityEngine.Serialization;
 using Vector3 = UnityEngine.Vector3;
 
-public enum OwnerPlayerType
-{
-    None,
-    Player1,
-    Player2
-}
-
-public class MoveCharacterController : NetworkBehaviour, IDamageAble
+public class BaseMonsterContorller : NetworkBehaviour, IDamageAble
 {
     //IDamgeable 구성요소
     public GameObject GameObject => gameObject;
     public Collider Collider => mainCollider;
-    public OwnerPlayerType PlayerType => ownerType; // 임시 생성 요소
-    private Collider mainCollider;
-    public OwnerPlayerType ownerType;
+    public PlayerRef PlayerRef => playerRef;
+    public NetworkObject NetworkObject => networkObject;
     
+    public PlayerRef playerRef;
+    private NetworkObject networkObject;
+
+
+    public bool isDie;
+
+    private Collider mainCollider;
     
     public enum CharacterState {Idle, Attack, Walk}
     private static readonly int Walk = Animator.StringToHash("Walk");
@@ -58,6 +57,7 @@ public class MoveCharacterController : NetworkBehaviour, IDamageAble
     
     private void Start()
     {
+        networkObject = Object;
         walk = false;
         TryGetComponent(out agent);
         TryGetComponent(out animator);
@@ -80,7 +80,26 @@ public class MoveCharacterController : NetworkBehaviour, IDamageAble
         //초기 위치 설정
         SetDestination(brokenCastle);
     }
+    // 네트워크 데미지 처리
+    public void TakeDamage(int damage)
+    {
+        if (isDie) return;
 
+        MonsterStat.currentHp -= damage;
+
+        if (MonsterStat.currentHp <= 0)
+        {
+            isDie = true;
+            RPC_OnDie();
+        }
+    }
+    [Rpc(sources: RpcSources.All, targets: RpcTargets.StateAuthority)]
+    public virtual void RPC_OnDie()
+    {
+        if (Object.HasStateAuthority == false) return;
+        Runner.Despawn(Object);
+    }
+    //////////////////////////////////////////////////
     private void Update()
     {
         //상속 받고 나서 이동목표물을 Setting 메소드를 TowerDestinationSet인지 MonsterTowerDestinationSet 구분해줄 것.
@@ -156,7 +175,7 @@ public class MoveCharacterController : NetworkBehaviour, IDamageAble
             {
                 if (currentAttackTarget.TryGetComponent(out IDamageAble damageTarget))
                 {
-                    damageTarget.TakeDamage(monsterData.damage, true);
+                    damageTarget.TakeDamage(monsterData.damage);
                 }
             }
         }
@@ -227,10 +246,15 @@ public class MoveCharacterController : NetworkBehaviour, IDamageAble
             {
                 if (hitObj.TryGetComponent(out TowerController towerController))
                 {
-                    if (towerController.ownerType.Equals(this.ownerType))
+                    if (towerController.GetComponent<IDamageAble>().PlayerRef == UserManager.Instance.FusionPlayerRef)
                     {
                         hasObstacle = true; // 아군 타워면 장애물
+
                     }
+                    // if (towerController.ownerType.Equals(this.ownerType))
+                    // {
+                    //     hasObstacle = true; // 아군 타워면 장애물
+                    // }
                 }
             }
         }
@@ -321,15 +345,16 @@ public class MoveCharacterController : NetworkBehaviour, IDamageAble
         {
             if (TowerCollider.TryGetComponent(out TowerController towerController))
             {
-                if (towerController.ownerType != this.ownerType)
+                // 타워의 PlayerRef와 나의 PlayerRef를 비교
+                if (towerController.GetComponent<IDamageAble>().PlayerRef != UserManager.Instance.FusionPlayerRef)
                 {
                     targetPosition.Add(TowerCollider.transform);
                     Debug.Log($"targetPosition.Count = {targetPosition.Count}");
                 }
             }
-            else if (TowerCollider.TryGetComponent(out MoveCharacterController building))
+            else if (TowerCollider.TryGetComponent(out BaseMonsterContorller building))
             {
-                if (building.ownerType != this.ownerType)
+                if (building.GetComponent<IDamageAble>().PlayerRef != UserManager.Instance.FusionPlayerRef)
                 {
                     targetPosition.Add(TowerCollider.transform);
                     Debug.Log($"targetPosition.Count = {targetPosition.Count}");
@@ -346,21 +371,10 @@ public class MoveCharacterController : NetworkBehaviour, IDamageAble
         
         foreach (var col in towerColliders)
         {
-            if (col.TryGetComponent(out TowerController tower))
+            if (col.GetComponent<IDamageAble>().PlayerRef != UserManager.Instance.FusionPlayerRef)
             {
-                if (tower.ownerType.Equals(this.ownerType))
-                {
-                    ChangeState(CharacterState.Attack);
-                    return;
-                }
-            }            
-            else if (col.TryGetComponent(out MoveCharacterController building))
-            {
-                if (building.ownerType != this.ownerType)
-                {
-                    ChangeState(CharacterState.Attack);
-                    return;
-                }
+                ChangeState(CharacterState.Attack);
+                return;
             }
         }
     }
@@ -373,33 +387,20 @@ public class MoveCharacterController : NetworkBehaviour, IDamageAble
         
         foreach (Collider TowerCollider in TowerColliders)
         {
-            if (TowerCollider.TryGetComponent(out TowerController towerController))
+            if (TowerCollider.GetComponent<IDamageAble>().PlayerRef != UserManager.Instance.FusionPlayerRef)
             {
-                if (towerController.ownerType != this.ownerType)
-                {
-                    targetPosition.Add(TowerCollider.transform);
-                    Debug.Log($"targetPosition.Count = {targetPosition.Count}");
-                }
-            }
-            else if (TowerCollider.TryGetComponent(out MoveCharacterController building))
-            {
-                if (building.ownerType != this.ownerType)
-                {
-                    targetPosition.Add(TowerCollider.transform);
-                    Debug.Log($"targetPosition.Count = {targetPosition.Count}");
-                }
+                targetPosition.Add(TowerCollider.transform);
+                Debug.Log($"targetPosition.Count = {targetPosition.Count}");
             }
         }
 
         foreach (Collider monsterCollider in MonsterColliders)
         {
-            if (monsterCollider.TryGetComponent(out MoveCharacterController characterController))
+            if (monsterCollider.GetComponent<IDamageAble>().PlayerRef != UserManager.Instance.FusionPlayerRef)
             {
-                if (characterController.ownerType != this.ownerType)
-                {
-                    targetPosition.Add(characterController.transform);
-                    Debug.Log($"targetPosition.Count = {targetPosition.Count}");
-                }
+                targetPosition.Add(monsterCollider.transform);
+                Debug.Log($"targetPosition.Count = {targetPosition.Count}");
+
             }
         }
     }
@@ -412,22 +413,10 @@ public class MoveCharacterController : NetworkBehaviour, IDamageAble
 
         foreach (var col in MonsterTowerColliders)
         {
-            // TowerController인지 MoveCharacterController인지 확인하고, PlayerType 비교
-            if (col.TryGetComponent(out TowerController tower))
+            if (col.GetComponent<IDamageAble>().PlayerRef != UserManager.Instance.FusionPlayerRef)
             {
-                if (tower.ownerType != this.ownerType)
-                {
-                    ChangeState(CharacterState.Attack);
-                    return;
-                }
-            }
-            else if (col.TryGetComponent(out MoveCharacterController character))
-            {
-                if (character.ownerType != this.ownerType)
-                {
-                    ChangeState(CharacterState.Attack);
-                    return;
-                }
+                ChangeState(CharacterState.Attack);
+                return;
             }
         }
     }

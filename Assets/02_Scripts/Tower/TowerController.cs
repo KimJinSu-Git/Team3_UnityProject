@@ -43,10 +43,12 @@ public class TowerController : NetworkBehaviour, IDamageAble
     private PlayerRef playerRef;
     public PlayerRef tempPlayerRef;
 
-    public GameObject GameObject => this.gameObject;
-    public Collider Collider { get; private set; }
+    public Collider collider;
+    public GameObject GameObject => gameObject;
+    public Collider Collider => collider;
+    public NetworkObject NetworkObject => networkObject;
     public PlayerRef PlayerRef => playerRef; // 처음에 스폰해서 ref할당
-    public NetworkObject NetworkObject { get; }
+    public NetworkObject networkObject;
 
     public bool IsDead;
     
@@ -64,7 +66,7 @@ public class TowerController : NetworkBehaviour, IDamageAble
     private void Start()
     {
         tempPlayerRef = UserManager.Instance.FusionPlayerRef;
-
+        networkObject = Object;
         if ( transform.position.z <= 0f )
         {
             playerRef = tempPlayerRef;
@@ -88,7 +90,7 @@ public class TowerController : NetworkBehaviour, IDamageAble
         }
         currentHealth = maxHealth;
         //healthBar.SetMaxHealth(maxHealth);
-        Collider = GetComponent<Collider>();
+        collider = GetComponent<Collider>();
         CombatSystem.Instance.RegisterCreature(Collider, this);
     }
 

@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Fusion;
 using UnityEngine;
 
 public interface IDamageAble
 {
     public GameObject GameObject { get; }
     public Collider Collider { get; }
-    
-    public OwnerPlayerType PlayerType { get; }
-    public void TakeDamage(int combatEvent, bool OnDamage);
+    public NetworkObject NetworkObject { get; }
+    public PlayerRef PlayerRef { get; }
+    public void TakeDamage(int combatEvent);
 }

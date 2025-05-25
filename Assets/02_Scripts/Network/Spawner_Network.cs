@@ -36,7 +36,7 @@ public class Spawner_Network : NetworkBehaviour
             Runner.Spawn(monsterData.prefab, WorldSpawnPos, spawnRot, player,
                 onBeforeSpawned: (runner, obj) =>
                 {
-                    obj.GetComponent<BaseMonster>().playerRef = player;
+                    obj.GetComponent<BaseMonsterContorller>().playerRef = player;
                     obj.transform.SetParent(Area);
                 });
         }

@@ -25,7 +25,7 @@ public class CombatSystem : MonoBehaviour // MainGame에 CombatSystem 게임오�
             {
                 effectEvent.Invoke(combatEvent);
             }
-            combatEvent.Receiver.TakeDamage(combatEvent.Damage, true);
+            combatEvent.Receiver.TakeDamage(combatEvent.Damage);
 
         }
     }
