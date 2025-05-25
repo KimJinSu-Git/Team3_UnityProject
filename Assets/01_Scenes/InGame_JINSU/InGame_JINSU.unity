@@ -5042,7 +5042,7 @@ GameObject:
   - component: {fileID: 785708095}
   - component: {fileID: 785708096}
   - component: {fileID: 785708097}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: EnemyRightBuild
   m_TagString: EnemyTower
   m_Icon: {fileID: 0}
@@ -5101,12 +5101,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f4a9832fe6a0ef41bc848dbd3d3bb94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerType: 0
+  towerType: 1
   maxHealth: 2000
   currentHealth: 0
   targetLayer:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 768
   attackRange: 3.5
   attackInterval: 1.5
   attackDamage: 100
@@ -5270,7 +5270,7 @@ GameObject:
   - component: {fileID: 834735231}
   - component: {fileID: 834735232}
   - component: {fileID: 834735234}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: PlayerLeftBuild
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5353,7 +5353,7 @@ MonoBehaviour:
   currentHealth: 0
   targetLayer:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 768
   attackRange: 3.5
   attackInterval: 1.5
   attackDamage: 100
@@ -5573,7 +5573,7 @@ GameObject:
   - component: {fileID: 849473031}
   - component: {fileID: 849473032}
   - component: {fileID: 849473034}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: PlayerRightBuild
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5651,12 +5651,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f4a9832fe6a0ef41bc848dbd3d3bb94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerType: 0
+  towerType: 1
   maxHealth: 2000
   currentHealth: 0
   targetLayer:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 768
   attackRange: 3.5
   attackInterval: 1.5
   attackDamage: 100
@@ -7795,7 +7795,7 @@ GameObject:
   - component: {fileID: 1215162385}
   - component: {fileID: 1215162386}
   - component: {fileID: 1215162387}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: EnemyLeftBuild
   m_TagString: EnemyTower
   m_Icon: {fileID: 0}
@@ -7859,7 +7859,7 @@ MonoBehaviour:
   currentHealth: 0
   targetLayer:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 768
   attackRange: 3.5
   attackInterval: 1.5
   attackDamage: 100
@@ -8283,7 +8283,7 @@ GameObject:
   - component: {fileID: 1376012146}
   - component: {fileID: 1376012147}
   - component: {fileID: 1376012148}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: EnemymainBuild
   m_TagString: EnemyTower
   m_Icon: {fileID: 0}
@@ -8340,12 +8340,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f4a9832fe6a0ef41bc848dbd3d3bb94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerType: 1
+  towerType: 2
   maxHealth: 3500
   currentHealth: 0
   targetLayer:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 768
   attackRange: 3
   attackInterval: 1.5
   attackDamage: 100
@@ -8985,7 +8985,7 @@ GameObject:
   - component: {fileID: 1538714231}
   - component: {fileID: 1538714232}
   - component: {fileID: 1538714234}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: PlayermainBuild
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9061,12 +9061,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f4a9832fe6a0ef41bc848dbd3d3bb94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerType: 1
+  towerType: 2
   maxHealth: 3500
   currentHealth: 0
   targetLayer:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 768
   attackRange: 3
   attackInterval: 1.5
   attackDamage: 100

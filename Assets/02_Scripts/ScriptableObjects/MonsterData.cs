@@ -24,9 +24,8 @@ public class MonsterData : ScriptableObject
     public int maxHP;
     public int damage;
     public float moveSpeed;
-
-    public float attackareaRange;
-
+    public float attackRange;
+    public float detectionRadius;
     public float attackSpeed;
     
     [Header("SpawnInfo")]

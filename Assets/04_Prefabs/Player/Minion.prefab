@@ -1437,7 +1437,7 @@ GameObject:
   - component: {fileID: 6191436115445035900}
   - component: {fileID: 7018392030774548785}
   - component: {fileID: 1094254883613168772}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Minion
   m_TagString: Untagged
   m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
@@ -1453,7 +1453,7 @@ Transform:
   m_GameObject: {fileID: 6028967880764688065}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.383, y: 0, z: 0.99}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1524,15 +1524,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8f1db993c484444cb511f5cbe0189e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerType: 0
   monsterData: {fileID: 11400000, guid: 4d591c441ca193c4d8e4b02b5d4feb21, type: 2}
-  MonsterStat:
-    maxHP: 0
-    level: 0
-    currentHp: 0
-    Damage: 0
-  currentState: 0
-  prevState: 0
+  unitAggroRadius: 3
+  towerDetectRadius: 40
 --- !u!136 &7018392030774548785
 CapsuleCollider:
   m_ObjectHideFlags: 0

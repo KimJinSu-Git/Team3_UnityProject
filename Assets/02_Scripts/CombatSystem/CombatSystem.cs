@@ -24,7 +24,7 @@ public class CombatSystem : NetworkBehaviour // MainGame에 CombatSystem 게임�
 
             if (combatEvent.UseEffect == true)
             {
-                effectEvent.Invoke(combatEvent);
+                effectEvent?.Invoke(combatEvent);
             }
             //combatEvent.Receiver.TakeDamage(combatEvent.Damage);
             RPC_TakeDamage(combatEvent.NetworkObject.Id, combatEvent.Damage);
