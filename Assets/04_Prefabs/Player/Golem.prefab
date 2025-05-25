@@ -1441,7 +1441,7 @@ GameObject:
   - component: {fileID: 6850130073575363186}
   - component: {fileID: 2401732850195093882}
   - component: {fileID: 7439970061191168305}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Golem
   m_TagString: Untagged
   m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
@@ -1550,15 +1550,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8f1db993c484444cb511f5cbe0189e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerType: 0
   monsterData: {fileID: 11400000, guid: 4dd494040cf16a74e9df518a3ba538b3, type: 2}
-  MonsterStat:
-    maxHP: 0
-    level: 0
-    currentHp: 0
-    Damage: 0
-  currentState: 0
-  prevState: 0
+  unitAggroRadius: 3
+  towerDetectRadius: 40
 --- !u!114 &7439970061191168305
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -892,11 +892,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e086df211ff1d74ebb5d63fdd2005cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPosition:
-  - {fileID: 785708092}
-  - {fileID: 1215162382}
-  - {fileID: 1376012143}
-  LayerDes: 6
 --- !u!114 &100240500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1092,111 +1087,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 129334422}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &151112605
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 151112609}
-  - component: {fileID: 151112608}
-  - component: {fileID: 151112607}
-  - component: {fileID: 151112606}
-  m_Layer: 7
-  m_Name: Cube
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!65 &151112606
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 151112605}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &151112607
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 151112605}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &151112608
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 151112605}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &151112609
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 151112605}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.251, y: 1.3519282, z: 0.87}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &162499131 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e67988b8a42ada14a9e42fb2aa3f2973,
@@ -4302,11 +4192,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e086df211ff1d74ebb5d63fdd2005cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPosition:
-  - {fileID: 849473027}
-  - {fileID: 834735228}
-  - {fileID: 1538714228}
-  LayerDes: 5
 --- !u!114 &679515919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5042,7 +4927,7 @@ GameObject:
   - component: {fileID: 785708095}
   - component: {fileID: 785708096}
   - component: {fileID: 785708097}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: EnemyRightBuild
   m_TagString: EnemyTower
   m_Icon: {fileID: 0}
@@ -5101,7 +4986,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f4a9832fe6a0ef41bc848dbd3d3bb94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerType: 0
+  towerType: 1
   maxHealth: 2000
   currentHealth: 0
   targetLayer:
@@ -5270,7 +5155,7 @@ GameObject:
   - component: {fileID: 834735231}
   - component: {fileID: 834735232}
   - component: {fileID: 834735234}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: PlayerLeftBuild
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5573,7 +5458,7 @@ GameObject:
   - component: {fileID: 849473031}
   - component: {fileID: 849473032}
   - component: {fileID: 849473034}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: PlayerRightBuild
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7795,7 +7680,7 @@ GameObject:
   - component: {fileID: 1215162385}
   - component: {fileID: 1215162386}
   - component: {fileID: 1215162387}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: EnemyLeftBuild
   m_TagString: EnemyTower
   m_Icon: {fileID: 0}
@@ -8283,7 +8168,7 @@ GameObject:
   - component: {fileID: 1376012146}
   - component: {fileID: 1376012147}
   - component: {fileID: 1376012148}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: EnemymainBuild
   m_TagString: EnemyTower
   m_Icon: {fileID: 0}
@@ -8340,7 +8225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f4a9832fe6a0ef41bc848dbd3d3bb94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerType: 1
+  towerType: 2
   maxHealth: 3500
   currentHealth: 0
   targetLayer:
@@ -8985,7 +8870,7 @@ GameObject:
   - component: {fileID: 1538714231}
   - component: {fileID: 1538714232}
   - component: {fileID: 1538714234}
-  m_Layer: 8
+  m_Layer: 7
   m_Name: PlayermainBuild
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25019,6 +24904,5 @@ SceneRoots:
   - {fileID: 355190668}
   - {fileID: 1706808044}
   - {fileID: 1069566508}
-  - {fileID: 151112609}
   - {fileID: 2127208869}
   - {fileID: 229061871}

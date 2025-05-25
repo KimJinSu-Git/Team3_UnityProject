@@ -14,7 +14,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 162728, guid: 33adbca995ce9484f9258d275aabac10, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 483216, guid: 33adbca995ce9484f9258d275aabac10, type: 3}
       propertyPath: m_RootOrder
@@ -107,16 +107,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8f1db993c484444cb511f5cbe0189e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerType: 0
   monsterData: {fileID: 11400000, guid: a2014693351db234eacf1b4484220438, type: 2}
-  MonsterStat:
-    maxHP: 0
-    level: 0
-    currentHp: 0
-    Damage: 0
-  currentState: 0
-  prevState: 0
-  hasObstacle: 0
+  unitAggroRadius: 10
+  towerDetectRadius: 40
 --- !u!114 &3917450055908937304
 MonoBehaviour:
   m_ObjectHideFlags: 0

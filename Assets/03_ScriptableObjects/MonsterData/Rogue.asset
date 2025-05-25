@@ -21,7 +21,7 @@ MonoBehaviour:
   maxHP: 500
   damage: 200
   moveSpeed: 2
-  attackareaRange: 1.5
+  attackareaRange: 2
   attackSpeed: 0.3
   cost: 3
   spawnTime: 0.5

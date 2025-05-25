@@ -1109,7 +1109,8 @@ GameObject:
   - component: {fileID: 1530683464143334041}
   - component: {fileID: 8744037454306592601}
   - component: {fileID: -50556518080143023}
-  m_Layer: 0
+  - component: {fileID: -8088249809465750890}
+  m_Layer: 8
   m_Name: Rogue
   m_TagString: Untagged
   m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
@@ -1195,15 +1196,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8f1db993c484444cb511f5cbe0189e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerType: 0
   monsterData: {fileID: 11400000, guid: badb2e7e3ffc7774f9973ccf2b4130e1, type: 2}
-  MonsterStat:
-    maxHP: 0
-    level: 0
-    currentHp: 0
-    Damage: 0
-  currentState: 0
-  prevState: 0
+  unitAggroRadius: 3
+  towerDetectRadius: 40
 --- !u!114 &-50556518080143023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1223,6 +1218,29 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 8744037454306592601}
   ForceRemoteRenderTimeframe: 0
+--- !u!136 &-8088249809465750890
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3943412672516993462}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4996619513319722404
 GameObject:
   m_ObjectHideFlags: 0

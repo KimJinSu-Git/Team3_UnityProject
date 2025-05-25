@@ -53,7 +53,7 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     private void Update()
     {
         
-        if (ElixirManager.Instance.GetCurrentElixir() >= monsterData.cost && isDraggable)
+        if (ElixirManager.Instance.GetCurrentElixir() >= monsterData.cost)
         {
             isDraggable = true;
             SetVisualState(true);
