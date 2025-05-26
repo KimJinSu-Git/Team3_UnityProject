@@ -5,8 +5,9 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Video;
 
-public class MatchingUI : MonoBehaviour
+public class MainButtonUI : MonoBehaviour
 {
+    #region Matching UI 이동 구간
     [SerializeField] private GameObject[] matchingUI;
     [SerializeField] private Material transparentUI;
     [SerializeField] private RectTransform[] position;
@@ -118,4 +119,8 @@ public class MatchingUI : MonoBehaviour
             }
         }
     }
+    
+
+    #endregion
+    
 }
