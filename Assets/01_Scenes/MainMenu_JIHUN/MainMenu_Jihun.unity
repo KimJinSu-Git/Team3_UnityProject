@@ -4429,10 +4429,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1878833618}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3672fc1781c1f1446a70f62c730bf528, type: 3}
+  m_Script: {fileID: 11500000, guid: b1c686ae0b2a9a44586d7f4bf8479f26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotPositions: []
+  slotPositions:
+  - {fileID: 992194861}
+  - {fileID: 33818477}
+  - {fileID: 1700982577}
+  - {fileID: 1764959849}
+  - {fileID: 1717299369}
+  - {fileID: 225271174}
   slotPrefab: {fileID: 3468639486237108812, guid: 0aaa70b1d2f6441428ed91cb650259df,
     type: 3}
   currentDeck: []
@@ -5064,9 +5070,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 2019269778}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 968c0e0665be58e43887996a8e1618a3, type: 3}
+  m_Script: {fileID: 11500000, guid: 8393638ded08bfd449c007e66e37173c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  matchingButton: {fileID: 0}
 --- !u!1 &2144601017
 GameObject:
   m_ObjectHideFlags: 0
