@@ -8,6 +8,6 @@ public class IconStarter : MonoBehaviour
 
     void Awake()
     {
-        CurrencyIconManager.Initialize(goldIcon, gemIcon, elixirIcon);
+        CurrencyIconManager.Initialize(goldIcon, gemIcon);
     }
 }
