@@ -110,12 +110,15 @@ public class TowerController : NetworkBehaviour, IDamageAble
             if (target != null)
             {
                 attackTimer = 0f;
-                archerAnimator?.Play("Shoot");
+                //archerAnimator?.Play("Shoot");
+                Rpc_PlayAnimation("Shoot");
                 StartCoroutine(FireArrowAfterDelay(fireDelay));
             }
             else
             {
-                archerAnimator?.Play("Idle");
+                //archerAnimator?.Play("Idle");
+                Rpc_PlayAnimation("Idle");
+
             }
         }
 
@@ -125,7 +128,11 @@ public class TowerController : NetworkBehaviour, IDamageAble
             if (currentHealth <= 0) Die();
         }
     }
-
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_PlayAnimation(string animName)
+    {
+        archerAnimator?.Play(animName);
+    }
     private IEnumerator FireArrowAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -162,8 +169,8 @@ public class TowerController : NetworkBehaviour, IDamageAble
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-        StartCoroutine(HitFlash());
-
+        //StartCoroutine(HitFlash());
+        Rpc_HitFlash();
         Debug.Log($"{towerType} 피해: {damage} / 현재 체력: {currentHealth}");
         if (currentHealth <= 0) Die();
     }
@@ -178,7 +185,13 @@ public class TowerController : NetworkBehaviour, IDamageAble
         for (int i = 0; i < renderers.Length; i++)
             renderers[i].material.color = originalColors[i];
     }
-
+    
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    private void Rpc_HitFlash()
+    {
+        StartCoroutine(HitFlash());
+    }
+    
     public void Die()
     {
         Debug.Log($"{towerType} 파괴됨!");
@@ -190,16 +203,16 @@ public class TowerController : NetworkBehaviour, IDamageAble
         }
 
         if (towerType == TowerType.King)
-            GameManager.Instance.OnKingTowerDestroyed(this);
+            GameManager.Instance.RPC_OnKingTowerDestroyed(this);
         else if (towerType == TowerType.LeftPrincess)
         {
             BrokenCastleManager.OnTriggerCastleBroken(1);
-            GameManager.Instance.OnPrincessTowerDestroyed(this);
+            GameManager.Instance.RPC_OnPrincessTowerDestroyed(this);
         }
         else if (towerType == TowerType.RightPrincess)
         {
             BrokenCastleManager.OnTriggerCastleBroken(2);
-            GameManager.Instance.OnPrincessTowerDestroyed(this);
+            GameManager.Instance.RPC_OnPrincessTowerDestroyed(this);
         }
 
         Destroy(gameObject);

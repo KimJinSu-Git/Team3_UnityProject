@@ -93,7 +93,8 @@ public class GameManager : NetworkBehaviour
         gameStartTime = Time.time;
     }
 
-    public void OnPrincessTowerDestroyed(TowerController tower)
+    [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
+    public void RPC_OnPrincessTowerDestroyed(TowerController tower)
     {
         if (currentState != GameState.Playing) return;
 
@@ -113,7 +114,7 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-    [Rpc(sources: RpcSources.All, targets: RpcTargets.StateAuthority)]
+    [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
     private void RPC_CrownUp(bool playerType)
     {
         if (playerType)
@@ -125,7 +126,9 @@ public class GameManager : NetworkBehaviour
             enemyCrowns++;
         }
     }
-    public void OnKingTowerDestroyed(TowerController tower)
+    
+    [Rpc(sources: RpcSources.All, targets: RpcTargets.StateAuthority)]
+    public void RPC_OnKingTowerDestroyed(TowerController tower)
     {
         if (currentState != GameState.Playing) return;
 

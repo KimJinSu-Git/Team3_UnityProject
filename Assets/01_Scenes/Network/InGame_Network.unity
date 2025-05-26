@@ -4454,8 +4454,7 @@ MonoBehaviour:
   SortKey: 49973658
   ObjectInterest: 1
   Flags: 262145
-  NestedObjects:
-  - {fileID: 5711757673601774279}
+  NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 716676894}
   ForceRemoteRenderTimeframe: 0
@@ -4635,8 +4634,7 @@ MonoBehaviour:
   SortKey: 3771199663
   ObjectInterest: 1
   Flags: 262145
-  NestedObjects:
-  - {fileID: 1736673996581119421}
+  NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 730626608}
   ForceRemoteRenderTimeframe: 0
@@ -12425,10 +12423,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 720, y: 1280}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -15239,18 +15237,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 594ec238aa56e674a9dc3a257abcbff5, type: 3}
---- !u!114 &1736673996581119421 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6719053992271665817, guid: 594ec238aa56e674a9dc3a257abcbff5,
-    type: 3}
-  m_PrefabInstance: {fileID: 1736673996581119420}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!23 &1829259535341679066
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -19880,18 +19866,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7c7e43089058a1645b8520bdbebe07e4, type: 3}
---- !u!114 &5711757673601774279 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 699848421557446289, guid: 7c7e43089058a1645b8520bdbebe07e4,
-    type: 3}
-  m_PrefabInstance: {fileID: 5711757673601774278}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!95 &5724217165346283525
 Animator:
   serializedVersion: 5
