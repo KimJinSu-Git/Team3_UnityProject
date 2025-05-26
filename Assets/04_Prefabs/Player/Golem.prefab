@@ -1441,6 +1441,7 @@ GameObject:
   - component: {fileID: 6850130073575363186}
   - component: {fileID: 7439970061191168305}
   - component: {fileID: 1262859421702035448}
+  - component: {fileID: 5324896421554546183}
   m_Layer: 8
   m_Name: Golem
   m_TagString: Untagged
@@ -1457,7 +1458,7 @@ Transform:
   m_GameObject: {fileID: 7114386256712146724}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -3}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1534,10 +1535,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.893101
-  m_Height: 4.440155
+  m_Radius: 1
+  m_Height: 4.3
   m_Direction: 1
-  m_Center: {x: -0.07129502, y: 1.7200775, z: 0}
+  m_Center: {x: -0.07129502, y: 1.97, z: 0}
 --- !u!114 &7439970061191168305
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1556,6 +1557,7 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 1262859421702035448}
+  - {fileID: 5324896421554546183}
   ForceRemoteRenderTimeframe: 0
 --- !u!114 &1262859421702035448
 MonoBehaviour:
@@ -1572,6 +1574,23 @@ MonoBehaviour:
   monsterData: {fileID: 11400000, guid: 4dd494040cf16a74e9df518a3ba538b3, type: 2}
   unitAggroRadius: 3
   towerDetectRadius: 40
+--- !u!114 &5324896421554546183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7114386256712146724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stateAuthorityChangeErrorCorrectionDelta: 0
+  SyncScale: 0
+  SyncParent: 0
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0
 --- !u!1 &7401818765000734205
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Fusion;
 using UnityEngine;
 
 public enum GameState
@@ -10,13 +11,13 @@ public enum GameState
     Ended
 }
 
-public class GameManager : MonoBehaviour
+public class GameManager : NetworkBehaviour
 {
     public static GameManager Instance;
 
-    [Header("왕관 수")]
-    private int myCrowns = 0;
-    private int enemyCrowns = 0;
+    //[Header("왕관 수")]
+    [Networked] private int myCrowns {get; set;}
+    [Networked] private int enemyCrowns {get; set;}
 
     [Header("게임 상태")]
     public GameState currentState = GameState.Ready;
@@ -74,8 +75,11 @@ public class GameManager : MonoBehaviour
         currentState = GameState.Ready;
         if (UserManager.Instance.FusionPlayerRef == SessionManager.Instance.CurrentGameRoomInfo.ClientPlayer)
         {
-            Vector3 rotation = Area.transform.rotation.eulerAngles;
-            rotation.y = 180;
+            // Vector3 rotation = Area.transform.rotation.eulerAngles;
+            // rotation.y = 180;
+            // 카메라 세팅
+            Camera.main.transform.position = new Vector3(0, 9, 3);
+            Camera.main.transform.rotation = Quaternion.Euler(70, 180, 0);
         }
         Invoke(nameof(StartGame), 3f);
     }
@@ -97,16 +101,30 @@ public class GameManager : MonoBehaviour
 
         if (IsEnemyTower(tower))
         {
-            myCrowns++;
+            //myCrowns++;
+            RPC_CrownUp(true);
             playerCrownUI.AddCrownsFromPositions(new List<Vector3> { tower.transform.position }, true);
         }
         else
         {
-            enemyCrowns++;
+            //enemyCrowns++;
+            RPC_CrownUp(false);
             enemyCrownUI.AddCrownsFromPositions(new List<Vector3> { tower.transform.position }, false);
         }
     }
 
+    [Rpc(sources: RpcSources.All, targets: RpcTargets.StateAuthority)]
+    private void RPC_CrownUp(bool playerType)
+    {
+        if (playerType)
+        {
+            myCrowns++;
+        }
+        else
+        {
+            enemyCrowns++;
+        }
+    }
     public void OnKingTowerDestroyed(TowerController tower)
     {
         if (currentState != GameState.Playing) return;

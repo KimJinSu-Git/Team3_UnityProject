@@ -9,5 +9,5 @@ public interface IDamageAble
     public Collider Collider { get; }
     public NetworkObject NetworkObject { get; }
     public PlayerRef PlayerRef { get; }
-    public void TakeDamage(int combatEvent);
+    public void TakeDamage(int damage);
 }

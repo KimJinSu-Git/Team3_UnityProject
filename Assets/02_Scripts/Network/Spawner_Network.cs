@@ -8,19 +8,27 @@ using UnityEngine;
 public class Spawner_Network : NetworkBehaviour
 {
     public Transform Area;
-    public void PoolCreate()
-    {
-        foreach (var monsterData in CardHandManager.Instance.monsterDatas)
-        {
-            GameObject prefab = monsterData.Value.prefab;
 
-            NetworkObject networkObject;
-            // if (prefab.TryGetComponent<>(out networkObject) == true) // 네트워크 오브젝트가 있을때만
-            // {
-            //     //NetworkObjectPool.De
-            // }
-        }
+    public static Spawner_Network Instance;
+
+    public void Start()
+    {
+        Instance = this;
     }
+
+    // public void PoolCreate()
+    // {
+    //     foreach (var monsterData in CardHandManager.Instance.monsterDatas)
+    //     {
+    //         GameObject prefab = monsterData.Value.prefab;
+    //
+    //         NetworkObject networkObject;
+    //         // if (prefab.TryGetComponent<>(out networkObject) == true) // 네트워크 오브젝트가 있을때만
+    //         // {
+    //         //     //NetworkObjectPool.De
+    //         // }
+    //     }
+    // }
     [Rpc(sources: RpcSources.All, targets: RpcTargets.StateAuthority)] // 서버에서 실행
     public void RPC_SpawnMonster(string prefabName, Vector3 spawnPos, Quaternion spawnRot, PlayerRef player)
     {
@@ -37,7 +45,8 @@ public class Spawner_Network : NetworkBehaviour
                 onBeforeSpawned: (runner, obj) =>
                 {
                     obj.GetComponent<BaseMonsterController>().playerRef = player;
-                    obj.transform.SetParent(Area);
+                    // obj.transform.SetParent(Area);
+                    // obj.transform.localPosition = spawnPos;
                 });
         }
         Debug.Log(player.PlayerId);

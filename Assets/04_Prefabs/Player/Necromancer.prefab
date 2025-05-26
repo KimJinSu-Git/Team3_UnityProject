@@ -558,6 +558,7 @@ GameObject:
   - component: {fileID: 4931171288654372098}
   - component: {fileID: -5066004828170091928}
   - component: {fileID: -1137812517022962684}
+  - component: {fileID: -5209283568051364497}
   m_Layer: 8
   m_Name: Necromancer
   m_TagString: Untagged
@@ -574,7 +575,7 @@ Transform:
   m_GameObject: {fileID: 1790362108378987168}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -3}
   m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -664,6 +665,7 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: 4931171288654372098}
+  - {fileID: -5209283568051364497}
   ForceRemoteRenderTimeframe: 0
 --- !u!136 &-1137812517022962684
 CapsuleCollider:
@@ -688,6 +690,23 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-5209283568051364497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1790362108378987168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _stateAuthorityChangeErrorCorrectionDelta: 0
+  SyncScale: 0
+  SyncParent: 0
+  _autoAOIOverride: 1
+  DisableSharedModeInterpolation: 0
 --- !u!1 &1844667260327286414
 GameObject:
   m_ObjectHideFlags: 0

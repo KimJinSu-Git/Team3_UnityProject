@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Fusion;
 using TMPro;
 using UnityEngine;
 
-public class CrownScoreController : MonoBehaviour
+public class CrownScoreController : NetworkBehaviour
 {
     [Header("왕관 프리팹")]
     [SerializeField] private GameObject crownFlyPlayerPrefab; // 아군용 왕관
@@ -14,7 +15,8 @@ public class CrownScoreController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI crownScoreText;    // 변할 왕관 점수 텍스트
     [SerializeField] private Canvas canvas;
 
-    private int currentScore = 0;
+    [Networked] private int CurrentScore { get; set; }
+    private bool OnCount = false;
 
     public void AddCrownsFromPositions(List<Vector3> worldPositions, bool isPlayerSide)
     {
@@ -34,6 +36,7 @@ public class CrownScoreController : MonoBehaviour
     {
         GameObject prefab = isPlayerSide ? crownFlyPlayerPrefab : crownFlyEnemyPrefab;
         GameObject crown = Instantiate(prefab, canvas.transform);
+        
         RectTransform crownRT = crown.GetComponent<RectTransform>();
 
         Vector2 screenPos = Camera.main.WorldToScreenPoint(worldPos);
@@ -56,11 +59,43 @@ public class CrownScoreController : MonoBehaviour
         }
 
         Destroy(crownRT.gameObject);
-        currentScore++;
-        if (currentScore >= 3)
+
+        //RPC_RequestScoreIncrement();
+        RPC_UpdateScore();
+    }
+    //[Rpc(sources: RpcSources.All, targets: RpcTargets.StateAuthority)] // 서버에서 실행
+    // public void RPC_UpdateScore()
+    // {
+    //     if (Object.HasStateAuthority == false) return;
+    //     CurrentScore++;
+    //     if (CurrentScore >= 3)
+    //     {
+    //         CurrentScore = 3;
+    //     }
+    // }
+    
+    // [Rpc(sources: RpcSources.All, targets: RpcTargets.StateAuthority)]
+    // public void RPC_RequestScoreIncrement()
+    // {
+    //     RPC_UpdateScore();
+    // }
+
+    [Rpc(sources: RpcSources.All, targets: RpcTargets.StateAuthority)]
+    public void RPC_UpdateScore()
+    {
+        CurrentScore++;
+        if (CurrentScore >= 3)
         {
-            currentScore = 3;
+            CurrentScore = 3;
         }
-        crownScoreText.text = currentScore.ToString();
+    }
+    private int prevScore = -1;
+    public override void FixedUpdateNetwork()
+    {
+        if (CurrentScore != prevScore)
+        {
+            prevScore = CurrentScore;
+            crownScoreText.text = CurrentScore.ToString();
+        }
     }
 }
