@@ -31,8 +31,8 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
 
     protected Transform currentTarget;
     protected float attackTimer;
-    public bool isDead = false;
-    [Networked] public float currentHp { get; set; }
+    protected bool isDead = false;
+    [Networked] protected float currentHp { get; set; }
 
     protected enum State { Idle, Moving, Attacking }
     protected State currentState = State.Idle;
@@ -54,6 +54,10 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
 
     protected virtual void Start()
     {
+        if (Object.HasStateAuthority == false) 
+        {
+            GetComponent<NavMeshAgent>().enabled = false;
+        }
         if (monsterData != null)
         {
             agent.speed = monsterData.moveSpeed;
@@ -64,9 +68,6 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
         var col = GetComponent<Collider>();
         if (CombatSystem.Instance != null)
             CombatSystem.Instance.RegisterCreature(col, this);
-        
-        if (MonsterHealthBarManager.Instance != null)
-            MonsterHealthBarManager.Instance.Register(this, monsterData.maxHP);
     }
 
     public override void FixedUpdateNetwork()
@@ -93,20 +94,18 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
         var unit = FindNearestEnemy(unitAggroRadius, LayerMask.GetMask("Monster"));
         if (unit != null)
         {
-            FaceTarget(unit);
             SetNewTarget(unit);
             return;
         }
         var tower = FindNearestEnemy(towerDetectRadius, LayerMask.GetMask("Tower"));
         if (tower != null)
         {
-            FaceTarget(tower);
             SetNewTarget(tower);
             return;
         }
         currentTarget = null;
         currentState = State.Idle;
-        PlayAnimation("Idle");
+        Rpc_PlayAnimation("Idle");
     }
 
     protected virtual Transform FindNearestEnemy(float radius, int layerMask)
@@ -134,7 +133,7 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
         currentTarget = target;
         currentState = State.Moving;
         attackTimer = 0f;
-        PlayAnimation("Walk");
+        Rpc_PlayAnimation("Walk");
     }
 
     protected virtual void UpdateMovement()
@@ -142,7 +141,7 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
         if (currentTarget == null)
         {
             currentState = State.Idle;
-            PlayAnimation("Idle");
+            Rpc_PlayAnimation("Idle");
             return;
         }
 
@@ -152,7 +151,7 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
             agent.isStopped = true;
             currentState = State.Attacking;
             attackTimer = 0f;
-            PlayAnimation("Attack");
+            Rpc_PlayAnimation("Attack");
         }
         else
         {
@@ -160,18 +159,28 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
             agent.SetDestination(currentTarget.position);
         }
     }
-
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    public void Rpc_PlayAnimation(string animName)
+    {
+        PlayAnimation(animName);
+    }
     protected virtual void UpdateAttack()
     {
         if (currentTarget == null)
         {
             currentState = State.Idle;
-            PlayAnimation("Idle");
+            Rpc_PlayAnimation("Idle");
             return;
         }
-      
-        FaceTarget(currentTarget);
         
+        Vector3 direction = (currentTarget.position - transform.position).normalized;
+        direction.y = 0;
+        if (direction != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+        }
+
         attackTimer += Runner.DeltaTime;
         if (attackTimer >= monsterData.attackSpeed)
         {
@@ -197,7 +206,7 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
         if (dist > monsterData.attackRange)
         {
             currentState = State.Moving;
-            PlayAnimation("Walk");
+            Rpc_PlayAnimation("Walk");
         }
     }
 
@@ -221,16 +230,19 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
         if (isDead) return;
 
         currentHp -= damage;
-        MonsterHealthBarManager.Instance.UpdateHealth(this, currentHp);
-        StartCoroutine(HitFlash());
-
+        //StartCoroutine(HitFlash());
+        Rpc_HitFlash();
         if (currentHp <= 0)
         {
-            MonsterHealthBarManager.Instance.Unregister(this);
             Die();
         }
     }
 
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    private void Rpc_HitFlash()
+    {
+        StartCoroutine(HitFlash());
+    }
     private IEnumerator HitFlash()
     {
         foreach (var rend in renderers)
@@ -242,19 +254,10 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
             renderers[i].material.color = originalColors[i];
     }
 
-    
-    private void FaceTarget(Transform target)
-    {
-        Vector3 dir = target.position - transform.position;
-        dir.y = 0;  // 수직 회전 무시
-        if (dir.sqrMagnitude > 0.001f)
-            transform.rotation = Quaternion.LookRotation(dir);
-    }
-    
     protected virtual void Die()
     {
         isDead = true;
-        PlayAnimation("Die");
+        Rpc_PlayAnimation("Die");
         RPC_OnDie();
     }
 
@@ -264,8 +267,6 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
         if (!Object.HasStateAuthority) return;
         Runner.Despawn(Object);
     }
-    
-    
 
 #if UNITY_EDITOR
     protected virtual void OnDrawGizmosSelected()
