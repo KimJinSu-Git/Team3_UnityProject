@@ -134,12 +134,12 @@ GameObject:
   - component: {fileID: 994757}
   - component: {fileID: 994756}
   m_Layer: 5
-  m_Name: 'RightEnemyArea '
+  m_Name: RightEnemyAreaImg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &994756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -868,7 +868,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &68595547
 Transform:
   m_ObjectHideFlags: 0
@@ -899,7 +899,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -3532,12 +3532,12 @@ GameObject:
   - component: {fileID: 364654520}
   - component: {fileID: 364654519}
   m_Layer: 5
-  m_Name: LeftEnemyArea
+  m_Name: LeftEnemyAreaImg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &364654519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5631,7 +5631,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &695841534
 Transform:
   m_ObjectHideFlags: 0
@@ -5662,7 +5662,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -5738,7 +5738,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 3303469687
+  SortKey: 2032185672
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -5918,7 +5918,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 2729728396
+  SortKey: 1458444381
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -6397,8 +6397,8 @@ MonoBehaviour:
     type: 3}
   firePoint: {fileID: 73379509021018877}
   archerAnimator: {fileID: 5724217165346283525}
-  spawnAreaImage: {fileID: 0}
-  spawnCollider: {fileID: 0}
+  spawnAreaImage: {fileID: 994755}
+  spawnCollider: {fileID: 695841533}
   healthBar: {fileID: 874037889}
   hpBarObj: {fileID: 874037887}
   collider: {fileID: 0}
@@ -6435,7 +6435,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 3763118769
+  SortKey: 2491834754
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -6685,7 +6685,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 3213937182
+  SortKey: 1942653167
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -6989,7 +6989,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 162425241
+  SortKey: 3186108522
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -7063,7 +7063,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 197547233
+  SortKey: 3221230514
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -7706,7 +7706,7 @@ PrefabInstance:
     - target: {fileID: 7439970061191168305, guid: 9990ead7124b17f40baabf3847604d0b,
         type: 3}
       propertyPath: SortKey
-      value: 3492927856
+      value: 2221643841
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8244,12 +8244,12 @@ GameObject:
   - component: {fileID: 1038879170}
   - component: {fileID: 1038879169}
   m_Layer: 5
-  m_Name: 'MainEnemyArea '
+  m_Name: MainEnemyAreaImg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1038879169
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9743,8 +9743,8 @@ MonoBehaviour:
     type: 3}
   firePoint: {fileID: 73379509707470007}
   archerAnimator: {fileID: 5724217166001266255}
-  spawnAreaImage: {fileID: 0}
-  spawnCollider: {fileID: 0}
+  spawnAreaImage: {fileID: 364654518}
+  spawnCollider: {fileID: 68595546}
   healthBar: {fileID: 1186813118}
   hpBarObj: {fileID: 1186813116}
   collider: {fileID: 0}
@@ -9781,7 +9781,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 2061521844
+  SortKey: 790237829
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -10202,7 +10202,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1356469067
 Transform:
   m_ObjectHideFlags: 0
@@ -10233,7 +10233,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -10430,8 +10430,8 @@ MonoBehaviour:
     type: 3}
   firePoint: {fileID: 73379507769629862}
   archerAnimator: {fileID: 5724217166647260766}
-  spawnAreaImage: {fileID: 0}
-  spawnCollider: {fileID: 0}
+  spawnAreaImage: {fileID: 1038879168}
+  spawnCollider: {fileID: 1356469066}
   healthBar: {fileID: 1517644146}
   hpBarObj: {fileID: 1517644144}
   collider: {fileID: 0}
@@ -10468,7 +10468,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 491659557
+  SortKey: 3515342838
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -11370,7 +11370,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 205481689
+  SortKey: 3229164970
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -12405,7 +12405,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 2930199827
+  SortKey: 1658915812
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -12891,7 +12891,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 2377830479
+  SortKey: 1106546464
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -15862,7 +15862,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 1929240755
+  SortKey: 657956740
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []

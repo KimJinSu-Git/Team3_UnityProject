@@ -18,6 +18,7 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     private int               slotIndex;
     private Action<int>       onCardPlayed;
     private bool              isDraggable;
+    private CardDataWrapper.CardType cardType;
 
     // 내부 상태
     private CanvasGroup   canvasGroup;
@@ -93,6 +94,7 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     public void Init(
         MonsterData monsterData,
         SkillData skillData,
+        CardDataWrapper.CardType cardType,
         Spawner_Network spawner,
         Collider[] noSpawnZones,
         Image[] areaImages,
@@ -107,6 +109,7 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         // 데이터 & 콜백 할당
         this.monsterData = monsterData;
         this.skillData = skillData;
+        this.cardType = cardType;
         unitSpawner = spawner;
         this.noSpawnZones = noSpawnZones;
         this.enemyAreaImages = areaImages;
@@ -147,31 +150,46 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         returnedToSlot = false;
         canvasGroup.alpha = 0f;
         canvasGroup.blocksRaycasts = false;
-        
+
+        // 카드 타입 분기
         if (monsterData != null)
-            previewInstance = Instantiate(monsterData.previewPrefab);
-        
-        transform.SetParent(transform.root, false);
-        foreach (var img in enemyAreaImages)
-            img.enabled = true;
-        
-        if (skillData != null)
         {
+            previewInstance = Instantiate(monsterData.previewPrefab);
+
+            // 몬스터일 때만 영역 표시
+            foreach (var img in enemyAreaImages)
+                img.enabled = true;
+
+            // 제한 영역 감지 켜기
+            foreach (var zone in noSpawnZones)
+                zone.enabled = true;
+        }
+        else if (skillData != null)
+        {
+            // 스킬은 제한 영역 감지 끔
+            foreach (var zone in noSpawnZones)
+                zone.enabled = false;
+
+            // 드로우된 castingCircle (LineRenderer 원)
             castingCircleGO = new GameObject("CastingCircle");
             circleHelper = castingCircleGO.AddComponent<DrawCircleHelper>();
             circleHelper.Draw(skillData.range);
-        }
-        
-        if (skillData != null && skillData.castingCircle != null)
-        {
-            castingPreview = new GameObject("CastingCircle");
-            SpriteRenderer renderer = castingPreview.AddComponent<SpriteRenderer>();
-            renderer.sprite = skillData.castingCircle;
-            renderer.sortingOrder = 100;
 
-            float range = skillData.range;
-            castingPreview.transform.localScale = new Vector3(range * 2f, 1f, range * 2f);
+            // SpriteRenderer 원
+            if (skillData.castingCircle != null)
+            {
+                castingPreview = new GameObject("CastingCircleSprite");
+                SpriteRenderer renderer = castingPreview.AddComponent<SpriteRenderer>();
+                renderer.sprite = skillData.castingCircle;
+                renderer.sortingOrder = 100;
+
+                float range = skillData.range;
+                castingPreview.transform.localScale = new Vector3(range * 2f, 1f, range * 2f);
+            }
         }
+
+        // 부모 설정
+        transform.SetParent(transform.root, false);
         
         // previewInstance = Instantiate(monsterData.previewPrefab);
         // transform.SetParent(transform.root, false);
@@ -193,15 +211,32 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         );
         rectTransform.localPosition = localPoint;
 
-        if (Physics.Raycast(worldCamera.ScreenPointToRay(eventData.position), out var hit, 100f)
-            && !IsInNoSpawnZone(hit.point))
+        // 실제 마우스 위치로 레이캐스트
+        if (Physics.Raycast(worldCamera.ScreenPointToRay(eventData.position), out var hit, 100f))
         {
-            if (previewInstance != null)
-                previewInstance.transform.position = hit.point;
+            bool canPreview =
+                (monsterData != null && !IsInNoSpawnZone(hit.point)) ||
+                (skillData != null); // 스킬은 어디서든 미리보기 가능
 
-            if (castingCircleGO != null)
-                castingCircleGO.transform.position = hit.point + Vector3.up * 0.1f;
+            if (canPreview)
+            {
+                if (previewInstance != null)
+                    previewInstance.transform.position = hit.point;
+
+                if (castingCircleGO != null)
+                    castingCircleGO.transform.position = hit.point + Vector3.up * 0.1f;
+            }
         }
+        
+        // if (Physics.Raycast(worldCamera.ScreenPointToRay(eventData.position), out var hit, 100f)
+        //     && !IsInNoSpawnZone(hit.point))
+        // {
+        //     if (previewInstance != null)
+        //         previewInstance.transform.position = hit.point;
+        //
+        //     if (castingCircleGO != null)
+        //         castingCircleGO.transform.position = hit.point + Vector3.up * 0.1f;
+        // }
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -211,27 +246,34 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         // 드래그 종료: 원상 복구 및 스폰/콜백 실행
         foreach (var img in enemyAreaImages)
             img.enabled = false;
-
-        returnedToSlot = eventData.pointerEnter == originalParent.gameObject;
+        
+        foreach (var zone in noSpawnZones)
+            zone.enabled = true;
+        
         canvasGroup.alpha = 1f;
         canvasGroup.blocksRaycasts = true;
         transform.SetParent(originalParent, false);
         rectTransform.anchoredPosition = Vector2.zero;
         
         if (previewInstance != null) Destroy(previewInstance);
+        if (castingCircleGO != null) Destroy(castingCircleGO);
+        if (castingPreview != null) Destroy(castingPreview);
+        
+        returnedToSlot = eventData.pointerEnter == originalParent.gameObject;
         if (returnedToSlot) return;
-
-        if (Physics.Raycast(worldCamera.ScreenPointToRay(eventData.position), out var hit, 100f)
-            && !IsInNoSpawnZone(hit.point))
+        
+        if (Physics.Raycast(worldCamera.ScreenPointToRay(eventData.position), out var hit, 100f))
         {
             Vector3 worldSpawnPos = hit.point;
 
-            if (monsterData != null)
+            if (cardType == CardDataWrapper.CardType.Monster)
             {
+                if (IsInNoSpawnZone(worldSpawnPos)) return;
+
                 ElixirManager.Instance.UseElixir(monsterData.cost);
                 unitSpawner.RequestSpawn(monsterData.name, worldSpawnPos, Quaternion.identity);
             }
-            else if (skillData != null)
+            else if (cardType == CardDataWrapper.CardType.Skill)
             {
                 ElixirManager.Instance.UseElixir(skillData.cost);
                 SkillManager.Instance.CastSkill(skillData, worldSpawnPos);
@@ -240,12 +282,26 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             onCardPlayed?.Invoke(slotIndex);
             Destroy(gameObject);
         }
-        
-        if(castingCircleGO != null)
-            Destroy(castingCircleGO);
-        
-        if (castingPreview != null)
-            Destroy(castingPreview);
+
+        // if (Physics.Raycast(worldCamera.ScreenPointToRay(eventData.position), out var hit, 100f)
+        //     && !IsInNoSpawnZone(hit.point))
+        // {
+        //     Vector3 worldSpawnPos = hit.point;
+        //
+        //     if (monsterData != null)
+        //     {
+        //         ElixirManager.Instance.UseElixir(monsterData.cost);
+        //         unitSpawner.RequestSpawn(monsterData.name, worldSpawnPos, Quaternion.identity);
+        //     }
+        //     else if (skillData != null)
+        //     {
+        //         ElixirManager.Instance.UseElixir(skillData.cost);
+        //         SkillManager.Instance.CastSkill(skillData, worldSpawnPos);
+        //     }
+        //
+        //     onCardPlayed?.Invoke(slotIndex);
+        //     Destroy(gameObject);
+        // }
         
         // for (int i = 0; i < enemyAreaImages.Length; i++)
         // {
