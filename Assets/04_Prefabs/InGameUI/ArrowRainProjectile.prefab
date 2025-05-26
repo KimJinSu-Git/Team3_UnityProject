@@ -92,9 +92,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8733427695809355972}
-  - component: {fileID: 1393488693775837815}
+  - component: {fileID: -6898553343825760817}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: ArrowRainProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -116,7 +116,7 @@ Transform:
   - {fileID: 3199215811825688796}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1393488693775837815
+--- !u!114 &-6898553343825760817
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -125,7 +125,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 7597660938547843268}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e36754c807f7174ead2180d745be7ec, type: 3}
+  m_Script: {fileID: 11500000, guid: 13cfd4996e9263b4f89acd877fa90e12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3

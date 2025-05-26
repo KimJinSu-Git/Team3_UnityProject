@@ -8,9 +8,11 @@ using Random = UnityEngine.Random;
 public class CardHandManager : MonoBehaviour
 {
     public static  CardHandManager Instance;
-    [Header("덱 설정")]
-    public List<MonsterData> fullDeck;        // 전체 카드 데이터(8장)
 
+    [Header("덱 설정")]
+    // public List<MonsterData> fullDeck;        // 전체 카드 데이터(8장)
+    public List<CardDataWrapper> fullDeck; // Monster or Skill 카드 모두 포함
+    private List<CardDataWrapper> deck;          // 런타임용 덱
     public Dictionary<string, MonsterData> monsterDatas; // 스텟등 확정성을 위해서 MonsterData전부를 넘겨줌
 
     
@@ -29,7 +31,7 @@ public class CardHandManager : MonoBehaviour
     public Collider[]        noSpawnZones;
     public Image[]             enemyAreaImages;
 
-    private List<MonsterData> deck;          // 런타임용 덱
+    // private List<MonsterData> deck;          // 런타임용 덱
     private List<CardUI>   hand  = new List<CardUI>(); // 현재 손패
     private CardUI         sideCard;      // 사이드 슬롯 카드
 
@@ -42,14 +44,22 @@ public class CardHandManager : MonoBehaviour
     void Start()
     {
         // 1) 덱 복사 후 셔플
-        deck = new List<MonsterData>(fullDeck);
+        // deck = new List<MonsterData>(fullDeck);
+        deck = new List<CardDataWrapper>(fullDeck);
         Shuffle(deck);
         // 몬스터 데이터 캐싱
         monsterDatas = new Dictionary<string, MonsterData>();
-        foreach (MonsterData monsterData in deck)
+        foreach (var data in deck)
         {
-            monsterDatas.Add(monsterData.name, monsterData);
+            if (data.IsMonster && !monsterDatas.ContainsKey(data.monsterData.name))
+            {
+                monsterDatas.Add(data.monsterData.name, data.monsterData);
+            }
         }
+        // foreach (MonsterData monsterData in deck)
+        // {
+        //     monsterDatas.Add(monsterData.name, monsterData);
+        // }
         // 2) 초기 손패 4장 뽑기
         for (int i = 0; i < slotParents.Length; i++)
             DrawToSlot(i);
@@ -63,23 +73,39 @@ public class CardHandManager : MonoBehaviour
         if (deck.Count == 0) return;
 
         // 덱에서 카드 데이터 꺼내기
-        MonsterData data = deck[0];
+        // MonsterData data = deck[0];
+        CardDataWrapper data = deck[0];
         deck.RemoveAt(0);
 
         // 카드 인스턴스 생성 및 초기화
         CardUI card = Instantiate(cardPrefab);
-        card.Init(
-            data,
-            unitSpawner,
-            noSpawnZones,
-            enemyAreaImages,
-            slotParents[slotIndex], // 부모 슬롯 지정
-            slotIndex,
-            OnCardPlayed,
-            Area,
-            true,                    // 드래그 가능
-            Vector3.one              // 기본 크기
-        );
+        if (data.IsMonster)
+        {
+            card.Init(data.monsterData, null,
+                unitSpawner, noSpawnZones, enemyAreaImages,
+                slotParents[slotIndex], slotIndex, OnCardPlayed, Area,
+                true, Vector3.one);
+        }
+        else if (data.IsSkill)
+        {
+            card.Init(null, data.skillData,
+                unitSpawner, noSpawnZones, enemyAreaImages,
+                slotParents[slotIndex], slotIndex, OnCardPlayed, Area,
+                true, Vector3.one);
+        }
+        // card.Init(
+        //     data.monsterData,
+        //     data.skillData,
+        //     unitSpawner,
+        //     noSpawnZones,
+        //     enemyAreaImages,
+        //     slotParents[slotIndex], // 부모 슬롯 지정
+        //     slotIndex,
+        //     OnCardPlayed,
+        //     Area,
+        //     true,                    // 드래그 가능
+        //     Vector3.one              // 기본 크기
+        // );
         hand.Insert(slotIndex, card);
     }
     
@@ -88,7 +114,8 @@ public class CardHandManager : MonoBehaviour
         if (deck.Count == 0) return;
 
         // 덱에서 카드 데이터 꺼내기
-        MonsterData data = deck[0];
+        // MonsterData data = deck[0];
+        CardDataWrapper data = deck[0];
         deck.RemoveAt(0);
 
         // 기존 사이드 카드가 있으면 삭제 (사이드 슬롯에 남아 있는 경우만)
@@ -97,18 +124,33 @@ public class CardHandManager : MonoBehaviour
 
         // 새 사이드 카드 인스턴스 생성 및 초기화
         sideCard = Instantiate(cardPrefab);
-        sideCard.Init(
-            data,
-            unitSpawner,
-            noSpawnZones,
-            enemyAreaImages,
-            sideSlotParent,
-            -1,               // 슬롯 인덱스 없음
-            null,             // 콜백 없음
-            Area,
-            false,            // 드래그 불가
-            sideScale         // 축소된 크기
-        );
+        if (data.IsMonster)
+        {
+            sideCard.Init(data.monsterData, null,
+                unitSpawner, noSpawnZones, enemyAreaImages,
+                sideSlotParent, -1, null, Area,
+                false, sideScale);
+        }
+        else if (data.IsSkill)
+        {
+            sideCard.Init(null, data.skillData,
+                unitSpawner, noSpawnZones, enemyAreaImages,
+                sideSlotParent, -1, null, Area,
+                false, sideScale);
+        }
+        // sideCard.Init(
+        //     data.monsterData,
+        //     data.skillData,
+        //     unitSpawner,
+        //     noSpawnZones,
+        //     enemyAreaImages,
+        //     sideSlotParent,
+        //     -1,               // 슬롯 인덱스 없음
+        //     null,             // 콜백 없음
+        //     Area,
+        //     false,            // 드래그 불가
+        //     sideScale         // 축소된 크기
+        // );
     }
     
     private void OnCardPlayed(int slotIndex)    // 카드 유닛 배치 시 호출되는 콜백
@@ -123,9 +165,22 @@ public class CardHandManager : MonoBehaviour
         yield return new WaitForSeconds(sideDelay);
 
         // 1) 사용된 카드 데이터를 덱 뒤로 이동
-        var playedData = hand[slotIndex].MonsterData;
-        deck.Add(playedData);
+        // var playedData = hand[slotIndex].MonsterData;
+        // deck.Add(playedData);
 
+        // var playedData = new CardDataWrapper
+        // {
+        //     monsterData = hand[slotIndex].MonsterData,
+        //     skillData = hand[slotIndex].SkillData
+        // };
+        CardDataWrapper playedData = new CardDataWrapper
+        {
+            cardType = sideCard.MonsterData != null ? CardDataWrapper.CardType.Monster : CardDataWrapper.CardType.Skill,
+            monsterData = sideCard.MonsterData,
+            skillData = sideCard.SkillData
+        };
+        deck.Add(playedData);
+        
         // 2) 손패에서 카드 UI 제거
         hand.RemoveAt(slotIndex);
         hand.Insert(slotIndex, sideCard);
@@ -149,18 +204,23 @@ public class CardHandManager : MonoBehaviour
         sideCard.transform.SetParent(slotParents[slotIndex], false);
 
         // 4) 다시 손패 카드로 재초기화 (드래그 가능, 콜백 설정)
-        sideCard.Init(
-            sideCard.MonsterData,
-            unitSpawner,
-            noSpawnZones,
-            enemyAreaImages,
-            slotParents[slotIndex],
-            slotIndex,
-            OnCardPlayed,
-            Area,
-            true,
-            Vector3.one
-        );
+        sideCard.Init(sideCard.MonsterData, sideCard.SkillData,
+            unitSpawner, noSpawnZones, enemyAreaImages,
+            slotParents[slotIndex], slotIndex, OnCardPlayed, Area,
+            true, Vector3.one);
+        // sideCard.Init(
+        //     sideCard.MonsterData,
+        //     sideCard.SkillData,
+        //     unitSpawner,
+        //     noSpawnZones,
+        //     enemyAreaImages,
+        //     slotParents[slotIndex],
+        //     slotIndex,
+        //     OnCardPlayed,
+        //     Area,
+        //     true,
+        //     Vector3.one
+        // );
         
 
         // 6) 다음 사이드 카드 뽑기
@@ -172,9 +232,7 @@ public class CardHandManager : MonoBehaviour
         for (int i = list.Count - 1; i > 0; i--)
         {
             int j    = Random.Range(0, i + 1);
-            T tmp    = list[i];
-            list[i]  = list[j];
-            list[j]  = tmp;
+            (list[i], list[j]) = (list[j], list[i]);
         }
     }
 }

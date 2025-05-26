@@ -2649,13 +2649,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fullDeck:
-  - {fileID: 11400000, guid: a2014693351db234eacf1b4484220438, type: 2}
-  - {fileID: 11400000, guid: 4dd494040cf16a74e9df518a3ba538b3, type: 2}
-  - {fileID: 11400000, guid: 7f1ffbd091001134c9c265d616832dcf, type: 2}
-  - {fileID: 11400000, guid: 4d591c441ca193c4d8e4b02b5d4feb21, type: 2}
-  - {fileID: 11400000, guid: cf92199ab30643143af436f564d51642, type: 2}
-  - {fileID: 11400000, guid: badb2e7e3ffc7774f9973ccf2b4130e1, type: 2}
-  - {fileID: 11400000, guid: 66ffdff3a33468f42ae7c9a5d7ff6dab, type: 2}
+  - cardType: 0
+    monsterData: {fileID: 11400000, guid: 66ffdff3a33468f42ae7c9a5d7ff6dab, type: 2}
+    skillData: {fileID: 0}
+  - cardType: 0
+    monsterData: {fileID: 11400000, guid: badb2e7e3ffc7774f9973ccf2b4130e1, type: 2}
+    skillData: {fileID: 0}
+  - cardType: 0
+    monsterData: {fileID: 11400000, guid: cf92199ab30643143af436f564d51642, type: 2}
+    skillData: {fileID: 0}
+  - cardType: 0
+    monsterData: {fileID: 11400000, guid: 4d591c441ca193c4d8e4b02b5d4feb21, type: 2}
+    skillData: {fileID: 0}
+  - cardType: 0
+    monsterData: {fileID: 11400000, guid: 7f1ffbd091001134c9c265d616832dcf, type: 2}
+    skillData: {fileID: 0}
+  - cardType: 0
+    monsterData: {fileID: 11400000, guid: 4dd494040cf16a74e9df518a3ba538b3, type: 2}
+    skillData: {fileID: 0}
+  - cardType: 0
+    monsterData: {fileID: 11400000, guid: a2014693351db234eacf1b4484220438, type: 2}
+    skillData: {fileID: 0}
+  - cardType: 1
+    monsterData: {fileID: 0}
+    skillData: {fileID: 11400000, guid: 423d0b37a69ebf943927d8bbb625a614, type: 2}
+  - cardType: 1
+    monsterData: {fileID: 0}
+    skillData: {fileID: 11400000, guid: 6660bc61c66f429419cae069128d5c00, type: 2}
   cardPrefab: {fileID: 536418147371490894, guid: b32702e2fbcf2cf4c9f95528687a9f94,
     type: 3}
   slotParents:
@@ -4451,7 +4471,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 49973658
+  SortKey: 3798569111
   ObjectInterest: 1
   Flags: 262145
   NestedObjects:
@@ -4632,7 +4652,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 3771199663
+  SortKey: 3224827820
   ObjectInterest: 1
   Flags: 262145
   NestedObjects:
@@ -5095,7 +5115,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 509622740
+  SortKey: 4258218193
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -5343,7 +5363,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 4255408449
+  SortKey: 3709036606
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -5645,7 +5665,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 1203896508
+  SortKey: 657524665
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -5719,7 +5739,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 1239018500
+  SortKey: 692646657
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -6145,7 +6165,7 @@ PrefabInstance:
     - target: {fileID: 7439970061191168305, guid: 9990ead7124b17f40baabf3847604d0b,
         type: 3}
       propertyPath: SortKey
-      value: 239431827
+      value: 3988027280
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7865,7 +7885,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 3102993111
+  SortKey: 2556621268
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -8350,7 +8370,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 1533130824
+  SortKey: 986758981
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -9072,7 +9092,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 1246952956
+  SortKey: 700581113
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -9929,7 +9949,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 3971671094
+  SortKey: 3425299251
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -10221,6 +10241,75 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1747065049}
   m_CullTransparentMesh: 1
+--- !u!1 &1760976195
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1760976198}
+  - component: {fileID: 1760976197}
+  - component: {fileID: 1760976196}
+  m_Layer: 0
+  m_Name: SkillManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1760976196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1760976195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 2872929903
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 1760976197}
+  ForceRemoteRenderTimeframe: 0
+--- !u!114 &1760976197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1760976195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03b99e789fa813e44ab8a2a8f358be96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arrowRainPrefab: {fileID: 412454120642360062, guid: 9756f27cd1ff937428589b209ead9311,
+    type: 3}
+  fireballPrefab: {fileID: 2240476998455059014, guid: d3059e8e0c7a46842add99bec4601615,
+    type: 3}
+  myKingTowerTransform: {fileID: 1538714228}
+--- !u!4 &1760976198
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1760976195}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.5172666, y: 1.6784724, z: 4.5960855}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1786474642
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12535,7 +12624,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 2970712022
+  SortKey: 2424340179
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -15227,7 +15316,7 @@ PrefabInstance:
     - target: {fileID: 6719053992271665817, guid: 594ec238aa56e674a9dc3a257abcbff5,
         type: 3}
       propertyPath: SortKey
-      value: 1888140472
+      value: 1341768629
       objectReference: {fileID: 0}
     - target: {fileID: 7853042599568289666, guid: 594ec238aa56e674a9dc3a257abcbff5,
         type: 3}
@@ -19768,7 +19857,7 @@ PrefabInstance:
     - target: {fileID: 699848421557446289, guid: 7c7e43089058a1645b8520bdbebe07e4,
         type: 3}
       propertyPath: SortKey
-      value: 2771621510
+      value: 2225249667
       objectReference: {fileID: 0}
     - target: {fileID: 2428413272076563774, guid: 7c7e43089058a1645b8520bdbebe07e4,
         type: 3}
@@ -25009,6 +25098,7 @@ SceneRoots:
   - {fileID: 691771281}
   - {fileID: 852784115}
   - {fileID: 355190668}
+  - {fileID: 1760976198}
   - {fileID: 1706808044}
   - {fileID: 1069566508}
   - {fileID: 2127208869}
