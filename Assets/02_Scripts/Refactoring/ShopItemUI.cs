@@ -10,6 +10,7 @@ public class ShopItemUI : MonoBehaviour
     public Image iconImage;
     public TMP_Text countText;
     public TMP_Text priceText;
+    public TMP_Text progressText;
     public Image CurrencyIcon;
 
     private ShopOfferData currentOffer;
@@ -41,6 +42,16 @@ public class ShopItemUI : MonoBehaviour
         countText.text = "x" + offer.quantity;
         priceText.text = offer.price.ToString();
         CurrencyIcon.sprite = CurrencyIconManager.GetSprite(offer.currency);
+        
+        int owned = inventory.GetCardCount(offer.item.itemId);
+        int level = inventory.GetCardLevel(offer.item.itemId);
+        int required = upgradeDB.GetRequiredCards(monsterData.rarity, level);
+
+        // 방어 로직 포함
+        if (required <= 0 || required >= 1000000)
+            progressText.text = "-";
+        else
+            progressText.text = $"{owned}/{required}";
 
         // 슬롯 클릭 시 패널 열기
         GetComponent<Button>().onClick.RemoveAllListeners();

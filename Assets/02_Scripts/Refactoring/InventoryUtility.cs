@@ -1,13 +1,14 @@
-// ✅ InventoryUtility.cs - 초기 카드 생성 + Firebase 저장/불러오기
 using UnityEngine;
 using Firebase.Auth;
 using Firebase.Firestore;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class InventoryUtility : MonoBehaviour
 {
     public PlayerCardInventory inventory;
-    public MonsterData_Mainmenu[] initialCardList; // 초기에 지급할 카드들
+    public MonsterData_Mainmenu[] monsterList;
 
     private FirebaseAuth auth;
     private FirebaseFirestore firestore;
@@ -18,33 +19,85 @@ public class InventoryUtility : MonoBehaviour
         firestore = FirebaseFirestore.DefaultInstance;
     }
 
-    [ContextMenu("💠 초기 카드 생성 및 세팅")]
-    public void CreateDefaultInventory()
+    [ContextMenu("☁️ 인벤토리 불러오기 from Firebase")]
+    public void LoadInventoryFromFirebase(Action onComplete = null)
+    {
+        string uid = auth.CurrentUser?.UserId;
+        if (string.IsNullOrEmpty(uid))
+        {
+            Debug.LogWarning("❌ 로그인된 유저가 없습니다.");
+            return;
+        }
+
+        var monsterDB = monsterList.ToDictionary(m => m.id, m => m);
+
+        firestore.Collection("users").Document(uid)
+            .Collection("data").Document("inventory")
+            .GetSnapshotAsync().ContinueWith(task =>
+        {
+            if (!task.Result.Exists)
+            {
+                Debug.LogWarning("⚠️ Firebase 인벤토리 없음 → 초기화 진행");
+
+                CreateDefaultInventory(monsterDB);
+                SaveInventoryToFirebase();
+
+                onComplete?.Invoke();
+                return;
+            }
+
+            var rawData = task.Result.ToDictionary();
+            var cardList = rawData["cards"] as List<object>;
+
+            inventory.allOwnedCards.Clear();
+
+            foreach (var raw in cardList)
+            {
+                var dict = raw as Dictionary<string, object>;
+                string id = dict["id"].ToString();
+                int level = Convert.ToInt32(dict["level"]);
+                int count = Convert.ToInt32(dict["ownedCount"]);
+
+                if (monsterDB.TryGetValue(id, out var monster))
+                {
+                    inventory.allOwnedCards.Add(new PlayerCardData(id, level, count)
+                    {
+                        monsterData = monster
+                    });
+                }
+                else
+                {
+                    Debug.LogWarning($"❌ MonsterData 없음: {id}");
+                }
+            }
+
+            Debug.Log($"☁️ Firebase 인벤토리 불러오기 완료: {inventory.allOwnedCards.Count}개");
+            onComplete?.Invoke();
+        });
+    }
+
+    public void CreateDefaultInventory(Dictionary<string, MonsterData_Mainmenu> monsterDB)
     {
         inventory.allOwnedCards.Clear();
 
-        foreach (var card in initialCardList)
+        foreach (var monster in monsterDB.Values)
         {
-            inventory.allOwnedCards.Add(new PlayerCardData(
-                card.id,
-                level: 1,
-                ownedCount: 20
-            )
+            inventory.allOwnedCards.Add(new PlayerCardData(monster.id, 1, 20)
             {
-                monsterData = card
+                monsterData = monster
             });
         }
 
-        Debug.Log($"✅ 초기 카드 {inventory.allOwnedCards.Count}개 생성 완료");
+        Debug.Log($"✅ 기본 카드 {inventory.allOwnedCards.Count}개 생성 완료");
     }
 
-    [ContextMenu("☁️ 인벤토리 저장 to Firebase")]
     public void SaveInventoryToFirebase()
     {
         string uid = auth.CurrentUser?.UserId;
         if (string.IsNullOrEmpty(uid)) return;
 
         var list = new List<Dictionary<string, object>>();
+
         foreach (var card in inventory.allOwnedCards)
         {
             list.Add(new Dictionary<string, object>
@@ -60,45 +113,5 @@ public class InventoryUtility : MonoBehaviour
             .SetAsync(new Dictionary<string, object> { { "cards", list } });
 
         Debug.Log("☁️ 인벤토리 저장 완료");
-    }
-
-    [ContextMenu("☁️ 인벤토리 불러오기 from Firebase")]
-    public void LoadInventoryFromFirebase(Dictionary<string, MonsterData_Mainmenu> monsterDB)
-    {
-        string uid = auth.CurrentUser?.UserId;
-        if (string.IsNullOrEmpty(uid)) return;
-
-        firestore.Collection("users").Document(uid)
-            .Collection("data").Document("inventory")
-            .GetSnapshotAsync().ContinueWith(task =>
-        {
-            if (!task.Result.Exists)
-            {
-                Debug.LogWarning("⚠️ 인벤토리 데이터 없음");
-                return;
-            }
-
-            var json = task.Result.ToDictionary();
-            var list = json["cards"] as List<object>;
-
-            inventory.allOwnedCards.Clear();
-            foreach (var raw in list)
-            {
-                var dict = raw as Dictionary<string, object>;
-                string id = dict["id"].ToString();
-                int level = int.Parse(dict["level"].ToString());
-                int count = int.Parse(dict["ownedCount"].ToString());
-
-                if (monsterDB.TryGetValue(id, out var monster))
-                {
-                    inventory.allOwnedCards.Add(new PlayerCardData(id, level, count)
-                    {
-                        monsterData = monster
-                    });
-                }
-            }
-
-            Debug.Log($"☁️ 인벤토리 {inventory.allOwnedCards.Count}개 불러오기 완료");
-        });
     }
 }

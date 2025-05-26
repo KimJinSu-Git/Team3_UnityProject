@@ -10943,7 +10943,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &476309645
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35023,9 +35023,19 @@ MonoBehaviour:
   collectionGrid: {fileID: 1481547987}
   slotPrefab: {fileID: 3468639486237108812, guid: 0aaa70b1d2f6441428ed91cb650259df,
     type: 3}
-  allCards: []
-  inventory: {fileID: 1990967264}
   deckManager: {fileID: 1878833622}
+  upgradeDB: {fileID: 11400000, guid: d30140f031b98544e80c4cb302950648, type: 2}
+  inventory: {fileID: 1990967264}
+  monsterList:
+  - {fileID: 11400000, guid: b7c2bb449dc5bbe40862f6e90399a3d5, type: 2}
+  - {fileID: 11400000, guid: 5bbee63a66ce5ab4b91c9c2623387a86, type: 2}
+  - {fileID: 11400000, guid: d48d3d36725463048950462066838b85, type: 2}
+  - {fileID: 11400000, guid: f7fae0a7f0fcee7459e5e33624970963, type: 2}
+  - {fileID: 11400000, guid: 94e9348d01a777546a72adc050f117d2, type: 2}
+  - {fileID: 11400000, guid: 973e1696111a0e448b391fdd4191f6fb, type: 2}
+  - {fileID: 11400000, guid: cbaf1914ea9df974386c11e56b423833, type: 2}
+  - {fileID: 11400000, guid: abf7b3e377d72704489fd2a9c5ef3054, type: 2}
+  - {fileID: 11400000, guid: 19fa2337ae240394cbf10891794fa486, type: 2}
 --- !u!114 &1481547992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35166,7 +35176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventory: {fileID: 1990967264}
-  initialCardList:
+  monsterList:
   - {fileID: 11400000, guid: b7c2bb449dc5bbe40862f6e90399a3d5, type: 2}
   - {fileID: 11400000, guid: 5bbee63a66ce5ab4b91c9c2623387a86, type: 2}
   - {fileID: 11400000, guid: d48d3d36725463048950462066838b85, type: 2}
@@ -46956,8 +46966,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9268b25949e8ea439a464fb9bb3ddca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deckManager: {fileID: 0}
-  inventory: {fileID: 0}
+  deckManager: {fileID: 1878833622}
+  inventory: {fileID: 1990967264}
 --- !u!1 &2116414699
 GameObject:
   m_ObjectHideFlags: 0
