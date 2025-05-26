@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5cb8effa82bf75e43946a45f39bf3f1c, type: 3}
-  m_Name: BoneKnightBase
+  m_Name: Cannon
   m_EditorClassIdentifier: 
   id: 7
-  monsterName: BoneKnightBase
-  description: "BoneKnight\uC758 \uAE30\uC9C0\uC785\uB2C8\uB2E4. BoneKnight\uB97C
-    \uC18C\uD658\uD569\uB2C8\uB2E4."
-  characterType: 2
+  monsterName: Cannon
+  description: 
+  characterType: 0
   level: 1
-  maxHP: 400
-  damage: 0
-  moveSpeed: 0
-  attackareaRange: 5
+  maxHP: 1000
+  damage: 100
+  moveSpeed: 2
+  attackRange: 20
+  detectionRadius: 0
   attackSpeed: 1
   cost: 3
   spawnTime: 1
-  prefab: {fileID: 8604211796710631484, guid: 8e88b8189d473be40bb48bf869d0df8a, type: 3}
-  previewPrefab: {fileID: 4514953876890045040, guid: c47f519365e801f469933290c4042e20,
+  prefab: {fileID: 5247959180403028144, guid: 7f8b1dcb9158dfd49a41c7f0694f7f71, type: 3}
+  previewPrefab: {fileID: 4478622710407360074, guid: 69bd0e8d6710a614fa6e6e708432095d,
     type: 3}
   icon: {fileID: 21300000, guid: 1c93fc4926f8b4110b2d9a3bc5bbb94e, type: 3}

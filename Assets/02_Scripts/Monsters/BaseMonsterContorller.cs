@@ -93,12 +93,14 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
         var unit = FindNearestEnemy(unitAggroRadius, LayerMask.GetMask("Monster"));
         if (unit != null)
         {
+            FaceTarget(unit);
             SetNewTarget(unit);
             return;
         }
         var tower = FindNearestEnemy(towerDetectRadius, LayerMask.GetMask("Tower"));
         if (tower != null)
         {
+            FaceTarget(tower);
             SetNewTarget(tower);
             return;
         }
@@ -167,15 +169,9 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
             PlayAnimation("Idle");
             return;
         }
+      
+        FaceTarget(currentTarget);
         
-        Vector3 direction = (currentTarget.position - transform.position).normalized;
-        direction.y = 0;
-        if (direction != Vector3.zero)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
-        }
-
         attackTimer += Runner.DeltaTime;
         if (attackTimer >= monsterData.attackSpeed)
         {
@@ -246,6 +242,15 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
             renderers[i].material.color = originalColors[i];
     }
 
+    
+    private void FaceTarget(Transform target)
+    {
+        Vector3 dir = target.position - transform.position;
+        dir.y = 0;  // 수직 회전 무시
+        if (dir.sqrMagnitude > 0.001f)
+            transform.rotation = Quaternion.LookRotation(dir);
+    }
+    
     protected virtual void Die()
     {
         isDead = true;
@@ -259,6 +264,8 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
         if (!Object.HasStateAuthority) return;
         Runner.Despawn(Object);
     }
+    
+    
 
 #if UNITY_EDITOR
     protected virtual void OnDrawGizmosSelected()
