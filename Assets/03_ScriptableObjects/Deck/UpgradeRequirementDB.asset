@@ -14,14 +14,89 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rarityRequirements:
   - rarity: 0
-    cardsNeededPerLevel: 0100000002000000040000000a000000140000003200000064000000c80000009001000020030000
-    goldNeededPerLevel: 000000000500000014000000320000009600000090010000e8030000d0070000a00f0000401f0000
+    startLevel: 1
+    levelRequirements:
+    - level: 2
+      requiredCards: 2
+      requiredGold: 5
+    - level: 3
+      requiredCards: 4
+      requiredGold: 20
+    - level: 4
+      requiredCards: 10
+      requiredGold: 50
+    - level: 5
+      requiredCards: 20
+      requiredGold: 150
+    - level: 6
+      requiredCards: 50
+      requiredGold: 400
+    - level: 7
+      requiredCards: 100
+      requiredGold: 1000
+    - level: 8
+      requiredCards: 200
+      requiredGold: 2000
+    - level: 9
+      requiredCards: 400
+      requiredGold: 4000
+    - level: 10
+      requiredCards: 800
+      requiredGold: 8000
+    - level: 11
+      requiredCards: 1000
+      requiredGold: 15000
   - rarity: 1
-    cardsNeededPerLevel: 0000000000000000000000000000000000000000
-    goldNeededPerLevel: 0000000000000000000000000000000000000000
+    startLevel: 3
+    levelRequirements:
+    - level: 4
+      requiredCards: 2
+      requiredGold: 50
+    - level: 5
+      requiredCards: 4
+      requiredGold: 150
+    - level: 6
+      requiredCards: 10
+      requiredGold: 400
+    - level: 7
+      requiredCards: 20
+      requiredGold: 1000
+    - level: 8
+      requiredCards: 50
+      requiredGold: 2000
+    - level: 9
+      requiredCards: 100
+      requiredGold: 4000
+    - level: 10
+      requiredCards: 200
+      requiredGold: 8000
+    - level: 11
+      requiredCards: 400
+      requiredGold: 15000
   - rarity: 2
-    cardsNeededPerLevel: 0000000000000000000000000000000000000000
-    goldNeededPerLevel: 0000000000000000000000000000000000000000
+    startLevel: 6
+    levelRequirements:
+    - level: 7
+      requiredCards: 2
+      requiredGold: 400
+    - level: 8
+      requiredCards: 4
+      requiredGold: 2000
+    - level: 9
+      requiredCards: 10
+      requiredGold: 4000
+    - level: 10
+      requiredCards: 20
+      requiredGold: 8000
+    - level: 11
+      requiredCards: 40
+      requiredGold: 15000
   - rarity: 3
-    cardsNeededPerLevel: 0000000000000000000000000000000000000000
-    goldNeededPerLevel: 0000000000000000000000000000000000000000
+    startLevel: 9
+    levelRequirements:
+    - level: 10
+      requiredCards: 2
+      requiredGold: 5000
+    - level: 11
+      requiredCards: 4
+      requiredGold: 15000

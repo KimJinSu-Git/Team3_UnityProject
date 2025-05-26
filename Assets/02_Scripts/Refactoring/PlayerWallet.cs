@@ -5,6 +5,12 @@ using Firebase.Firestore;
 using System;
 using System.Collections.Generic;
 
+public enum CurrencyType
+{
+    Gold,
+    Gem
+}
+
 public class PlayerWallet : MonoBehaviour
 {
     public static PlayerWallet Instance { get; private set; }
@@ -15,10 +21,14 @@ public class PlayerWallet : MonoBehaviour
     private FirebaseAuth auth;
     private FirebaseFirestore firestore;
 
-    void Awake()
+    private void Awake()
     {
         if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
 
         auth = FirebaseAuth.DefaultInstance;
         firestore = FirebaseFirestore.DefaultInstance;
@@ -29,7 +39,7 @@ public class PlayerWallet : MonoBehaviour
         string uid = auth.CurrentUser?.UserId;
         if (string.IsNullOrEmpty(uid))
         {
-            Debug.LogWarning("로그인된 유저가 없습니다.");
+            Debug.LogWarning("[Wallet] 로그인된 유저가 없습니다.");
             return;
         }
 
@@ -37,7 +47,6 @@ public class PlayerWallet : MonoBehaviour
         {
             if (task.IsCompleted && task.Result.Exists)
             {
-                // data 불러오기
                 var data = task.Result.ToDictionary();
 
                 gold = data.ContainsKey("gold") ? Convert.ToInt32(data["gold"]) : 0;
@@ -45,13 +54,12 @@ public class PlayerWallet : MonoBehaviour
 
                 Debug.Log($"[Wallet] 로드 완료: Gold={gold}, Gem={gem}");
             }
-            //신규라면 초기 자금 지급
             else
             {
-                Debug.Log("[Wallet] 신규 유저이므로 기본값 설정");
+                Debug.Log("[Wallet] 신규 유저로 기본값 설정");
                 gold = 1000;
                 gem = 100;
-                SaveToFirebase(); // 초기화 후 저장
+                SaveToFirebase();
             }
         });
     }
@@ -61,7 +69,6 @@ public class PlayerWallet : MonoBehaviour
         string uid = auth.CurrentUser?.UserId;
         if (string.IsNullOrEmpty(uid)) return;
 
-        // data 저장
         var data = new Dictionary<string, object>
         {
             { "gold", gold },
@@ -71,32 +78,63 @@ public class PlayerWallet : MonoBehaviour
         firestore.Collection("users").Document(uid).SetAsync(data, SetOptions.MergeAll);
     }
 
-    // ====== 사용 메서드 ======
+    // ====== 재화 공통 메서드 ======
 
-    public bool HasEnoughGold(int amount) => gold >= amount;
-    public bool HasEnoughGem(int amount) => gem >= amount;
-
-    public void SpendGold(int amount)
+    public bool TrySpendCurrency(CurrencyType type, int amount)
     {
+        switch (type)
+        {
+            case CurrencyType.Gold:
+                return TrySpendGold(amount);
+            case CurrencyType.Gem:
+                return TrySpendGem(amount);
+            default:
+                return false;
+        }
+    }
+
+    public void AddCurrency(CurrencyType type, int amount)
+    {
+        switch (type)
+        {
+            case CurrencyType.Gold:
+                gold += amount;
+                break;
+            case CurrencyType.Gem:
+                gem += amount;
+                break;
+        }
+        SaveToFirebase();
+    }
+
+    public int GetCurrencyAmount(CurrencyType type)
+    {
+        return type switch
+        {
+            CurrencyType.Gold => gold,
+            CurrencyType.Gem => gem,
+            _ => 0
+        };
+    }
+
+    public bool HasEnoughCurrency(CurrencyType type, int amount)
+    {
+        return GetCurrencyAmount(type) >= amount;
+    }
+
+    public bool TrySpendGold(int amount)
+    {
+        if (gold < amount) return false;
         gold -= amount;
         SaveToFirebase();
+        return true;
     }
 
-    public void SpendGem(int amount)
+    public bool TrySpendGem(int amount)
     {
+        if (gem < amount) return false;
         gem -= amount;
         SaveToFirebase();
-    }
-
-    public void AddGold(int amount)
-    {
-        gold += amount;
-        SaveToFirebase();
-    }
-
-    public void AddGem(int amount)
-    {
-        gem += amount;
-        SaveToFirebase();
+        return true;
     }
 }

@@ -10,24 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fbd3c51ede291c44abf9f41b877e15e1, type: 3}
-  m_Name: Necromancer
+  m_Name: Necro
   m_EditorClassIdentifier: 
-  id: 3
+  id: Necro
   monsterName: Necromancer
   description: "\uC5B4\uB460\uC758 \uB9C8\uBC95\uC0AC\uC785\uB2C8\uB2E4. \uBCF4\uD1B5
     \uC5B8\uB370\uB4DC\uB97C \uC18C\uD658\uD558\uACE0, \uC0DD\uBA85\uC744 \uC870\uC885\uD558\uAC70\uB098
     \uBD80\uD65C\uC2DC\uD0A4\uB294 \uB2A5\uB825\uC744 \uAC00\uC9D1\uB2C8\uB2E4."
-  level: 1
-  maxHP: 500
-  damage: 200
-  moveSpeed: 1
+  baseHP: 0
+  baseDamage: 0
+  baseAttackSpeed: 0
+  baseMoveSpeed: 0
   attackRange: 2.5
-  attackSpeed: 1.5
-  attack: 3
+  cost: 4
+  attackType: 0
   cardType: 0
   rarity: 2
-  cost: 4
+  elixirCost: 0
   spawnTime: 2
+  lifeDuration: -1
   prefab: {fileID: 1790362108378987168, guid: 51b299a647b48de45a68bce255a1a711, type: 3}
   previewPrefab: {fileID: 3100877490028334621, guid: d37403e49e4197244ac5de874b042d80,
     type: 3}
