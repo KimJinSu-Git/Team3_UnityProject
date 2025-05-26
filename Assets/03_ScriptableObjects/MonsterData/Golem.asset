@@ -22,7 +22,7 @@ MonoBehaviour:
   level: 1
   maxHP: 1000
   damage: 100
-  moveSpeed: 0.57
+  moveSpeed: 4
   attackRange: 2
   detectionRadius: 0
   attackSpeed: 1.5

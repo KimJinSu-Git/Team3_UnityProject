@@ -10,16 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9375b03571fe5ce458d49446f64f7d97, type: 3}
-  m_Name: Cyclone
+  m_Name: ArrowRain
   m_EditorClassIdentifier: 
   id: 6
-  skillName: Cyclone
-  description: "\uBC14\uB78C\uC774\uB098 \uD68C\uC804\uB825\uC744 \uC774\uC6A9\uD55C
-    \uACF5\uACA9\uAE30\uB85C \uC801 \uC720\uB2DB\uC744 \uB04C\uC5B4\uB4E4\uC785\uB2C8\uB2E4."
+  skillName: ArrowRain
+  description: "\uD654\uC0B4\uB85C \uB41C \uBE44\uAC00 \uC3DF\uC544\uC838 \uB0B4\uB9BD\uB2C8\uB2E4."
   range: 1
-  duration: 1
+  damage: 5
+  duration: 1.5
+  delay: 0
   cost: 3
+  cooldown: 0
   icon: {fileID: 21300000, guid: 531af8be9d79a4bd3bdccba8ab2f33e4, type: 3}
   castingCircle: {fileID: 0}
-  fireballShape: {fileID: 8319743413380914100, guid: fd33ed5ac3db6c04aa0dfe9a076bb2cf,
-    type: 3}
+  spellPrefab: {fileID: 0}

@@ -17,10 +17,12 @@ MonoBehaviour:
   description: "\uAC15\uB825\uD55C \uBC94\uC704 \uD53C\uD574(AoE)\uB97C \uC8FC\uB294
     \uAE30\uBCF8\uC774\uC790 \uD575\uC2EC \uC2A4\uD0AC \uC911 \uD558\uB098\uC785\uB2C8\uB2E4."
   range: 1
-  duration: 0.1
-  cost: 3
+  damage: 5
+  duration: 1.5
+  delay: 0
+  cost: 4
+  cooldown: 0
   icon: {fileID: 21300000, guid: 1c93fc4926f8b4110b2d9a3bc5bbb94e, type: 3}
   castingCircle: {fileID: 6564680101839804549, guid: b8df7b80c05bb044d9dbb07a3b0aecba,
     type: 3}
-  fireballShape: {fileID: 8913863418386872205, guid: 6598f1c733b26e945bcf3477d40a91a3,
-    type: 3}
+  spellPrefab: {fileID: 0}
