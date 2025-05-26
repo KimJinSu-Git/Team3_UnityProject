@@ -31,8 +31,8 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
 
     protected Transform currentTarget;
     protected float attackTimer;
-    protected bool isDead = false;
-    [Networked] protected float currentHp { get; set; }
+    public bool isDead = false;
+    [Networked] public float currentHp { get; set; }
 
     protected enum State { Idle, Moving, Attacking }
     protected State currentState = State.Idle;
@@ -64,6 +64,9 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
         var col = GetComponent<Collider>();
         if (CombatSystem.Instance != null)
             CombatSystem.Instance.RegisterCreature(col, this);
+        
+        if (MonsterHealthBarManager.Instance != null)
+            MonsterHealthBarManager.Instance.Register(this, monsterData.maxHP);
     }
 
     public override void FixedUpdateNetwork()
@@ -222,10 +225,12 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
         if (isDead) return;
 
         currentHp -= damage;
+        MonsterHealthBarManager.Instance.UpdateHealth(this, currentHp);
         StartCoroutine(HitFlash());
 
         if (currentHp <= 0)
         {
+            MonsterHealthBarManager.Instance.Unregister(this);
             Die();
         }
     }

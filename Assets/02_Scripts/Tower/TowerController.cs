@@ -38,7 +38,10 @@ public class TowerController : NetworkBehaviour, IDamageAble
     [Header("렌더러")]
     private Renderer[] renderers;
     private Color[] originalColors;
-
+    
+    [Header("hp 바")]
+    public TowerHealthBar healthBar;
+    public GameObject hpBarObj;
     private float attackTimer = 0f;
     private Transform target;
     public PlayerRef playerRef;
@@ -69,6 +72,8 @@ public class TowerController : NetworkBehaviour, IDamageAble
     public override void Spawned()
     {
         currentHealth = maxHealth;
+        if (healthBar != null)
+            healthBar.SetMaxHealth(maxHealth);
     }
     private void Start()
     {
@@ -165,6 +170,10 @@ public class TowerController : NetworkBehaviour, IDamageAble
         StartCoroutine(HitFlash());
 
         Debug.Log($"{towerType} 피해: {damage} / 현재 체력: {currentHealth}");
+        
+        if (healthBar != null)
+            healthBar.SetHealth(currentHealth);
+        
         if (currentHealth <= 0) Die();
     }
 
@@ -189,6 +198,11 @@ public class TowerController : NetworkBehaviour, IDamageAble
             spawnAreaImage.SetActive(false);
         }
 
+        if (hpBarObj != null)
+        {
+            hpBarObj.SetActive(false);
+        }
+           
         if (towerType == TowerType.King)
             GameManager.Instance.OnKingTowerDestroyed(this);
         else if (towerType == TowerType.LeftPrincess)
