@@ -77,6 +77,7 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
     {
         if (!Object.HasStateAuthority || isDead) return;
 
+        RPC_HPUI();
         if (currentState != State.Attacking)
             UpdateTarget();
 
@@ -184,6 +185,8 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
         }
 
+        if (Runner == null) return;
+
         attackTimer += Runner.DeltaTime;
         if (attackTimer >= monsterData.attackSpeed)
         {
@@ -234,14 +237,24 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
 
         currentHp -= damage;
         
-        MonsterHealthBarManager.Instance.UpdateHealth(this, currentHp);
+        //MonsterHealthBarManager.Instance.UpdateHealth(this, currentHp);
         
         //StartCoroutine(HitFlash());
         Rpc_HitFlash();
+        // if (currentHp <= 0)
+        // {
+        //     Die();
+        // }
+    }
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    void RPC_HPUI()
+    {
+        MonsterHealthBarManager.Instance.UpdateHealth(this, currentHp);
         if (currentHp <= 0)
         {
-            MonsterHealthBarManager.Instance.Unregister(this);
             Die();
+            MonsterHealthBarManager.Instance.Unregister(this);
         }
     }
 
