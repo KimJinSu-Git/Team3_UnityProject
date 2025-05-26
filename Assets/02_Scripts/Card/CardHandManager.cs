@@ -1,4 +1,5 @@
 using System;
+using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,10 +27,19 @@ public class CardHandManager : MonoBehaviour
     public float       sideDelay        = 2f;   // 사이드→손패 전환 대기 시간
     public float       sideAnimDuration = 0.5f; // 이동 애니메이션 시간
 
-    [Header("스포너 & 적 영역")]
+    [Header("스포너")]
     public Spawner_Network unitSpawner;
-    public Collider[]        noSpawnZones;
-    public Image[]             enemyAreaImages;
+    
+    [Header("적 진영 영역 (Host용)")]
+    public Collider[] hostEnemyZones;
+    public Image[] hostEnemyImages;
+
+    [Header("적 진영 영역 (Client용)")]
+    public Collider[] clientEnemyZones;
+    public Image[] clientEnemyImages;
+    
+    [SerializeField] private Collider[] currentNoSpawnZones;
+    [SerializeField] private Image[] currentEnemyAreaImages;
 
     // private List<MonsterData> deck;          // 런타임용 덱
     private List<CardUI>   hand  = new List<CardUI>(); // 현재 손패
@@ -43,10 +53,33 @@ public class CardHandManager : MonoBehaviour
     }
     void Start()
     {
-        foreach (var zone in noSpawnZones)
-            zone.gameObject.SetActive(false);;
+        var runner = FindObjectOfType<NetworkRunner>();
         
-        foreach (var img in enemyAreaImages)
+        // Host/Client 여부에 따라 콜라이더 세팅
+        if (runner != null && runner.IsServer)
+        {
+            Debug.Log("Host에용");
+            currentNoSpawnZones = hostEnemyZones;
+            currentEnemyAreaImages = hostEnemyImages;
+        }
+        else
+        {
+            Debug.Log("Client에용");
+            currentNoSpawnZones = clientEnemyZones;
+            currentEnemyAreaImages = clientEnemyImages;
+        }
+        
+        foreach (var zone in hostEnemyZones)
+            zone.gameObject.SetActive(false);
+        foreach (var zone in clientEnemyZones)
+            zone.gameObject.SetActive(false);
+        foreach (var zone in currentNoSpawnZones)
+            zone.gameObject.SetActive(false);
+        foreach (var img in hostEnemyImages)
+            img.enabled = false;
+        foreach (var img in clientEnemyImages)
+            img.enabled = false;
+        foreach (var img in currentEnemyAreaImages)
             img.enabled = false;
         
         // 1) 덱 복사 후 셔플
@@ -88,14 +121,14 @@ public class CardHandManager : MonoBehaviour
         if (data.IsMonster)
         {
             card.Init(data.monsterData, null, data.cardType,
-                unitSpawner, noSpawnZones, enemyAreaImages,
+                unitSpawner, currentNoSpawnZones, currentEnemyAreaImages,
                 slotParents[slotIndex], slotIndex, OnCardPlayed, Area,
                 true, Vector3.one);
         }
         else if (data.IsSkill)
         {
             card.Init(null, data.skillData, data.cardType,
-                unitSpawner, noSpawnZones, enemyAreaImages,
+                unitSpawner, currentNoSpawnZones, currentEnemyAreaImages,
                 slotParents[slotIndex], slotIndex, OnCardPlayed, Area,
                 true, Vector3.one);
         }
@@ -133,14 +166,14 @@ public class CardHandManager : MonoBehaviour
         if (data.IsMonster)
         {
             sideCard.Init(data.monsterData, null, data.cardType,
-                unitSpawner, noSpawnZones, enemyAreaImages,
+                unitSpawner, currentNoSpawnZones, currentEnemyAreaImages,
                 sideSlotParent, -1, null, Area,
                 false, sideScale);
         }
         else if (data.IsSkill)
         {
             sideCard.Init(null, data.skillData, data.cardType,
-                unitSpawner, noSpawnZones, enemyAreaImages,
+                unitSpawner, currentNoSpawnZones, currentEnemyAreaImages,
                 sideSlotParent, -1, null, Area,
                 false, sideScale);
         }
@@ -211,7 +244,7 @@ public class CardHandManager : MonoBehaviour
 
         // 4) 다시 손패 카드로 재초기화 (드래그 가능, 콜백 설정)
         sideCard.Init(sideCard.MonsterData, sideCard.SkillData, playedData.cardType,
-            unitSpawner, noSpawnZones, enemyAreaImages,
+            unitSpawner, currentNoSpawnZones, currentEnemyAreaImages,
             slotParents[slotIndex], slotIndex, OnCardPlayed, Area,
             true, Vector3.one);
         // sideCard.Init(

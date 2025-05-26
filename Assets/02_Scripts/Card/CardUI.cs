@@ -153,6 +153,9 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
         if (cardType == CardDataWrapper.CardType.Monster)
         {
+            foreach (var zone in noSpawnZones)
+                zone.gameObject.SetActive(true);
+            
             previewInstance = Instantiate(monsterData.previewPrefab);
 
             foreach (var img in enemyAreaImages)
@@ -326,3 +329,4 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         // }
     }
 }
+
