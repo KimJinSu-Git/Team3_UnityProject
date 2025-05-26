@@ -81,14 +81,14 @@ public class CardHandManager : MonoBehaviour
         CardUI card = Instantiate(cardPrefab);
         if (data.IsMonster)
         {
-            card.Init(data.monsterData, null,
+            card.Init(data.monsterData, null, data.cardType,
                 unitSpawner, noSpawnZones, enemyAreaImages,
                 slotParents[slotIndex], slotIndex, OnCardPlayed, Area,
                 true, Vector3.one);
         }
         else if (data.IsSkill)
         {
-            card.Init(null, data.skillData,
+            card.Init(null, data.skillData, data.cardType,
                 unitSpawner, noSpawnZones, enemyAreaImages,
                 slotParents[slotIndex], slotIndex, OnCardPlayed, Area,
                 true, Vector3.one);
@@ -126,14 +126,14 @@ public class CardHandManager : MonoBehaviour
         sideCard = Instantiate(cardPrefab);
         if (data.IsMonster)
         {
-            sideCard.Init(data.monsterData, null,
+            sideCard.Init(data.monsterData, null, data.cardType,
                 unitSpawner, noSpawnZones, enemyAreaImages,
                 sideSlotParent, -1, null, Area,
                 false, sideScale);
         }
         else if (data.IsSkill)
         {
-            sideCard.Init(null, data.skillData,
+            sideCard.Init(null, data.skillData, data.cardType,
                 unitSpawner, noSpawnZones, enemyAreaImages,
                 sideSlotParent, -1, null, Area,
                 false, sideScale);
@@ -204,7 +204,7 @@ public class CardHandManager : MonoBehaviour
         sideCard.transform.SetParent(slotParents[slotIndex], false);
 
         // 4) 다시 손패 카드로 재초기화 (드래그 가능, 콜백 설정)
-        sideCard.Init(sideCard.MonsterData, sideCard.SkillData,
+        sideCard.Init(sideCard.MonsterData, sideCard.SkillData, playedData.cardType,
             unitSpawner, noSpawnZones, enemyAreaImages,
             slotParents[slotIndex], slotIndex, OnCardPlayed, Area,
             true, Vector3.one);
