@@ -25,7 +25,7 @@ MonoBehaviour:
   attackSpeed: 1.5
   attack: 3
   cardType: 0
-  rarity: 1
+  rarity: 2
   cost: 4
   spawnTime: 2
   prefab: {fileID: 1790362108378987168, guid: 51b299a647b48de45a68bce255a1a711, type: 3}
