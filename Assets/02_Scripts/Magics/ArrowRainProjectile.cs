@@ -47,7 +47,7 @@ public class ArrowRainProjectile : MonoBehaviour
         }
 
         // 착지 후 범위 판정
-        Collider[] hits = Physics.OverlapSphere(transform.position, 0.5f, LayerMask.GetMask("Monster", "Tower"));
+        Collider[] hits = Physics.OverlapSphere(transform.position, 1f, LayerMask.GetMask("Monster", "Tower"));
         foreach (var hit in hits)
         {
             if (hit.TryGetComponent<IDamageAble>(out var damageAble) && damageAble.PlayerRef != caster)

@@ -43,6 +43,12 @@ public class CardHandManager : MonoBehaviour
     }
     void Start()
     {
+        foreach (var zone in noSpawnZones)
+            zone.gameObject.SetActive(false);;
+        
+        foreach (var img in enemyAreaImages)
+            img.enabled = false;
+        
         // 1) 덱 복사 후 셔플
         // deck = new List<MonsterData>(fullDeck);
         deck = new List<CardDataWrapper>(fullDeck);
