@@ -4451,7 +4451,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 640676081
+  SortKey: 49973658
   ObjectInterest: 1
   Flags: 262145
   NestedObjects:
@@ -4632,7 +4632,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 66934790
+  SortKey: 3771199663
   ObjectInterest: 1
   Flags: 262145
   NestedObjects:
@@ -5047,7 +5047,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   towerType: 1
   maxHealth: 2000
-  currentHealth: 0
+  _currentHealth: 0
   targetLayer:
     serializedVersion: 2
     m_Bits: 768
@@ -5095,7 +5095,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 1100325163
+  SortKey: 509622740
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -5293,7 +5293,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   towerType: 0
   maxHealth: 2000
-  currentHealth: 0
+  _currentHealth: 0
   targetLayer:
     serializedVersion: 2
     m_Bits: 768
@@ -5343,7 +5343,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 551143576
+  SortKey: 4255408449
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -5595,7 +5595,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   towerType: 1
   maxHealth: 2000
-  currentHealth: 0
+  _currentHealth: 0
   targetLayer:
     serializedVersion: 2
     m_Bits: 768
@@ -5645,7 +5645,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 1794598931
+  SortKey: 1203896508
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -5719,7 +5719,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 1829720923
+  SortKey: 1239018500
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -6145,7 +6145,7 @@ PrefabInstance:
     - target: {fileID: 7439970061191168305, guid: 9990ead7124b17f40baabf3847604d0b,
         type: 3}
       propertyPath: SortKey
-      value: 830134250
+      value: 239431827
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7817,7 +7817,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   towerType: 0
   maxHealth: 2000
-  currentHealth: 0
+  _currentHealth: 0
   targetLayer:
     serializedVersion: 2
     m_Bits: 768
@@ -7865,7 +7865,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 3693695534
+  SortKey: 3102993111
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -8302,7 +8302,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   towerType: 2
   maxHealth: 3500
-  currentHealth: 0
+  _currentHealth: 0
   targetLayer:
     serializedVersion: 2
     m_Bits: 768
@@ -8350,7 +8350,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 2123833247
+  SortKey: 1533130824
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -9022,7 +9022,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   towerType: 2
   maxHealth: 3500
-  currentHealth: 0
+  _currentHealth: 0
   targetLayer:
     serializedVersion: 2
     m_Bits: 768
@@ -9072,7 +9072,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 1837655379
+  SortKey: 1246952956
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -9929,7 +9929,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 267406221
+  SortKey: 3971671094
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -12535,7 +12535,7 @@ MonoBehaviour:
   m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SortKey: 3561414445
+  SortKey: 2970712022
   ObjectInterest: 1
   Flags: 262145
   NestedObjects: []
@@ -15227,7 +15227,7 @@ PrefabInstance:
     - target: {fileID: 6719053992271665817, guid: 594ec238aa56e674a9dc3a257abcbff5,
         type: 3}
       propertyPath: SortKey
-      value: 2478842895
+      value: 1888140472
       objectReference: {fileID: 0}
     - target: {fileID: 7853042599568289666, guid: 594ec238aa56e674a9dc3a257abcbff5,
         type: 3}
@@ -19768,7 +19768,7 @@ PrefabInstance:
     - target: {fileID: 699848421557446289, guid: 7c7e43089058a1645b8520bdbebe07e4,
         type: 3}
       propertyPath: SortKey
-      value: 3362323933
+      value: 2771621510
       objectReference: {fileID: 0}
     - target: {fileID: 2428413272076563774, guid: 7c7e43089058a1645b8520bdbebe07e4,
         type: 3}
