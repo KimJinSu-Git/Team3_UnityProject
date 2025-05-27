@@ -9,16 +9,17 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public enum GameSessionState
+
+public enum GameSessionState_refactoring
 {
     Lobby,
     Match,
     InGame
 }
 
-public class SessionManager : MonoBehaviour, INetworkRunnerCallbacks
+public class SessionManager_refactoring : MonoBehaviour, INetworkRunnerCallbacks
 {
-    public static SessionManager Instance;
+    public static SessionManager_refactoring Instance;
 
     public class GameRoomInfo
     {
@@ -28,7 +29,7 @@ public class SessionManager : MonoBehaviour, INetworkRunnerCallbacks
     private const int LOBBY_SCENE_INDEX = 1;
     private const int IN_GAME_SCENE_INDEX = 2;
     
-    private const int MAX_PLAYER_COUNT = 2;
+    private const int MAX_PLAYER_COUNT = 1;
 
     private NetworkRunner runner;
     private NetworkSceneManagerDefault sceneManager;
@@ -41,7 +42,7 @@ public class SessionManager : MonoBehaviour, INetworkRunnerCallbacks
     // 플레이어 프리팹
     public GameRoomInfo CurrentGameRoomInfo { get; private set; } 
     
-    public GameSessionState CurrentState = GameSessionState.Lobby;
+    public GameSessionState_refactoring CurrentState = GameSessionState_refactoring.Lobby;
     
     private void Awake()
     {
@@ -76,6 +77,7 @@ public class SessionManager : MonoBehaviour, INetworkRunnerCallbacks
     {
         await runner.JoinSessionLobby(SessionLobby.ClientServer);
     }
+    
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
     {
         Debug.Log($"활성화된 방 = {sessionList.Count}");
@@ -104,7 +106,7 @@ public class SessionManager : MonoBehaviour, INetworkRunnerCallbacks
         };
         await runner.StartGame(args);
         CurrentGameRoomInfo = new GameRoomInfo();
-        CurrentState = GameSessionState.Match;
+        CurrentState = GameSessionState_refactoring.Match;
     }
 
     private async void JoinRoom(string roomName)
@@ -117,7 +119,7 @@ public class SessionManager : MonoBehaviour, INetworkRunnerCallbacks
         };
         await runner.StartGame(args);
         CurrentGameRoomInfo = new GameRoomInfo();
-        CurrentState = GameSessionState.Match;
+        CurrentState = GameSessionState_refactoring.Match;
     }
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
@@ -132,25 +134,39 @@ public class SessionManager : MonoBehaviour, INetworkRunnerCallbacks
         }
 
         if (this.runner.IsServer && runner.ActivePlayers.Count() == MAX_PLAYER_COUNT && 
-            CurrentState == GameSessionState.Match)
+            CurrentState == GameSessionState_refactoring.Match)
         {
             StartInGame(); 
         }
     }
     private async Task StartInGame()
     {
-        // ✅ 덱 전달 (씬 로드 전에 반드시 세팅되어야 함)
-        InGameLoader.playerDeckToLoad = DeckManager_UI.Instance.currentDeck.Select(card =>
-            new CardDataWrapper
-            {
+        Debug.Log("✅ [StartInGame] 호출됨");
+
+        if (DeckManager_UI.Instance == null)
+        {
+            Debug.LogError("❌ DeckManager_UI.Instance가 null입니다!");
+            return;
+        }
+
+        if (InventoryUtility.Instance == null)
+        {
+            Debug.LogError("❌ InventoryUtility.Instance가 null입니다!");
+            return;
+        }
+
+        Debug.Log($"✅ 현재 덱 카드 수: {DeckManager_UI.Instance.currentDeck.Count}");
+
+        InGameLoader.playerDeckToLoad = DeckManager_UI.Instance.currentDeck
+            .Where(card => InventoryUtility.Instance.monsterDB.ContainsKey(card.id))
+            .Select(card => new CardDataWrapper {
                 cardType = CardDataWrapper.CardType.Monster,
                 monsterData = InventoryUtility.Instance.monsterDB[card.id],
                 skillData = null
             }).ToList();
 
-        Debug.Log($"[SessionManager] InGameLoader 덱 세팅 완료: {InGameLoader.playerDeckToLoad.Count}장");
+        Debug.Log($"✅ InGameLoader 덱 설정 완료: {InGameLoader.playerDeckToLoad.Count}장");
 
-        // ✅ 씬 로딩
         await runner.LoadScene(inGameSceneRef);
     }
     public void OnSceneLoadDone(NetworkRunner runner)
@@ -166,7 +182,7 @@ public class SessionManager : MonoBehaviour, INetworkRunnerCallbacks
         runner.Shutdown(); // 기존 세션 종료
         Destroy(runner);
         CurrentGameRoomInfo = null;
-        CurrentState = GameSessionState.Lobby;
+        CurrentState = GameSessionState_refactoring.Lobby;
         SceneManager.LoadScene(LOBBY_SCENE_INDEX);
     }
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)

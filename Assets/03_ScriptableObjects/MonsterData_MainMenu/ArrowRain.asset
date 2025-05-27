@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ArrowRain
   m_EditorClassIdentifier: 
   id: ArrowRain
-  monsterName: ArrowRain
+  monsterName: "\uD654\uC0B4"
   description: "\uD654\uC0B4\uBE44"
   baseHP: 0
   baseDamage: 0

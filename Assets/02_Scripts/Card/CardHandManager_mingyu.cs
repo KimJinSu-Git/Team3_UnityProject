@@ -1,14 +1,18 @@
 using System;
-using Fusion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-public class CardHandManager : MonoBehaviour
+public static class InGameLoader
 {
-    public static  CardHandManager Instance;
+    public static List<CardDataWrapper> playerDeckToLoad;
+}
+
+public class CardHandManager_mingyu : MonoBehaviour
+{
+    public static  CardHandManager_mingyu Instance;
 
     [Header("덱 설정")]
     // public List<MonsterData> fullDeck;        // 전체 카드 데이터(8장)
@@ -27,17 +31,10 @@ public class CardHandManager : MonoBehaviour
     public float       sideDelay        = 2f;   // 사이드→손패 전환 대기 시간
     public float       sideAnimDuration = 0.5f; // 이동 애니메이션 시간
 
-    [Header("스포너")]
+    [Header("스포너 & 적 영역")]
     public Spawner_Network unitSpawner;
-    
-    [Header("적 진영 영역 (Host용)")]
-    public Collider[] hostEnemyZones;
-
-    [Header("적 진영 영역 (Client용)")]
-    public Collider[] clientEnemyZones;
-    
-    [SerializeField] private Collider[] currentNoSpawnZones;
-    [SerializeField] private Image[] currentEnemyAreaImages;
+    public Collider[]        noSpawnZones;
+    public Image[]             enemyAreaImages;
 
     // private List<MonsterData> deck;          // 런타임용 덱
     private List<CardUI>   hand  = new List<CardUI>(); // 현재 손패
@@ -51,53 +48,39 @@ public class CardHandManager : MonoBehaviour
     }
     void Start()
     {
-        var runner = FindObjectOfType<NetworkRunner>();
-        
-        // Host/Client 여부에 따라 콜라이더 세팅
-        if (runner != null && runner.IsServer)
+        // ✅ 외부 전달 덱이 있으면 주입
+        if ((fullDeck == null || fullDeck.Count == 0) && InGameLoader.playerDeckToLoad != null)
+            fullDeck = InGameLoader.playerDeckToLoad;
+
+        if (fullDeck == null || fullDeck.Count == 0)
         {
-            Debug.Log("Host에용");
-            currentNoSpawnZones = hostEnemyZones;
+            Debug.LogError("[CardHandManager] fullDeck이 비어있습니다.");
+            return;
         }
-        else
-        {
-            Debug.Log("Client에용");
-            currentNoSpawnZones = clientEnemyZones;
-        }
-        
-        // foreach (var zone in hostEnemyZones)
-        //     zone.gameObject.SetActive(false);
-        // foreach (var zone in clientEnemyZones)
-        //     zone.gameObject.SetActive(false);
-        // foreach (var zone in currentNoSpawnZones)
-        //     zone.gameObject.SetActive(false);
-        foreach (var img in currentEnemyAreaImages)
-            img.enabled = false;
-        
-        // 1) 덱 복사 후 셔플
-        // deck = new List<MonsterData>(fullDeck);
+
         deck = new List<CardDataWrapper>(fullDeck);
         Shuffle(deck);
-        // 몬스터 데이터 캐싱
+
+        // ✅ 3) 몬스터 데이터 캐싱
         monsterDatas = new Dictionary<string, MonsterData_Mainmenu>();
+        Debug.Log($"[CardHandManager] fullDeck 개수: {fullDeck.Count}");
         foreach (var data in deck)
         {
-            if (data.IsMonster && !monsterDatas.ContainsKey(data.monsterData.name))
+            Debug.Log($" - {data.cardType} / {data.monsterData?.monsterName ?? "null"}");
+            if (data.IsMonster && data.monsterData != null && !monsterDatas.ContainsKey(data.monsterData.name))
             {
                 monsterDatas.Add(data.monsterData.name, data.monsterData);
             }
         }
-        // foreach (MonsterData monsterData in deck)
-        // {
-        //     monsterDatas.Add(monsterData.name, monsterData);
-        // }
-        // 2) 초기 손패 4장 뽑기
+
+        // ✅ 4) 초기 손패 4장 뽑기
         for (int i = 0; i < slotParents.Length; i++)
             DrawToSlot(i);
 
-        // 3) 사이드 슬롯에 5번째 카드 배치
+        // ✅ 5) 사이드 슬롯에 5번째 카드 배치
         DrawToSideSlot();
     }
+
     
     private void DrawToSlot(int slotIndex)   // 지정된 슬롯에 덱 맨 앞 카드를 뽑아서 UI 생성
     {
@@ -113,14 +96,14 @@ public class CardHandManager : MonoBehaviour
         if (data.IsMonster)
         {
             card.Init(data.monsterData, null, data.cardType,
-                unitSpawner, currentNoSpawnZones, currentEnemyAreaImages,
+                unitSpawner, noSpawnZones, enemyAreaImages,
                 slotParents[slotIndex], slotIndex, OnCardPlayed, Area,
                 true, Vector3.one);
         }
         else if (data.IsSkill)
         {
             card.Init(null, data.skillData, data.cardType,
-                unitSpawner, currentNoSpawnZones, currentEnemyAreaImages,
+                unitSpawner, noSpawnZones, enemyAreaImages,
                 slotParents[slotIndex], slotIndex, OnCardPlayed, Area,
                 true, Vector3.one);
         }
@@ -158,14 +141,14 @@ public class CardHandManager : MonoBehaviour
         if (data.IsMonster)
         {
             sideCard.Init(data.monsterData, null, data.cardType,
-                unitSpawner, currentNoSpawnZones, currentEnemyAreaImages,
+                unitSpawner, noSpawnZones, enemyAreaImages,
                 sideSlotParent, -1, null, Area,
                 false, sideScale);
         }
         else if (data.IsSkill)
         {
             sideCard.Init(null, data.skillData, data.cardType,
-                unitSpawner, currentNoSpawnZones, currentEnemyAreaImages,
+                unitSpawner, noSpawnZones, enemyAreaImages,
                 sideSlotParent, -1, null, Area,
                 false, sideScale);
         }
@@ -236,7 +219,7 @@ public class CardHandManager : MonoBehaviour
 
         // 4) 다시 손패 카드로 재초기화 (드래그 가능, 콜백 설정)
         sideCard.Init(sideCard.MonsterData, sideCard.SkillData, playedData.cardType,
-            unitSpawner, currentNoSpawnZones, currentEnemyAreaImages,
+            unitSpawner, noSpawnZones, enemyAreaImages,
             slotParents[slotIndex], slotIndex, OnCardPlayed, Area,
             true, Vector3.one);
         // sideCard.Init(
