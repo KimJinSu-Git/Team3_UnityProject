@@ -3,61 +3,35 @@ using Fusion;
 using UnityEngine;
 
 /// <summary>
-/// 불덩이 마법: 일정 딜레이 후 범위 폭발로 데미지
+/// FireballSpell은 아군 킹 타워에서 화염구 발사체를 날림
 /// </summary>
 public class FireballSpell : NetworkBehaviour
 {
+    public GameObject fireballProjectilePrefab;
+    public Transform kingTowerTransform;
+    
     private SkillData skillData;
     private PlayerRef caster;
     private Vector3 targetPosition;
 
-    public void Init(SkillData data, Vector3 targetPos, PlayerRef owner)
+    public void Init(SkillData data, Vector3 targetPos, PlayerRef owner, Transform kingTower)
     {
         skillData = data;
         caster = owner;
         targetPosition = targetPos;
+        kingTowerTransform = kingTower;
 
-        transform.position = targetPosition;
+        // 시작 위치 = 아군 킹 타워 위치 + 약간 위
+        Vector3 startPos = kingTowerTransform.position + Vector3.up * 2f;
 
-        // 필요 시 초기 이펙트 재생
-        StartCoroutine(Activate());
+        // 발사체 생성 및 초기화
+        GameObject fireball = Instantiate(fireballProjectilePrefab, startPos, Quaternion.identity);
+
+        var projectile = fireball.GetComponent<FireballProjectile>();
+        projectile.Init(targetPosition, caster, Mathf.RoundToInt(skillData.damage));
+
+        Destroy(gameObject, 2);
     }
-
-    private IEnumerator Activate()
-    {
-        // 불덩이가 날아오는 시간
-        yield return new WaitForSeconds(skillData.delay);
-
-        // 폭발 이펙트 재생 위치 등 처리 가능
-
-        Collider[] hits = Physics.OverlapSphere(transform.position, skillData.range, LayerMask.GetMask("Monster", "Tower"));
-        foreach (var hit in hits)
-        {
-            if (hit.TryGetComponent<IDamageAble>(out var dmg) && dmg.PlayerRef != caster)
-            {
-                CombatSystem.Instance.AddCombatEvent(new CombatEvent
-                {
-                    Sender = null,
-                    Receiver = dmg,
-                    Damage = Mathf.RoundToInt(skillData.damage),
-                    UseEffect = true,
-                    EffectName = skillData.skillName, 
-                    EffectPosition = dmg.GameObject.transform.position,
-                    NetworkObject = dmg.NetworkObject
-                });
-            }
-        }
-
-        // 이펙트 종료 후 파괴
-        Destroy(gameObject, 1f);
-    }
-
-#if UNITY_EDITOR
-    private void OnDrawGizmosSelected()
-    {
-        if (skillData == null) return;
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, skillData.range);
-    }
-#endif
+    
+    
 }

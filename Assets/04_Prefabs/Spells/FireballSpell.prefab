@@ -64,3 +64,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f44824c6d543cc54bbdfc5ac558cec1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fireballProjectilePrefab: {fileID: 4068590041941001261, guid: dbe8696f3bf76ee4d8610ca5bf2e2df6,
+    type: 3}
+  kingTowerTransform: {fileID: 0}

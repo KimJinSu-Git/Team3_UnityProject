@@ -151,31 +151,24 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         canvasGroup.alpha = 0f;
         canvasGroup.blocksRaycasts = false;
 
-        // 카드 타입 분기
-        if (monsterData != null)
+        if (cardType == CardDataWrapper.CardType.Monster)
         {
+            foreach (var zone in noSpawnZones)
+                zone.gameObject.SetActive(true);
+            
             previewInstance = Instantiate(monsterData.previewPrefab);
 
-            // 몬스터일 때만 영역 표시
             foreach (var img in enemyAreaImages)
                 img.enabled = true;
-
-            // 제한 영역 감지 켜기
-            foreach (var zone in noSpawnZones)
-                zone.enabled = true;
         }
-        else if (skillData != null)
+        else if (cardType == CardDataWrapper.CardType.Skill)
         {
-            // 스킬은 제한 영역 감지 끔
-            foreach (var zone in noSpawnZones)
-                zone.enabled = false;
-
-            // 드로우된 castingCircle (LineRenderer 원)
+            // 스킬일 경우 제한 영역을 켜지 않음 (꺼진 상태 유지)
+        
             castingCircleGO = new GameObject("CastingCircle");
             circleHelper = castingCircleGO.AddComponent<DrawCircleHelper>();
             circleHelper.Draw(skillData.range);
 
-            // SpriteRenderer 원
             if (skillData.castingCircle != null)
             {
                 castingPreview = new GameObject("CastingCircleSprite");
@@ -188,7 +181,6 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             }
         }
 
-        // 부모 설정
         transform.SetParent(transform.root, false);
         
         // previewInstance = Instantiate(monsterData.previewPrefab);
@@ -215,8 +207,8 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         if (Physics.Raycast(worldCamera.ScreenPointToRay(eventData.position), out var hit, 100f))
         {
             bool canPreview =
-                (monsterData != null && !IsInNoSpawnZone(hit.point)) ||
-                (skillData != null); // 스킬은 어디서든 미리보기 가능
+                (cardType == CardDataWrapper.CardType.Monster && !IsInNoSpawnZone(hit.point)) ||
+                (cardType == CardDataWrapper.CardType.Skill);
 
             if (canPreview)
             {
@@ -224,7 +216,7 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
                     previewInstance.transform.position = hit.point;
 
                 if (castingCircleGO != null)
-                    castingCircleGO.transform.position = hit.point + Vector3.up * 0.1f;
+                    castingCircleGO.transform.position = hit.point + Vector3.up * 0.5f;
             }
         }
         
@@ -246,9 +238,6 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         // 드래그 종료: 원상 복구 및 스폰/콜백 실행
         foreach (var img in enemyAreaImages)
             img.enabled = false;
-        
-        foreach (var zone in noSpawnZones)
-            zone.enabled = true;
         
         canvasGroup.alpha = 1f;
         canvasGroup.blocksRaycasts = true;
@@ -282,6 +271,9 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             onCardPlayed?.Invoke(slotIndex);
             Destroy(gameObject);
         }
+        
+        // foreach (var zone in noSpawnZones)
+        //     zone.gameObject.SetActive(false);
 
         // if (Physics.Raycast(worldCamera.ScreenPointToRay(eventData.position), out var hit, 100f)
         //     && !IsInNoSpawnZone(hit.point))
@@ -337,3 +329,4 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         // }
     }
 }
+

@@ -10,19 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5cb8effa82bf75e43946a45f39bf3f1c, type: 3}
-  m_Name: Mage
+  m_Name: UnitArcher
   m_EditorClassIdentifier: 
   id: 2
-  monsterName: Mage
+  monsterName: UnitArcher
   description: "\uACE0\uB300\uC758 \uC9C0\uC2DD\uC744 \uD1B5\uD574 \uC790\uC5F0 \uBC95\uCE59\uC744
     \uAFF0\uB6AB\uACE0, \uC774\uB97C \uB9C8\uBC95\uC73C\uB85C \uBC14\uAFB8\uB294
     \uC874\uC7AC"
   characterType: 1
+  projectilePrefab: {fileID: 7597660938547843268, guid: ad44054c2164c324697a5fd9e625604f,
+    type: 3}
+  projectileSpeed: 8
   level: 1
-  maxHP: 500
-  damage: 120
+  maxHP: 230
+  damage: 100
   moveSpeed: 4
-  attackRange: 2
+  attackRange: 4
   detectionRadius: 0
   attackSpeed: 1.5
   cost: 4

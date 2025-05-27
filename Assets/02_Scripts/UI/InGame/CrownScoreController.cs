@@ -93,6 +93,12 @@ public class CrownScoreController : NetworkBehaviour
     private int prevScore = -1;
     public override void FixedUpdateNetwork()
     {
+        RPC_UpdateCrownScoreText();
+    }
+
+    [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
+    public void RPC_UpdateCrownScoreText()
+    {
         if (CurrentScore != prevScore)
         {
             prevScore = CurrentScore;

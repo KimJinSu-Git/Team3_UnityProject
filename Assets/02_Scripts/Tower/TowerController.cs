@@ -12,7 +12,7 @@ public class TowerController : NetworkBehaviour, IDamageAble
 
     [Header("타워 정보")]
     public TowerType towerType;
-    public int maxHealth = 2000;
+    public int maxHealth = 300;
     [Networked] public int currentHealth { get; set; }
 
     [Header("감지 대상")]
@@ -103,8 +103,9 @@ public class TowerController : NetworkBehaviour, IDamageAble
         CombatSystem.Instance.RegisterCreature(Collider, this);
     }
 
-    private void Update()
+    public override void FixedUpdateNetwork()
     {
+        RPC_TowerHelathBar();
         if (Input.GetKeyDown(KeyCode.R)) TakeDamage(100);
         if (IsDead) Die();
 
@@ -177,13 +178,22 @@ public class TowerController : NetworkBehaviour, IDamageAble
         //StartCoroutine(HitFlash());
         Rpc_HitFlash();
         Debug.Log($"{towerType} 피해: {damage} / 현재 체력: {currentHealth}");
-        
+
+        //RPC_TowerHelathBar();
+        // if (healthBar != null)
+        //     healthBar.SetHealth(currentHealth);
+        //
+        // if (currentHealth <= 0) Die();
+    }
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    void RPC_TowerHelathBar()
+    {
         if (healthBar != null)
             healthBar.SetHealth(currentHealth);
         
         if (currentHealth <= 0) Die();
     }
-
     private IEnumerator HitFlash()
     {
         foreach (var rend in renderers)

@@ -4,7 +4,7 @@ using UnityEngine.AI;
 using System.Collections;
 
 /// <summary>
-/// 데이터 드리븐 방식 + 애니메이션/CombatSystem 연동: 몬스터 유닛 컨트롤러
+/// 데이터 드리븐 방식 + 애니메이션/CombatSystem 연동: 몬스터 유닛 컨트롤러 (근거리 & 원거리 통합)
 /// </summary>
 [RequireComponent(typeof(NavMeshAgent))]
 public class BaseMonsterController : NetworkBehaviour, IDamageAble
@@ -23,6 +23,10 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
     [Header("Detection Ranges")]
     [SerializeField] private float unitAggroRadius = 3f;
     [SerializeField] private float towerDetectRadius = 40f;
+    
+    [Header("attack animation")]
+    [SerializeField] private float attackImpactNormalizedTime = 0.6f;
+    protected bool hasDealtDamage; 
 
     protected NavMeshAgent agent;
     protected Animator animator;
@@ -36,28 +40,43 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
 
     protected enum State { Idle, Moving, Attacking }
     protected State currentState = State.Idle;
+    private bool isInitialized = false;
 
     protected virtual void Awake()
+    {
+        // agent = GetComponent<NavMeshAgent>();
+        // animator = GetComponent<Animator>();
+        //
+        // renderers = GetComponentsInChildren<Renderer>();
+        // originalColors = new Color[renderers.Length];
+        //
+        // for (int i = 0; i < renderers.Length; i++)
+        // {
+        //     renderers[i].material = Instantiate(renderers[i].material);
+        //     originalColors[i] = renderers[i].material.color;
+        // }
+    }
+
+    public override void Spawned()
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
 
         renderers = GetComponentsInChildren<Renderer>();
         originalColors = new Color[renderers.Length];
-
         for (int i = 0; i < renderers.Length; i++)
         {
             renderers[i].material = Instantiate(renderers[i].material);
             originalColors[i] = renderers[i].material.color;
         }
-    }
 
-    protected virtual void Start()
-    {
-        if (Object.HasStateAuthority == false) 
+        isInitialized = true;
+        // Start
+        if (!Object.HasStateAuthority)
         {
-            GetComponent<NavMeshAgent>().enabled = false;
+            agent.enabled = false;
         }
+
         if (monsterData != null)
         {
             agent.speed = monsterData.moveSpeed;
@@ -65,18 +84,39 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
             currentHp = monsterData.maxHP;
         }
 
-        var col = GetComponent<Collider>();
         if (CombatSystem.Instance != null)
-            CombatSystem.Instance.RegisterCreature(col, this);
-        
+            CombatSystem.Instance.RegisterCreature(GetComponent<Collider>(), this);
+
         if (MonsterHealthBarManager.Instance != null)
             MonsterHealthBarManager.Instance.Register(this, monsterData.maxHP);
     }
+    // protected virtual void Start()
+    // {
+    //     if (Object.HasStateAuthority == false) 
+    //     {
+    //         GetComponent<NavMeshAgent>().enabled = false;
+    //     }
+    //     if (monsterData != null)
+    //     {
+    //         agent.speed = monsterData.moveSpeed;
+    //         agent.autoBraking = false;
+    //         currentHp = monsterData.maxHP;
+    //     }
+    //
+    //     var col = GetComponent<Collider>();
+    //     if (CombatSystem.Instance != null)
+    //         CombatSystem.Instance.RegisterCreature(col, this);
+    //     
+    //     if (MonsterHealthBarManager.Instance != null)
+    //         MonsterHealthBarManager.Instance.Register(this, monsterData.maxHP);
+    // }
 
     public override void FixedUpdateNetwork()
     {
-        if (!Object.HasStateAuthority || isDead) return;
+        //if (!Object.HasStateAuthority || isDead) return;
 
+        if (!Object || !Object.HasStateAuthority || isDead || !isInitialized ) return;
+        RPC_HPUI();
         if (currentState != State.Attacking)
             UpdateTarget();
 
@@ -165,51 +205,96 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_PlayAnimation(string animName)
     {
+        if (Object == null) return;
         PlayAnimation(animName);
     }
-    protected virtual void UpdateAttack()
+    
+    
+     protected virtual void UpdateAttack()
     {
+        if(isDead) return;
         if (currentTarget == null)
         {
             currentState = State.Idle;
             Rpc_PlayAnimation("Idle");
             return;
         }
+
+        // 1) 타겟 바라보기
+        Vector3 dir = currentTarget.position - transform.position;
+        dir.y = 0;
+        if (dir != Vector3.zero)
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(dir.normalized), Time.deltaTime * 10f);
         
-        Vector3 direction = (currentTarget.position - transform.position).normalized;
-        direction.y = 0;
-        if (direction != Vector3.zero)
+        // 2) 이동 멈추기
+        agent.isStopped = true;
+
+        // 3) Attack 애니메이션 상태 읽기
+        var stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        if (!stateInfo.IsName("Attack"))
         {
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+            // 첫 진입 시 애니메이션 전파 및 플래그 초기화
+            hasDealtDamage = false;
+            Rpc_PlayAnimation("Attack");
+            return;
         }
 
-        attackTimer += Runner.DeltaTime;
-        if (attackTimer >= monsterData.attackSpeed)
+        // 4) normalizedTime % 1 로 매 사이클 진행도 계산
+        float cycleTime = stateInfo.normalizedTime % 1f;
+
+        // 4-1) 지정 시점에 데미지 한 번
+        if (!hasDealtDamage && cycleTime >= attackImpactNormalizedTime)
         {
-            attackTimer = 0f;
-            if (currentTarget.TryGetComponent<IDamageAble>(out var dmg))
-            {
-                CombatEvent combatEvent = new CombatEvent
-                {
-                    Sender = this,
-                    Receiver = dmg,
-                    Damage = monsterData.damage,
-                    UseEffect = true,
-                    EffectName = "HitEffect",
-                    EffectPosition = dmg.GameObject.transform.position,
-                    NetworkObject = dmg.NetworkObject
-                };
-                CombatSystem.Instance.AddCombatEvent(combatEvent);
-                OnAttackEffect();
-            }
+            hasDealtDamage = true;
+            if (monsterData.characterType == MonsterData.CharacterType.FarAttack)
+                FireProjectile();
+            else
+                DoDealDamage();
         }
 
+        // 4-2) 다음 사이클 대비 플래그 리셋
+        if (hasDealtDamage && cycleTime < attackImpactNormalizedTime)
+        {
+            hasDealtDamage = false;
+        }
+
+        // 5) 사거리 벗어나면 이동 상태로 복귀
         float dist = Vector3.Distance(transform.position, currentTarget.position);
         if (dist > monsterData.attackRange)
         {
             currentState = State.Moving;
+            agent.isStopped = false;
             Rpc_PlayAnimation("Walk");
+        }
+    }
+     
+    protected virtual void FireProjectile()
+    {
+        if (monsterData.projectilePrefab == null || currentTarget == null) return;
+
+        GameObject go = Instantiate(monsterData.projectilePrefab, transform.position, Quaternion.identity);
+        if (go.TryGetComponent<MonsterProjectile>(out var proj))
+        {
+            proj.Init(currentTarget, playerRef, monsterData.damage, monsterData.projectileSpeed);
+        }
+    }
+    
+    protected virtual void DoDealDamage()
+    {
+        if (currentTarget.TryGetComponent<IDamageAble>(out var dmg))
+        {
+            CombatEvent ev = new CombatEvent
+            {
+                Sender = this,
+                Receiver = dmg,
+                Damage = monsterData.damage,
+                UseEffect = true,
+                EffectName = "HitEffect",
+                EffectPosition = dmg.GameObject.transform.position,
+                NetworkObject = dmg.NetworkObject
+            };
+            CombatSystem.Instance.AddCombatEvent(ev);
+            OnAttackEffect();
         }
     }
 
@@ -234,14 +319,24 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
 
         currentHp -= damage;
         
-        MonsterHealthBarManager.Instance.UpdateHealth(this, currentHp);
+        //MonsterHealthBarManager.Instance.UpdateHealth(this, currentHp);
         
         //StartCoroutine(HitFlash());
         Rpc_HitFlash();
+        // if (currentHp <= 0)
+        // {
+        //     Die();
+        // }
+    }
+
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    void RPC_HPUI()
+    {
+        MonsterHealthBarManager.Instance.UpdateHealth(this, currentHp);
         if (currentHp <= 0)
         {
-            MonsterHealthBarManager.Instance.Unregister(this);
             Die();
+            MonsterHealthBarManager.Instance.Unregister(this);
         }
     }
 
@@ -265,6 +360,7 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
     {
         isDead = true;
         Rpc_PlayAnimation("Die");
+        DeathVFXPool.Instance.Spawn(transform.position);
         RPC_OnDie();
     }
 
