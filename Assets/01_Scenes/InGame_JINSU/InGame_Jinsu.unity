@@ -3371,20 +3371,15 @@ MonoBehaviour:
   - {fileID: 68595548}
   - {fileID: 695841535}
   - {fileID: 1356469068}
-  hostEnemyImages:
-  - {fileID: 364654519}
-  - {fileID: 994756}
-  - {fileID: 1038879169}
   clientEnemyZones:
   - {fileID: 1634701283}
   - {fileID: 1552236199}
   - {fileID: 1830474259}
-  clientEnemyImages:
-  - {fileID: 915041937}
-  - {fileID: 1234596230}
-  - {fileID: 1162086446}
   currentNoSpawnZones: []
-  currentEnemyAreaImages: []
+  currentEnemyAreaImages:
+  - {fileID: 364654519}
+  - {fileID: 994756}
+  - {fileID: 1038879169}
   Area: {fileID: 229061871}
 --- !u!1001 &358141013
 PrefabInstance:
@@ -7804,7 +7799,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 915041935}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -9478,7 +9473,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1162086444}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -10050,7 +10045,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1234596228}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -13398,6 +13393,8 @@ MonoBehaviour:
     type: 3}
   fireballPrefab: {fileID: 2240476998455059014, guid: d3059e8e0c7a46842add99bec4601615,
     type: 3}
+  hostKingTower: {fileID: 1538714228}
+  clientKingTower: {fileID: 1376012143}
   myKingTowerTransform: {fileID: 1538714228}
 --- !u!4 &1760976198
 Transform:

@@ -32,11 +32,9 @@ public class CardHandManager : MonoBehaviour
     
     [Header("적 진영 영역 (Host용)")]
     public Collider[] hostEnemyZones;
-    public Image[] hostEnemyImages;
 
     [Header("적 진영 영역 (Client용)")]
     public Collider[] clientEnemyZones;
-    public Image[] clientEnemyImages;
     
     [SerializeField] private Collider[] currentNoSpawnZones;
     [SerializeField] private Image[] currentEnemyAreaImages;
@@ -60,13 +58,11 @@ public class CardHandManager : MonoBehaviour
         {
             Debug.Log("Host에용");
             currentNoSpawnZones = hostEnemyZones;
-            currentEnemyAreaImages = hostEnemyImages;
         }
         else
         {
             Debug.Log("Client에용");
             currentNoSpawnZones = clientEnemyZones;
-            currentEnemyAreaImages = clientEnemyImages;
         }
         
         foreach (var zone in hostEnemyZones)
@@ -75,10 +71,6 @@ public class CardHandManager : MonoBehaviour
             zone.gameObject.SetActive(false);
         foreach (var zone in currentNoSpawnZones)
             zone.gameObject.SetActive(false);
-        foreach (var img in hostEnemyImages)
-            img.enabled = false;
-        foreach (var img in clientEnemyImages)
-            img.enabled = false;
         foreach (var img in currentEnemyAreaImages)
             img.enabled = false;
         

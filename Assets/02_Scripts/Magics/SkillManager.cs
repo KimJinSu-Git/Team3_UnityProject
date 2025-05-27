@@ -12,11 +12,28 @@ public class SkillManager : NetworkBehaviour
     public GameObject arrowRainPrefab;
     public GameObject fireballPrefab;
     
+    public Transform hostKingTower;
+    public Transform clientKingTower;
+    
+    [HideInInspector]
     public Transform myKingTowerTransform;
 
     private void Awake()
     {
         Instance = this;
+    }
+    
+    private void Start()
+    {
+        var runner = FindObjectOfType<NetworkRunner>();
+        if (runner.IsServer)
+        {
+            myKingTowerTransform = hostKingTower;
+        }
+        else
+        {
+            myKingTowerTransform = clientKingTower;
+        }
     }
 
     public void CastSkill(SkillData data, Vector3 position)
@@ -30,9 +47,13 @@ public class SkillManager : NetworkBehaviour
             (runner, obj) =>
             {
                 if (data.skillName == "ArrowRain")
+                {
                     obj.GetComponent<ArrowRainSpell>()?.Init(data, position, player, myKingTowerTransform);
+                }
                 else if (data.skillName == "Fireball")
-                    obj.GetComponent<FireballSpell>()?.Init(data, position, player);
+                {
+                    obj.GetComponent<FireballSpell>()?.Init(data, position, player, myKingTowerTransform);
+                }
             });
     }
 
