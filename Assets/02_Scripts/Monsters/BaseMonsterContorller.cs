@@ -24,6 +24,10 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
     [SerializeField] private float unitAggroRadius = 3f;
     [SerializeField] private float towerDetectRadius = 40f;
 
+    [Header("attack animation")]
+    [SerializeField] private float attackImpactNormalizedTime = 0.6f;
+    private bool hasDealtDamage;
+    
     protected NavMeshAgent agent;
     protected Animator animator;
     protected Renderer[] renderers;
@@ -167,6 +171,8 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
     {
         PlayAnimation(animName);
     }
+    
+    
     protected virtual void UpdateAttack()
     {
         if (currentTarget == null)
@@ -175,41 +181,73 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
             Rpc_PlayAnimation("Idle");
             return;
         }
-        
-        Vector3 direction = (currentTarget.position - transform.position).normalized;
-        direction.y = 0;
-        if (direction != Vector3.zero)
+
+        // 1) 타겟 바라보기
+        Vector3 dir = currentTarget.position - transform.position;
+        dir.y = 0;
+        if (dir != Vector3.zero)
+            transform.rotation = Quaternion.Slerp(
+                transform.rotation,
+                Quaternion.LookRotation(dir.normalized),
+                Time.deltaTime * 10f
+            );
+
+        // 2) 이동 멈추기
+        agent.isStopped = true;
+
+        // 3) Attack 애니메이션 상태 읽기
+        var stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        if (!stateInfo.IsName("Attack"))
         {
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+            // 첫 진입 시 애니메이션 전파 및 플래그 초기화
+            hasDealtDamage = false;
+            Rpc_PlayAnimation("Attack");
+            return;
         }
 
-        attackTimer += Runner.DeltaTime;
-        if (attackTimer >= monsterData.attackSpeed)
+        // 4) normalizedTime % 1 로 매 사이클 진행도 계산
+        float cycleTime = stateInfo.normalizedTime % 1f;
+
+        // 4-1) 지정 시점에 데미지 한 번
+        if (!hasDealtDamage && cycleTime >= attackImpactNormalizedTime)
         {
-            attackTimer = 0f;
-            if (currentTarget.TryGetComponent<IDamageAble>(out var dmg))
-            {
-                CombatEvent combatEvent = new CombatEvent
-                {
-                    Sender = this,
-                    Receiver = dmg,
-                    Damage = monsterData.damage,
-                    UseEffect = true,
-                    EffectName = "HitEffect",
-                    EffectPosition = dmg.GameObject.transform.position,
-                    NetworkObject = dmg.NetworkObject
-                };
-                CombatSystem.Instance.AddCombatEvent(combatEvent);
-                OnAttackEffect();
-            }
+            hasDealtDamage = true;
+            DoDealDamage();
         }
 
+        // 4-2) 다음 사이클 대비 플래그 리셋
+        if (hasDealtDamage && cycleTime < attackImpactNormalizedTime)
+        {
+            hasDealtDamage = false;
+        }
+
+        // 5) 사거리 벗어나면 이동 상태로 복귀
         float dist = Vector3.Distance(transform.position, currentTarget.position);
         if (dist > monsterData.attackRange)
         {
             currentState = State.Moving;
+            agent.isStopped = false;
             Rpc_PlayAnimation("Walk");
+        }
+    }
+
+
+    
+    private void DoDealDamage()
+    {
+        if (currentTarget.TryGetComponent<IDamageAble>(out var dmg))
+        {
+            CombatEvent ev = new CombatEvent {
+                Sender        = this,
+                Receiver      = dmg,
+                Damage        = monsterData.damage,
+                UseEffect     = true,
+                EffectName    = "HitEffect",
+                EffectPosition= dmg.GameObject.transform.position,
+                NetworkObject = dmg.NetworkObject
+            };
+            CombatSystem.Instance.AddCombatEvent(ev);
+            OnAttackEffect();
         }
     }
 

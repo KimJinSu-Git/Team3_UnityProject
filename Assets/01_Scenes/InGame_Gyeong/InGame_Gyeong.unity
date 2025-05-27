@@ -3367,14 +3367,10 @@ MonoBehaviour:
   sideDelay: 1
   sideAnimDuration: 0.5
   unitSpawner: {fileID: 2127208871}
-  noSpawnZones:
-  - {fileID: 695841535}
-  - {fileID: 68595548}
-  - {fileID: 1356469068}
-  enemyAreaImages:
-  - {fileID: 364654519}
-  - {fileID: 994756}
-  - {fileID: 1038879169}
+  hostEnemyZones: []
+  clientEnemyZones: []
+  currentNoSpawnZones: []
+  currentEnemyAreaImages: []
   Area: {fileID: 229061871}
 --- !u!1001 &358141013
 PrefabInstance:
@@ -12914,6 +12910,8 @@ MonoBehaviour:
     type: 3}
   fireballPrefab: {fileID: 2240476998455059014, guid: d3059e8e0c7a46842add99bec4601615,
     type: 3}
+  hostKingTower: {fileID: 0}
+  clientKingTower: {fileID: 0}
   myKingTowerTransform: {fileID: 1538714228}
 --- !u!4 &1760976198
 Transform:
