@@ -314,6 +314,7 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
     {
         isDead = true;
         Rpc_PlayAnimation("Die");
+        DeathVFXPool.Instance.Spawn(transform.position);
         RPC_OnDie();
     }
 

@@ -20,8 +20,8 @@ MonoBehaviour:
     \uBA85\uB839\uC5D0 \uC808\uB300 \uBCF5\uC885\uD569\uB2C8\uB2E4"
   characterType: 0
   level: 1
-  maxHP: 1000
-  damage: 100
+  maxHP: 200
+  damage: 50
   moveSpeed: 4
   attackRange: 2
   detectionRadius: 0
