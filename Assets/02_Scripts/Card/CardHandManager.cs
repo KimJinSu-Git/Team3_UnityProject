@@ -65,12 +65,12 @@ public class CardHandManager : MonoBehaviour
             currentNoSpawnZones = clientEnemyZones;
         }
         
-        foreach (var zone in hostEnemyZones)
-            zone.gameObject.SetActive(false);
-        foreach (var zone in clientEnemyZones)
-            zone.gameObject.SetActive(false);
-        foreach (var zone in currentNoSpawnZones)
-            zone.gameObject.SetActive(false);
+        // foreach (var zone in hostEnemyZones)
+        //     zone.gameObject.SetActive(false);
+        // foreach (var zone in clientEnemyZones)
+        //     zone.gameObject.SetActive(false);
+        // foreach (var zone in currentNoSpawnZones)
+        //     zone.gameObject.SetActive(false);
         foreach (var img in currentEnemyAreaImages)
             img.enabled = false;
         

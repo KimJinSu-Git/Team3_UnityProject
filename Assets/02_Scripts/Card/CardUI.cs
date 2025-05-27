@@ -272,8 +272,8 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             Destroy(gameObject);
         }
         
-        foreach (var zone in noSpawnZones)
-            zone.gameObject.SetActive(false);
+        // foreach (var zone in noSpawnZones)
+        //     zone.gameObject.SetActive(false);
 
         // if (Physics.Raycast(worldCamera.ScreenPointToRay(eventData.position), out var hit, 100f)
         //     && !IsInNoSpawnZone(hit.point))
