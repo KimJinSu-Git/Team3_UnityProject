@@ -212,6 +212,7 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
     
      protected virtual void UpdateAttack()
     {
+        if(isDead) return;
         if (currentTarget == null)
         {
             currentState = State.Idle;

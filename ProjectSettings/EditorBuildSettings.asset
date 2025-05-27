@@ -12,11 +12,11 @@ EditorBuildSettings:
     path: Assets/01_Scenes/MainMenu/MainMenu.unity
     guid: c60fadf78d12f3d4890c0c0bbe046bd1
   - enabled: 1
-    path: Assets/01_Scenes/InGame_Gyeong/InGame_gyeong.unity
-    guid: a28dc2c0559a4f44d9592afabbe96f87
-  - enabled: 1
     path: Assets/01_Scenes/InGame_JINSU/InGame_Jinsu.unity
     guid: aeb58691764675b45a06bf4747e90a6c
+  - enabled: 1
+    path: Assets/01_Scenes/InGame_Gyeong/InGame_Gyeong.unity
+    guid: 234d7232895c1804ab8df331133ba8f1
   - enabled: 1
     path: Assets/01_Scenes/Network/InGame_Network1.unity
     guid: 5543216fbc503c34a9890251196ab598
