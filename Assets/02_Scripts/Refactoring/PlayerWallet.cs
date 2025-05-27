@@ -4,30 +4,33 @@ using Firebase.Auth;
 using Firebase.Firestore;
 using System;
 using System.Collections.Generic;
-using TMPro; // ← 텍스트 UI 연결용
+using TMPro;
 
+/// 💰 통화 종류 열거형 정의
 public enum CurrencyType
 {
     Gold,
     Gem
 }
 
+/// 💳 플레이어의 골드/젬 재화 및 UI/Firebase 관리
 public class PlayerWallet : MonoBehaviour
 {
-    public static PlayerWallet Instance { get; private set; }
+    public static PlayerWallet Instance { get; private set; } // 싱글톤 인스턴스
 
-    public int gold { get; private set; }
-    public int gem { get; private set; }
+    public int gold { get; private set; } // 현재 골드
+    public int gem { get; private set; }  // 현재 젬
 
-    private FirebaseAuth auth;
-    private FirebaseFirestore firestore;
+    private FirebaseAuth auth; // Firebase 인증
+    private FirebaseFirestore firestore; // Firebase Firestore DB
 
     [Header("UI 연결")]
-    [SerializeField] private TextMeshProUGUI goldText;
-    [SerializeField] private TextMeshProUGUI gemText;
+    [SerializeField] private TextMeshProUGUI goldText; // 골드 표시 UI
+    [SerializeField] private TextMeshProUGUI gemText;  // 젬 표시 UI
 
     private void Awake()
     {
+        // ✅ 싱글톤 생성
         if (Instance == null) Instance = this;
         else
         {
@@ -35,10 +38,12 @@ public class PlayerWallet : MonoBehaviour
             return;
         }
 
+        // ✅ Firebase 참조 설정
         auth = FirebaseAuth.DefaultInstance;
         firestore = FirebaseFirestore.DefaultInstance;
     }
 
+    /// ☁️ Firebase에서 유저 재화 불러오기
     public void LoadFromFirebase()
     {
         string uid = auth.CurrentUser?.UserId;
@@ -52,8 +57,8 @@ public class PlayerWallet : MonoBehaviour
         {
             if (task.IsCompleted && task.Result.Exists)
             {
+                // 🔄 기존 유저 재화 로딩
                 var data = task.Result.ToDictionary();
-
                 gold = data.ContainsKey("gold") ? Convert.ToInt32(data["gold"]) : 0;
                 gem = data.ContainsKey("gem") ? Convert.ToInt32(data["gem"]) : 0;
 
@@ -62,6 +67,7 @@ public class PlayerWallet : MonoBehaviour
             }
             else
             {
+                // 🆕 신규 유저 초기값 설정
                 Debug.Log("[Wallet] 신규 유저로 기본값 설정");
                 gold = 1000;
                 gem = 100;
@@ -71,6 +77,7 @@ public class PlayerWallet : MonoBehaviour
         });
     }
 
+    /// ☁️ Firebase에 현재 재화 저장
     public void SaveToFirebase()
     {
         string uid = auth.CurrentUser?.UserId;
@@ -85,8 +92,9 @@ public class PlayerWallet : MonoBehaviour
         firestore.Collection("users").Document(uid).SetAsync(data, SetOptions.MergeAll);
     }
 
-    // ====== 재화 공통 메서드 ======
+    // ===================== 재화 처리 공통 메서드 =====================
 
+    /// 💸 특정 재화 차감 시도
     public bool TrySpendCurrency(CurrencyType type, int amount)
     {
         switch (type)
@@ -100,6 +108,7 @@ public class PlayerWallet : MonoBehaviour
         }
     }
 
+    /// 💰 특정 재화 추가
     public void AddCurrency(CurrencyType type, int amount)
     {
         switch (type)
@@ -115,6 +124,7 @@ public class PlayerWallet : MonoBehaviour
         UpdateUI();
     }
 
+    /// 💲 특정 재화의 현재 값 반환
     public int GetCurrencyAmount(CurrencyType type)
     {
         return type switch
@@ -125,11 +135,13 @@ public class PlayerWallet : MonoBehaviour
         };
     }
 
+    /// ✅ 충분한 재화 보유 여부 확인
     public bool HasEnoughCurrency(CurrencyType type, int amount)
     {
         return GetCurrencyAmount(type) >= amount;
     }
 
+    /// 💳 골드 차감 시도
     public bool TrySpendGold(int amount)
     {
         if (gold < amount) return false;
@@ -139,6 +151,7 @@ public class PlayerWallet : MonoBehaviour
         return true;
     }
 
+    /// 💎 젬 차감 시도
     public bool TrySpendGem(int amount)
     {
         if (gem < amount) return false;
@@ -148,6 +161,7 @@ public class PlayerWallet : MonoBehaviour
         return true;
     }
 
+    /// 🔄 UI 업데이트 (Text에 값 반영)
     private void UpdateUI()
     {
         if (goldText != null)
