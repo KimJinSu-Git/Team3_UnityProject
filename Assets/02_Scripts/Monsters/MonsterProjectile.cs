@@ -1,5 +1,7 @@
+using System.Numerics;
 using Fusion;
 using UnityEngine;
+using Vector3 = UnityEngine.Vector3;
 
 public class MonsterProjectile : MonoBehaviour
 {
@@ -14,6 +16,8 @@ public class MonsterProjectile : MonoBehaviour
         this.owner = owner;
         this.damage = damage;
         this.speed = speed;
+
+        transform.position += Vector3.up * 3f;
 
         Destroy(gameObject, 3f);
     }

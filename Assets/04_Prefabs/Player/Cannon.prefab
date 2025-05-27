@@ -1399,6 +1399,7 @@ MonoBehaviour:
   monsterData: {fileID: 11400000, guid: 86312d4d12a00604c800b898f1f263f4, type: 2}
   unitAggroRadius: 5
   towerDetectRadius: 5
+  attackImpactNormalizedTime: 0.6
   isDead: 0
 --- !u!114 &6779772089130596175
 MonoBehaviour:
@@ -1468,7 +1469,7 @@ Animator:
   m_GameObject: {fileID: 5247959180403028144}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 6f5e2492b5878094e8b34159fd49a16b, type: 2}
+  m_Controller: {fileID: 9100000, guid: e9ee1b01ecae8c64c8ba4ad50a5cf8de, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
