@@ -36,8 +36,24 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
 
     protected enum State { Idle, Moving, Attacking }
     protected State currentState = State.Idle;
+    private bool isInitialized = false;
 
     protected virtual void Awake()
+    {
+        // agent = GetComponent<NavMeshAgent>();
+        // animator = GetComponent<Animator>();
+        //
+        // renderers = GetComponentsInChildren<Renderer>();
+        // originalColors = new Color[renderers.Length];
+        //
+        // for (int i = 0; i < renderers.Length; i++)
+        // {
+        //     renderers[i].material = Instantiate(renderers[i].material);
+        //     originalColors[i] = renderers[i].material.color;
+        // }
+    }
+
+    public override void Spawned()
     {
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
@@ -50,10 +66,8 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
             renderers[i].material = Instantiate(renderers[i].material);
             originalColors[i] = renderers[i].material.color;
         }
-    }
-
-    protected virtual void Start()
-    {
+        isInitialized = true;
+        // Start
         if (Object.HasStateAuthority == false) 
         {
             GetComponent<NavMeshAgent>().enabled = false;
@@ -72,11 +86,32 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
         if (MonsterHealthBarManager.Instance != null)
             MonsterHealthBarManager.Instance.Register(this, monsterData.maxHP);
     }
+    // protected virtual void Start()
+    // {
+    //     if (Object.HasStateAuthority == false) 
+    //     {
+    //         GetComponent<NavMeshAgent>().enabled = false;
+    //     }
+    //     if (monsterData != null)
+    //     {
+    //         agent.speed = monsterData.moveSpeed;
+    //         agent.autoBraking = false;
+    //         currentHp = monsterData.maxHP;
+    //     }
+    //
+    //     var col = GetComponent<Collider>();
+    //     if (CombatSystem.Instance != null)
+    //         CombatSystem.Instance.RegisterCreature(col, this);
+    //     
+    //     if (MonsterHealthBarManager.Instance != null)
+    //         MonsterHealthBarManager.Instance.Register(this, monsterData.maxHP);
+    // }
 
     public override void FixedUpdateNetwork()
     {
-        if (!Object.HasStateAuthority || isDead) return;
+        //if (!Object.HasStateAuthority || isDead) return;
 
+        if (!Object || !Object.HasStateAuthority || isDead || !isInitialized ) return;
         RPC_HPUI();
         if (currentState != State.Attacking)
             UpdateTarget();
@@ -166,6 +201,7 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_PlayAnimation(string animName)
     {
+        if (Object == null) return;
         PlayAnimation(animName);
     }
     protected virtual void UpdateAttack()
@@ -173,7 +209,7 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
         if (currentTarget == null)
         {
             currentState = State.Idle;
-            Rpc_PlayAnimation("Idle");
+            Rpc_PlayAnimation("Idle");  
             return;
         }
         
