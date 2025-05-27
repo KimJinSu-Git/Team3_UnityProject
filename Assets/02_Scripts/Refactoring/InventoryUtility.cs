@@ -7,16 +7,29 @@ using System.Linq;
 
 public class InventoryUtility : MonoBehaviour
 {
+    public static InventoryUtility Instance;
+    
+    [Header("데이터")]
     public PlayerCardInventory inventory;
-    public MonsterData_Mainmenu[] monsterList;
+    
+    [Header("몬스터 목록")]
+    [SerializeField] private MonsterData_Mainmenu[] monsterList;
+    public Dictionary<string, MonsterData_Mainmenu> monsterDB;
 
     private FirebaseAuth auth;
     private FirebaseFirestore firestore;
 
     void Awake()
     {
+        // 싱글톤 할당
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
+
         auth = FirebaseAuth.DefaultInstance;
         firestore = FirebaseFirestore.DefaultInstance;
+
+        // ✅ monsterDB 초기화
+        monsterDB = monsterList.ToDictionary(m => m.id, m => m);
     }
 
     [ContextMenu("☁️ 인벤토리 불러오기 from Firebase")]
@@ -28,8 +41,6 @@ public class InventoryUtility : MonoBehaviour
             Debug.LogWarning("❌ 로그인된 유저가 없습니다.");
             return;
         }
-
-        var monsterDB = monsterList.ToDictionary(m => m.id, m => m);
 
         firestore.Collection("users").Document(uid)
             .Collection("data").Document("inventory")

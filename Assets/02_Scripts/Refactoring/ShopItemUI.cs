@@ -41,7 +41,7 @@ public class ShopItemUI : MonoBehaviour
         iconImage.sprite = offer.item.iconPath;
         countText.text = "x" + offer.quantity;
         priceText.text = offer.price.ToString();
-        CurrencyIcon.sprite = CurrencyIconManager.GetSprite(offer.currency);
+        CurrencyIcon.sprite = CurrencyIconManager.GetSprite(offer.currencyType);
         
         int owned = inventory.GetCardCount(offer.item.itemId);
         int level = inventory.GetCardLevel(offer.item.itemId);

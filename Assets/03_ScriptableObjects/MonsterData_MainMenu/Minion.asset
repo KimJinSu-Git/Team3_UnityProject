@@ -13,19 +13,20 @@ MonoBehaviour:
   m_Name: Minion
   m_EditorClassIdentifier: 
   id: Minion
-  monsterName: Minion
+  monsterName: "\uBBF8\uB2C8\uC5B8"
   description: "\uC5B4\uB9B0 \uD574\uACE8 \uAD70\uB2E8\uC785\uB2C8\uB2E4."
-  level: 1
-  maxHP: 5
-  damage: 10
-  moveSpeed: 1.5
+  baseHP: 0
+  baseDamage: 0
+  baseAttackSpeed: 0
+  baseMoveSpeed: 0
   attackRange: 1
-  attackSpeed: 5
-  attack: 2
+  cost: 3
+  attackType: 0
   cardType: 0
   rarity: 0
-  cost: 3
+  elixirCost: 0
   spawnTime: 1
+  lifeDuration: -1
   prefab: {fileID: 6028967880764688065, guid: ff3fa9d0748a9914ea7fde228f3a4402, type: 3}
   previewPrefab: {fileID: 3698031327218383550, guid: 9839cbbc5841a0e4e898e955146a677a,
     type: 3}

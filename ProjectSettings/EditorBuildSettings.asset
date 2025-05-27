@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/01_Scenes/MainMenu/MainMenu.unity
     guid: c60fadf78d12f3d4890c0c0bbe046bd1
   - enabled: 1
+    path: Assets/01_Scenes/InGame_Mingyu/InGame_Mingyu.unity
+    guid: 045118085a1198e408fe62dbe1d42dc5
+  - enabled: 1
     path: Assets/01_Scenes/InGame_JINSU/InGame_Jinsu.unity
     guid: aeb58691764675b45a06bf4747e90a6c
   - enabled: 1

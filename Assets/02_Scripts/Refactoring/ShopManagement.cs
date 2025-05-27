@@ -1,4 +1,5 @@
 // ✅ ShopManagement (상점 전체 관리)
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,21 +65,16 @@ public class ShopManagement : MonoBehaviour
 
     void Start()
     {
-        Debug.Log($"[Shop] inventory: {(inventory == null ? "❌ null" : "✅ ok")}");
-        Debug.Log($"[Shop] monsterDB: {(monsterDB == null ? "❌ null" : "✅ ok")}");
-        Debug.Log($"[Shop] upgradeDB: {(upgradeDB == null ? "❌ null" : "✅ ok")}");
-        
         LoadAllOffers();
-
         refreshCount = PlayerPrefs.GetInt("refreshCount", 0);
 
         if (PlayerWallet.Instance != null)
         {
-            PlayerWallet.Instance.AddCurrency(CurrencyType.Gold, 10000); // 테스트용
-            PlayerWallet.Instance.AddCurrency(CurrencyType.Gem, 1000); // 빌드 시 삭제
+            PlayerWallet.Instance.AddCurrency(CurrencyType.Gold, 10000);
+            PlayerWallet.Instance.AddCurrency(CurrencyType.Gem, 1000);
         }
 
-        ForceRefreshOnEnter();
+        CheckAutoRefresh(); // ← 시간 기준 갱신
         UpdateCostUI();
     }
 
@@ -100,6 +96,35 @@ public class ShopManagement : MonoBehaviour
         DisplayOffers(currentOffers);
         Debug.Log("[Shop] ✅ 첫 진입 시 상점 초기화 완료");
     }
+    
+    void CheckAutoRefresh()
+    {
+        string lastTimeStr = PlayerPrefs.GetString("lastRefreshTime", "");
+        DateTime now = DateTime.Now;
+
+        if (DateTime.TryParse(lastTimeStr, out DateTime lastTime))
+        {
+            TimeSpan diff = now - lastTime;
+
+            if (diff.TotalSeconds >= cooldownTime)
+            {
+                Debug.Log($"[Shop] ⏰ 자동 갱신됨 - 경과 시간: {diff.TotalSeconds:F1}초");
+                ForceRefreshOnEnter();
+                PlayerPrefs.SetString("lastRefreshTime", now.ToString());
+            }
+            else
+            {
+                Debug.Log($"[Shop] 💤 아직 갱신 안 됨 - 남은 시간: {cooldownTime - diff.TotalSeconds:F1}초");
+            }
+        }
+        else
+        {
+            // 최초 진입 시 저장
+            Debug.Log("[Shop] 🆕 첫 갱신 시간 저장됨");
+            PlayerPrefs.SetString("lastRefreshTime", now.ToString());
+        }
+    }
+
 
     void LoadAllOffers()
     {
@@ -126,6 +151,11 @@ public class ShopManagement : MonoBehaviour
         foreach (var offer in allOffers)
         {
             offer.item.iconPath = Resources.Load<Sprite>($"Icons/{offer.item.icon}");
+
+            if (Enum.TryParse<CurrencyType>(offer.currency, out var parsed))
+                offer.currencyType = parsed;
+            else
+                offer.currencyType = CurrencyType.Gold;
         }
     }
 
@@ -147,9 +177,11 @@ public class ShopManagement : MonoBehaviour
             Debug.LogWarning("[Shop] ❌ 재화 부족");
             return;
         }
+        
 
         refreshCount++;
         PlayerPrefs.SetInt("refreshCount", refreshCount);
+        PlayerPrefs.SetString("lastRefreshTime", DateTime.Now.ToString()); // ✅ 갱신 시각 저장
 
         Debug.Log("[Shop] ✅ 비용 차감 완료, 리프레시 시작");
         Debug.Log($"[Shop] Refresh Count = {refreshCount}");
@@ -192,7 +224,8 @@ public class ShopManagement : MonoBehaviour
 
     List<ShopOfferData> GetRandomOffers()
     {
-        return allOffers.OrderBy(x => Random.value).Take(displayCount).ToList();
+        return allOffers.OrderBy(x => Guid.NewGuid()).Take(displayCount).ToList();
+
     }
 
     // DisplayOffers 수정

@@ -4,6 +4,7 @@ using Firebase.Auth;
 using Firebase.Firestore;
 using System;
 using System.Collections.Generic;
+using TMPro; // ← 텍스트 UI 연결용
 
 public enum CurrencyType
 {
@@ -20,6 +21,10 @@ public class PlayerWallet : MonoBehaviour
 
     private FirebaseAuth auth;
     private FirebaseFirestore firestore;
+
+    [Header("UI 연결")]
+    [SerializeField] private TextMeshProUGUI goldText;
+    [SerializeField] private TextMeshProUGUI gemText;
 
     private void Awake()
     {
@@ -53,6 +58,7 @@ public class PlayerWallet : MonoBehaviour
                 gem = data.ContainsKey("gem") ? Convert.ToInt32(data["gem"]) : 0;
 
                 Debug.Log($"[Wallet] 로드 완료: Gold={gold}, Gem={gem}");
+                UpdateUI();
             }
             else
             {
@@ -60,6 +66,7 @@ public class PlayerWallet : MonoBehaviour
                 gold = 1000;
                 gem = 100;
                 SaveToFirebase();
+                UpdateUI();
             }
         });
     }
@@ -105,6 +112,7 @@ public class PlayerWallet : MonoBehaviour
                 break;
         }
         SaveToFirebase();
+        UpdateUI();
     }
 
     public int GetCurrencyAmount(CurrencyType type)
@@ -127,6 +135,7 @@ public class PlayerWallet : MonoBehaviour
         if (gold < amount) return false;
         gold -= amount;
         SaveToFirebase();
+        UpdateUI();
         return true;
     }
 
@@ -135,6 +144,16 @@ public class PlayerWallet : MonoBehaviour
         if (gem < amount) return false;
         gem -= amount;
         SaveToFirebase();
+        UpdateUI();
         return true;
+    }
+
+    private void UpdateUI()
+    {
+        if (goldText != null)
+            goldText.text = gold.ToString();
+
+        if (gemText != null)
+            gemText.text = gem.ToString();
     }
 }

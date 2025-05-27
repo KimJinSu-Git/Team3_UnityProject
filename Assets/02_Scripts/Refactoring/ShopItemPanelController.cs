@@ -58,7 +58,7 @@ public class ShopItemPanelController : MonoBehaviour
         countText.text = $"x {offer.quantity}";
         cardNameText.text = monster.monsterName;
         rarityText.text = monster.rarity.ToString();
-        currencyIcon.sprite = CurrencyIconManager.GetSprite(offer.currency);
+        currencyIcon.sprite = CurrencyIconManager.GetSprite(offer.currencyType);
         buyButton.GetComponentInChildren<TMP_Text>().text = offer.price.ToString();
 
         int owned = inventory.GetCardCount(cardId);
@@ -79,7 +79,7 @@ public class ShopItemPanelController : MonoBehaviour
             return;
         }
 
-        if (!PlayerWallet.Instance.TrySpendCurrency(currentOffer.currency, currentOffer.price))
+        if (!PlayerWallet.Instance.TrySpendCurrency(currentOffer.currencyType, currentOffer.price))
         {
             Debug.LogWarning("[ShopPanel] ❌ 재화 부족");
             return;

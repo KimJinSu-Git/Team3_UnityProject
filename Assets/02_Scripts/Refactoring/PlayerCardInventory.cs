@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerCardInventory : MonoBehaviour
 {
     public List<PlayerCardData> allOwnedCards = new();
+    public UnityEvent<string> onCardChanged = new();  // 카드 ID를 넘김
 
     /// <summary>
     /// 카드 ID로 보유 카드 데이터를 가져옵니다.
@@ -52,6 +54,8 @@ public class PlayerCardInventory : MonoBehaviour
         {
             allOwnedCards.Add(new PlayerCardData(id, startLevel, amount));
         }
+
+        onCardChanged?.Invoke(id);  // ✅ 카드 갱신 알림
     }
 
     /// <summary>
@@ -64,6 +68,8 @@ public class PlayerCardInventory : MonoBehaviour
         {
             card.ownedCount -= cost;
             card.level++;
+
+            onCardChanged?.Invoke(id);  // ✅ 업그레이드 후 알림
         }
     }
 
