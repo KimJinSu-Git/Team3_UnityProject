@@ -31,6 +31,8 @@ public class MonsterHealthBarManager : MonoBehaviour
 
     private void LateUpdate()
     {
+        if (GameManager.Instance.ended) return;
+        
         Camera cam = Camera.main;
         foreach (var kv in table)
         {
