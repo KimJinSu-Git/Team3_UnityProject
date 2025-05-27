@@ -61,12 +61,12 @@ public class CardHandManager : MonoBehaviour
         // Host/Client 여부에 따라 콜라이더 세팅
         if (runner != null && runner.IsServer)
         {
-            Debug.Log("Host에용");
+            Debug.Log("Host");
             currentNoSpawnZones = hostEnemyZones;
         }
         else
         {
-            Debug.Log("Client에용");
+            Debug.Log("Client");
             currentNoSpawnZones = clientEnemyZones;
         }
         
@@ -94,6 +94,10 @@ public class CardHandManager : MonoBehaviour
 
         // ✅ 3) 몬스터 데이터 캐싱
         monsterDatas = new Dictionary<string, MonsterData_Mainmenu>();
+        // foreach (MonsterData monsterData in deck)
+        // {
+        //     monsterDatas.Add(monsterData.name, monsterData);
+        // }
         Debug.Log($"[CardHandManager] fullDeck 개수: {fullDeck.Count}");
         foreach (var data in deck)
         {

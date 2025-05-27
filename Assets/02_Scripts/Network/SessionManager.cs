@@ -28,7 +28,7 @@ public class SessionManager : MonoBehaviour, INetworkRunnerCallbacks
     private const int LOBBY_SCENE_INDEX = 1;
     private const int IN_GAME_SCENE_INDEX = 2;
     
-    private const int MAX_PLAYER_COUNT = 1;
+    private const int MAX_PLAYER_COUNT = 2;
 
     private NetworkRunner runner;
     private NetworkSceneManagerDefault sceneManager;
