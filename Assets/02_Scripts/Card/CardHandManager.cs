@@ -6,6 +6,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
+public static class InGameLoader
+{
+    public static List<CardDataWrapper> playerDeckToLoad;
+}
+
 public class CardHandManager : MonoBehaviour
 {
     public static  CardHandManager Instance;
@@ -74,28 +79,36 @@ public class CardHandManager : MonoBehaviour
         foreach (var img in currentEnemyAreaImages)
             img.enabled = false;
         
-        // 1) 덱 복사 후 셔플
-        // deck = new List<MonsterData>(fullDeck);
+        // ✅ 외부 전달 덱이 있으면 주입
+        if ((fullDeck == null || fullDeck.Count == 0) && InGameLoader.playerDeckToLoad != null)
+            fullDeck = InGameLoader.playerDeckToLoad;
+
+        if (fullDeck == null || fullDeck.Count == 0)
+        {
+            Debug.LogError("[CardHandManager] fullDeck이 비어있습니다.");
+            return;
+        }
+
         deck = new List<CardDataWrapper>(fullDeck);
         Shuffle(deck);
-        // 몬스터 데이터 캐싱
+
+        // ✅ 3) 몬스터 데이터 캐싱
         monsterDatas = new Dictionary<string, MonsterData_Mainmenu>();
+        Debug.Log($"[CardHandManager] fullDeck 개수: {fullDeck.Count}");
         foreach (var data in deck)
         {
-            if (data.IsMonster && !monsterDatas.ContainsKey(data.monsterData.name))
+            Debug.Log($" - {data.cardType} / {data.monsterData?.monsterName ?? "null"}");
+            if (data.IsMonster && data.monsterData != null && !monsterDatas.ContainsKey(data.monsterData.name))
             {
                 monsterDatas.Add(data.monsterData.name, data.monsterData);
             }
         }
-        // foreach (MonsterData monsterData in deck)
-        // {
-        //     monsterDatas.Add(monsterData.name, monsterData);
-        // }
-        // 2) 초기 손패 4장 뽑기
+
+        // ✅ 4) 초기 손패 4장 뽑기
         for (int i = 0; i < slotParents.Length; i++)
             DrawToSlot(i);
 
-        // 3) 사이드 슬롯에 5번째 카드 배치
+        // ✅ 5) 사이드 슬롯에 5번째 카드 배치
         DrawToSideSlot();
     }
     

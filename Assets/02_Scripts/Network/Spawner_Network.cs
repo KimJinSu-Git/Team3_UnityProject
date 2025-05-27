@@ -36,7 +36,7 @@ public class Spawner_Network : NetworkBehaviour
         
         NetworkObject networkMonster;
 
-        CardHandManager_mingyu.Instance.monsterDatas.TryGetValue(prefabName, out MonsterData_Mainmenu monsterData);
+        CardHandManager.Instance.monsterDatas.TryGetValue(prefabName, out MonsterData_Mainmenu monsterData);
         //Vector3 WorldSpawnPos = Area.TransformPoint(spawnPos);
         Debug.Log(prefabName);
         if (Object.HasStateAuthority) // 내가 클라면
