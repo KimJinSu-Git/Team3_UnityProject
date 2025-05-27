@@ -17,9 +17,11 @@ MonoBehaviour:
   description: "\uACBD\uAE30\uB97C \uC990\uAE30\uACE0\uC790 \uC8FD\uC5B4\uC11C\uB3C4
     \uAE30\uC0AC\uB85C \uC2F8\uC6B0\uB294 \uC5B8\uB370\uB4DC \uC804\uC0AC\uC785\uB2C8\uB2E4."
   characterType: 0
+  projectilePrefab: {fileID: 0}
+  projectileSpeed: 5
   level: 1
-  maxHP: 500
-  damage: 300
+  maxHP: 400
+  damage: 50
   moveSpeed: 4
   attackRange: 2
   detectionRadius: 0

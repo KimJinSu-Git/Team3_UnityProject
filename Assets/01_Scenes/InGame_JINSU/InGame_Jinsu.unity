@@ -3355,15 +3355,6 @@ MonoBehaviour:
   - cardType: 1
     monsterData: {fileID: 0}
     skillData: {fileID: 11400000, guid: 6660bc61c66f429419cae069128d5c00, type: 2}
-  - cardType: 1
-    monsterData: {fileID: 0}
-    skillData: {fileID: 11400000, guid: 423d0b37a69ebf943927d8bbb625a614, type: 2}
-  - cardType: 1
-    monsterData: {fileID: 0}
-    skillData: {fileID: 11400000, guid: 423d0b37a69ebf943927d8bbb625a614, type: 2}
-  - cardType: 1
-    monsterData: {fileID: 0}
-    skillData: {fileID: 11400000, guid: 423d0b37a69ebf943927d8bbb625a614, type: 2}
   cardPrefab: {fileID: 536418147371490894, guid: b32702e2fbcf2cf4c9f95528687a9f94,
     type: 3}
   slotParents:
@@ -10653,7 +10644,7 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 768
-  attackRange: 3
+  attackRange: 3.5
   attackInterval: 1.5
   attackDamage: 100
   fireDelay: 0.3
@@ -11599,7 +11590,7 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 768
-  attackRange: 3
+  attackRange: 3.5
   attackInterval: 1.5
   attackDamage: 100
   fireDelay: 0.3

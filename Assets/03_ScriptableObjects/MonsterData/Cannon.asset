@@ -15,12 +15,15 @@ MonoBehaviour:
   id: 7
   monsterName: Cannon
   description: 
-  characterType: 0
+  characterType: 1
+  projectilePrefab: {fileID: 3231554630177446451, guid: 2f98acd1dc02c164692b0507983f968f,
+    type: 3}
+  projectileSpeed: 8
   level: 1
   maxHP: 1000
   damage: 100
   moveSpeed: 2
-  attackRange: 20
+  attackRange: 30
   detectionRadius: 0
   attackSpeed: 1
   cost: 3
