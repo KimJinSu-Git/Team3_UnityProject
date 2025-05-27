@@ -13,22 +13,23 @@ MonoBehaviour:
   m_Name: Golem
   m_EditorClassIdentifier: 
   id: Golem
-  monsterName: Golem
+  monsterName: "\uACE8\uB818"
   description: "\uBB34\uC0DD\uBB3C \uC7AC\uB8CC\uB85C \uB9CC\uB4E4\uC5B4\uC9C4 \uC778\uACF5
     \uC0DD\uBA85\uCCB4\uC785\uB2C8\uB2E4. \uB9C8\uBC95\uC774\uB098 \uC758\uC2DD\uC744
     \uD1B5\uD574 \uC0DD\uBA85\uC744 \uBD80\uC5EC\uBC1B\uC73C\uBA70, \uC8FC\uC778\uC758
     \uBA85\uB839\uC5D0 \uC808\uB300 \uBCF5\uC885\uD569\uB2C8\uB2E4"
-  level: 1
-  maxHP: 1000
-  damage: 100
-  moveSpeed: 0.57
+  baseHP: 0
+  baseDamage: 0
+  baseAttackSpeed: 0
+  baseMoveSpeed: 0
   attackRange: 1.2
-  attackSpeed: 0.5
-  attack: 2
+  cost: 4
+  attackType: 0
   cardType: 0
   rarity: 2
-  cost: 4
+  elixirCost: 0
   spawnTime: 2
+  lifeDuration: -1
   prefab: {fileID: 7114386256712146724, guid: 9990ead7124b17f40baabf3847604d0b, type: 3}
   previewPrefab: {fileID: 116606279000311329, guid: a1e10e8481bbc8444a2b8ff32b5c5913,
     type: 3}

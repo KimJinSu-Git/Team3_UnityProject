@@ -54,12 +54,33 @@ public class SlotUI : MonoBehaviour
         levelText.text = $"Lv.{card.level}";
         costText.text = monster.cost.ToString();
 
-        int owned = card.ownedCount;
-        int required = deckManager.upgradeDB.GetRequiredCards(monster.rarity, card.level);
-        progressText.text = $"{owned}/{required}";
+        // 초기 값 표시
+        UpdateProgressUI();
+
+        // ✅ 카드 변경 이벤트 등록 (중복 방지 주의)
+        deckManager.inventory.onCardChanged.AddListener((changedId) =>
+        {
+            if (changedId == card.id)
+            {
+                UpdateProgressUI();
+            }
+        });
 
         SetupModeUI();
     }
+    
+    private void UpdateProgressUI()
+    {
+        int owned = deckManager.inventory.GetCardCount(cardData.id);
+        int required = deckManager.upgradeDB.GetRequiredCards(cardData.monsterData.rarity, cardData.level);
+
+        if (required <= 0 || required >= 1000000)
+            progressText.text = "-";
+        else
+            progressText.text = $"{owned}/{required}";
+    }
+
+
 
     private void SetupModeUI()
     {

@@ -5,6 +5,8 @@ using TMPro;
 
 public class DeckManager_UI : MonoBehaviour
 {
+    public static DeckManager_UI Instance;
+    
     [SerializeField] private Transform[] slotPositions;
     public GameObject slotPrefab;
     public List<PlayerCardData> currentDeck = new();
@@ -12,10 +14,16 @@ public class DeckManager_UI : MonoBehaviour
 
     public CollectionPanel collectionPanel;
     public UpgradeRequirementDB upgradeDB;
+    public PlayerCardInventory inventory;
 
     public bool isReplaceMode;
     public PlayerCardData replaceTargetCard;
 
+    void Awake()
+    {
+        Instance = this; // ✅ 반드시 있어야 합니다
+    }
+    
     public void TryAddCard(PlayerCardData card)
     {
         if (currentDeck.Any(c => c.id == card.id)) return;

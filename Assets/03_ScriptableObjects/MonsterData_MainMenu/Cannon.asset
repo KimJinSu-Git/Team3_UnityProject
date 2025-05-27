@@ -13,19 +13,20 @@ MonoBehaviour:
   m_Name: Cannon
   m_EditorClassIdentifier: 
   id: Cannon
-  monsterName: Cannon
+  monsterName: "\uCE90\uB17C"
   description: "\uD654\uC0B4\uBE44"
-  level: 1
-  maxHP: 800
-  damage: 75
-  moveSpeed: 0
+  baseHP: 0
+  baseDamage: 0
+  baseAttackSpeed: 0
+  baseMoveSpeed: 0
   attackRange: 3.5
-  attackSpeed: 0.4
-  attack: 2
+  cost: 4
+  attackType: 0
   cardType: 2
   rarity: 0
-  cost: 4
+  elixirCost: 0
   spawnTime: 2
+  lifeDuration: -1
   prefab: {fileID: 0}
   previewPrefab: {fileID: 0}
   icon: {fileID: 21300000, guid: a3ebb4cab1fd9de48a8cf774a7a2dd40, type: 3}
