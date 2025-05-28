@@ -611,7 +611,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 376374485}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: FirebaseAccountManager_JiHun, Assembly-CSharp
         m_MethodName: OnLogin
         m_Mode: 1
@@ -1148,7 +1148,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 376374484}
-  - component: {fileID: 376374485}
   - component: {fileID: 376374486}
   m_Layer: 0
   m_Name: FirebaseAcoountManager
@@ -1172,23 +1171,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &376374485
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 376374482}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a267b7384604e8e43a5cd6b66038c6b7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  login_IdText: {fileID: 2100927533}
-  login_PasswordText: {fileID: 1628467410}
-  signin_IdText: {fileID: 1967648662}
-  signin_PasswordText: {fileID: 1049685211}
-  signin_NickNameText: {fileID: 1825887585}
 --- !u!114 &376374486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1196,7 +1178,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 376374482}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fadcb200d5f05444e96511ba003fb8c1, type: 3}
   m_Name: 
@@ -2642,7 +2624,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 376374485}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: FirebaseAccountManager_JiHun, Assembly-CSharp
         m_MethodName: OnSignUp
         m_Mode: 1
@@ -2848,8 +2830,8 @@ MonoBehaviour:
   m_VerticalScrollbarEventHandler: {fileID: 0}
   m_LayoutGroup: {fileID: 0}
   m_ScrollSensitivity: 1
-  m_ContentType: 7
-  m_InputType: 2
+  m_ContentType: 0
+  m_InputType: 0
   m_AsteriskChar: 42
   m_KeyboardType: 0
   m_LineType: 0

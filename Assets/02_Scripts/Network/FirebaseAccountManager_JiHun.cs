@@ -161,18 +161,19 @@ public class FirebaseAccountManager_JiHun : MonoBehaviour
     public void OnSignUp() //DrawSignUpUI(float centerX, float centerY)
     {
         email = signin_IdText.text.Trim();;
-        password = signin_PasswordText.text.Trim();;
-        nickname = signin_NickNameText.text.Trim();;
+        password = signin_PasswordText.text.Trim();
+        nickname = signin_NickNameText.text.Trim();
 
         if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(nickname))
         {
             statusMessage = "모든 정보를 입력해주세요.";
             return;
 
-        }else if (isInitialized.Equals(false))
+        }
+        
+        if (isInitialized.Equals(false))
         {
             statusMessage = "잠시후, 다시 입력해주세요";
-            return;
         }
         else
         {

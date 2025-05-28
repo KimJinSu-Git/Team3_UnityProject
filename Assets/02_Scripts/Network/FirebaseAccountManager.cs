@@ -117,6 +117,8 @@ public class FirebaseAccountManager : MonoBehaviour
             {
                 statusMessage = " 로그인 실패";
                 Debug.Log("로그인실패");
+                
+                Debug.LogError(task.Exception.Message);
 
                 return;
             }
