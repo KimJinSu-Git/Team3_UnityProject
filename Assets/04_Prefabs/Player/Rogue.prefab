@@ -1198,11 +1198,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterData: {fileID: 11400000, guid: badb2e7e3ffc7774f9973ccf2b4130e1, type: 2}
-  unitAggroRadius: 3
+  unitAggroRadius: 4
   towerDetectRadius: 40
   attackImpactNormalizedTime: 0.6
-  BloodVFX: {fileID: 3213251729425845923, guid: 034c48c8771b4524aa9f580402f61fa8,
-    type: 3}
   isDead: 0
 --- !u!114 &-50556518080143023
 MonoBehaviour:

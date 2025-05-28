@@ -20,8 +20,8 @@ MonoBehaviour:
     type: 3}
   projectileSpeed: 8
   level: 1
-  maxHP: 200
-  damage: 50
+  maxHP: 322
+  damage: 83
   moveSpeed: 2
   attackRange: 30
   detectionRadius: 0
