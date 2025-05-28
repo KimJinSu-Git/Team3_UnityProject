@@ -29448,6 +29448,13 @@ MonoBehaviour:
     id: 
     level: 0
     ownedCount: 0
+  monsterList:
+  - {fileID: 11400000, guid: f7fae0a7f0fcee7459e5e33624970963, type: 2}
+  - {fileID: 11400000, guid: 94e9348d01a777546a72adc050f117d2, type: 2}
+  - {fileID: 11400000, guid: 973e1696111a0e448b391fdd4191f6fb, type: 2}
+  - {fileID: 11400000, guid: cbaf1914ea9df974386c11e56b423833, type: 2}
+  - {fileID: 11400000, guid: abf7b3e377d72704489fd2a9c5ef3054, type: 2}
+  - {fileID: 11400000, guid: 19fa2337ae240394cbf10891794fa486, type: 2}
 --- !u!114 &1878833623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31029,7 +31036,7 @@ MonoBehaviour:
     type: 3}
   shopParent: {fileID: 1706903658}
   cooldownTime: 0
-  inventory: {fileID: 0}
+  inventory: {fileID: 1990967264}
   upgradeDB: {fileID: 11400000, guid: d30140f031b98544e80c4cb302950648, type: 2}
   monsterList:
   - {fileID: 11400000, guid: b7c2bb449dc5bbe40862f6e90399a3d5, type: 2}
