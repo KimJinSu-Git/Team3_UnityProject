@@ -217,11 +217,11 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             else if (cardType == CardDataWrapper.CardType.Skill)
             {
                 ElixirManager.Instance.UseElixir(skillData.cost);
-                SkillManager.Instance.CastSkill(skillData, worldSpawnPos);
+                SkillManager.Instance.CastSkill(skillData.skillName, worldSpawnPos);
             }
-
+            Debug.Log($"[CardUI] OnEndDrag: slotIndex={slotIndex}, invoking OnCardPlayed");
             onCardPlayed?.Invoke(slotIndex);
-            Destroy(gameObject);
+           // Destroy(gameObject);
         }
     }
 }

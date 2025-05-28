@@ -6431,14 +6431,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   towerType: 1
-  maxHealth: 2000
-  _currentHealth: 2000
+  maxHealth: 1400
+  _currentHealth: 1400
   targetLayer:
     serializedVersion: 2
     m_Bits: 768
   attackRange: 3.5
   attackInterval: 1.5
-  attackDamage: 100
+  attackDamage: 50
   fireDelay: 0.3
   arrowPrefab: {fileID: 7597660938547843268, guid: e3cff4c73f409b04883ed7f0c84569bb,
     type: 3}
@@ -9861,8 +9861,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   towerType: 0
-  maxHealth: 2000
-  _currentHealth: 2000
+  maxHealth: 1400
+  _currentHealth: 1400
   targetLayer:
     serializedVersion: 2
     m_Bits: 768
@@ -10639,14 +10639,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   towerType: 2
-  maxHealth: 3500
-  _currentHealth: 3500
+  maxHealth: 2400
+  _currentHealth: 2400
   targetLayer:
     serializedVersion: 2
     m_Bits: 768
   attackRange: 3.5
   attackInterval: 1.5
-  attackDamage: 100
+  attackDamage: 50
   fireDelay: 0.3
   arrowPrefab: {fileID: 919132149155446097, guid: 47c285b6c1ba08c468468824b1285639,
     type: 3}
@@ -13263,10 +13263,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03b99e789fa813e44ab8a2a8f358be96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arrowRainPrefab: {fileID: 412454120642360062, guid: 9756f27cd1ff937428589b209ead9311,
-    type: 3}
-  fireballPrefab: {fileID: 2240476998455059014, guid: d3059e8e0c7a46842add99bec4601615,
-    type: 3}
+  spellPrefabs:
+  - skillName: ArrowRain
+    prefab: {fileID: 412454120642360062, guid: 9756f27cd1ff937428589b209ead9311, type: 3}
+    data: {fileID: 11400000, guid: 423d0b37a69ebf943927d8bbb625a614, type: 2}
+  - skillName: Fireball
+    prefab: {fileID: 2240476998455059014, guid: d3059e8e0c7a46842add99bec4601615,
+      type: 3}
+    data: {fileID: 11400000, guid: 6660bc61c66f429419cae069128d5c00, type: 2}
   hostKingTower: {fileID: 1538714228}
   clientKingTower: {fileID: 1376012143}
   myKingTowerTransform: {fileID: 1538714228}

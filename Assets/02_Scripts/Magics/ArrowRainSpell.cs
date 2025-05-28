@@ -9,41 +9,57 @@ public class ArrowRainSpell : NetworkBehaviour
 {
     public GameObject arrowProjectilePrefab;
     public int arrowCount = 10;
-    public Transform kingTowerTransform;
     
     private SkillData skillData;
     private PlayerRef caster;
     private Vector3 targetPosition;
+    private Transform kingTower;
 
-    public void Init(SkillData data, Vector3 targetPos, PlayerRef owner, Transform kingTower)
+    public void Init(SkillData data, Vector3 targetPos, PlayerRef owner, Transform kingTowerTransform)
     {
         skillData = data;
         caster = owner;
         targetPosition = targetPos;
-        kingTowerTransform = kingTower;
+        kingTower = kingTowerTransform;
 
         transform.position = targetPos;
+
+        if (Object.HasStateAuthority)
+        {
+            RPC_ActivateArrowRain();
+        }
+    }
+    
+    [Rpc(sources: RpcSources.All, targets: RpcTargets.StateAuthority)]
+    private void RPC_ActivateArrowRain()
+    {
         StartCoroutine(Activate());
     }
-
+    
     private IEnumerator Activate()
     {
         yield return new WaitForSeconds(skillData.delay);
 
         for (int i = 0; i < arrowCount; i++)
         {
-            Vector2 randomCircle = Random.insideUnitCircle * skillData.range;
-            Vector3 offset = new Vector3(randomCircle.x, 0f, randomCircle.y);
-            Vector3 targetPos = targetPosition + offset;
-
-            // 아군 킹타워 위치에서 날아옴
-            Vector3 spawnPos = kingTowerTransform.position + Vector3.up * 2f;
-
-            GameObject arrow = Instantiate(arrowProjectilePrefab, spawnPos, Quaternion.identity);
-            arrow.GetComponent<ArrowRainProjectile>().Init(targetPos, caster, Mathf.RoundToInt(skillData.damage));
+            Vector2 offset2D = UnityEngine.Random.insideUnitCircle * skillData.range;
+            Vector3 spawnPos = kingTower.position + Vector3.up * 2f;
+            Vector3 target = targetPosition + new Vector3(offset2D.x, 0, offset2D.y);
+            
+            NetworkObject arrowObj = Runner.Spawn(arrowProjectilePrefab.GetComponent<NetworkObject>(), spawnPos, Quaternion.identity, caster);
+            ArrowRainProjectile arrow = arrowObj.GetComponent<ArrowRainProjectile>();
+            arrow.Init(target, caster, Mathf.RoundToInt(skillData.damage));
+            // GameObject arrow = Instantiate(arrowProjectilePrefab, spawnPos, Quaternion.identity);
+            // arrow.GetComponent<ArrowRainProjectile>().Init(target, caster, Mathf.RoundToInt(skillData.damage));
         }
 
-        Destroy(gameObject, 2f);
+        yield return new WaitForSeconds(2f);
+
+        if (Object != null && Object.IsValid && Object.HasStateAuthority)
+        {
+            Runner.Despawn(Object);
+        }
+
     }
 
 #if UNITY_EDITOR

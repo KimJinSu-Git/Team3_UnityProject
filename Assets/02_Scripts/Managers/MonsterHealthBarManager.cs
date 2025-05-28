@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
-using Fusion; 
+using Fusion;
 
 public class MonsterHealthBarManager : MonoBehaviour
 {
@@ -11,12 +11,12 @@ public class MonsterHealthBarManager : MonoBehaviour
     [SerializeField] private MonsterHealthBar enemyBarPrefab;
 
     [Header("Common Canvas")]
-    [SerializeField] private Canvas uiCanvas;
+    [SerializeField] private Canvas uiCanvas;               // 반드시 Render Mode = Screen Space – Overlay
+    private RectTransform canvasRect;
 
     [Header("World→Screen Offset")]
     [SerializeField] private Vector3 worldOffset = new Vector3(0, 2f, 0);
 
-    // BaseMonsterController 인스턴스 ↔ Bar 매핑
     private Dictionary<BaseMonsterController, MonsterHealthBar> table 
         = new Dictionary<BaseMonsterController, MonsterHealthBar>();
 
@@ -24,54 +24,83 @@ public class MonsterHealthBarManager : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
-        // 로컬 플레이어 식별
-        localRef = UserManager.Instance.FusionPlayerRef;
+        Instance    = this;
+        localRef    = UserManager.Instance.FusionPlayerRef;
+        canvasRect  = uiCanvas.GetComponent<RectTransform>();
     }
 
     private void LateUpdate()
     {
-        if (GameManager.Instance.ended) return;
-        
         Camera cam = Camera.main;
+        var toRemove = new List<BaseMonsterController>();
+
         foreach (var kv in table)
         {
             var unit = kv.Key;
             var bar  = kv.Value;
 
-            // 사망했거나 Destroy된 유닛이면 바로 제거
-            if (unit == null || unit.isDead)
+            // (1) 유닛이 null 이거나 죽었거나, Bar 오브젝트가 이미 파괴됐다면
+            if (unit == null || unit.isDead || bar == null)
             {
-                Destroy(bar.gameObject);
+                // Bar가 아직 남아 있으면 파괴
+                if (bar != null)
+                    Destroy(bar.gameObject);
+
+                // 나중에 Dictionary에서 제거할 키로 표시
+                toRemove.Add(unit);
                 continue;
             }
 
-            // 월드 → 화면 좌표
-            Vector3 worldPos  = unit.GameObject.transform.position + worldOffset;
+            // (2) 살아 있는 유닛은 기존대로 화면 위치 업데이트
+            Vector3 worldPos  = unit.transform.position + worldOffset;
             Vector3 screenPos = cam.WorldToScreenPoint(worldPos);
 
-            bool onScreen = screenPos.z > 0 
-                && screenPos.x >= 0 && screenPos.x <= Screen.width
-                && screenPos.y >= 0 && screenPos.y <= Screen.height;
+            bool onScreen = screenPos.z > 0
+                            && screenPos.x >= 0 && screenPos.x <= Screen.width
+                            && screenPos.y >= 0 && screenPos.y <= Screen.height;
 
             bar.gameObject.SetActive(onScreen);
             if (onScreen)
-                bar.GetComponent<RectTransform>().position = screenPos;
+            {
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                    canvasRect,
+                    screenPos,
+                    null,
+                    out Vector2 localPoint
+                );
+                bar.GetComponent<RectTransform>().anchoredPosition = localPoint;
+            }
         }
+
+        // (3) 표시한 키들을 한꺼번에 Dictionary에서 삭제
+        foreach (var key in toRemove)
+            table.Remove(key);
     }
+
 
     /// <summary>몬스터 스폰 시 호출</summary>
     public void Register(BaseMonsterController unit, float maxHp)
     {
         if (table.ContainsKey(unit)) return;
 
-        // 아군인지 적군인지 판별
-        bool isAlly = unit.PlayerRef == localRef;
-        var prefab  = isAlly ? playerBarPrefab : enemyBarPrefab;
+        // bool isAlly = unit.PlayerRef == localRef;
+        // var prefab  = isAlly ? playerBarPrefab : enemyBarPrefab;
 
-        var bar = Instantiate(prefab, uiCanvas.transform);
-        bar.SetMaxHealth(maxHp);
-        table.Add(unit, bar);
+        if (SessionManager.Instance.CurrentGameRoomInfo.ClientPlayer == unit.PlayerRef)
+        {
+            var bar = Instantiate(enemyBarPrefab, uiCanvas.transform);
+            bar.SetMaxHealth(maxHp);
+            table.Add(unit, bar);
+        }
+        if (SessionManager.Instance.CurrentGameRoomInfo.HostPlayer == unit.PlayerRef)
+        {
+            var bar = Instantiate(playerBarPrefab, uiCanvas.transform);
+            bar.SetMaxHealth(maxHp);
+            table.Add(unit, bar);
+        }
+        // var bar = Instantiate(prefab, uiCanvas.transform);
+        // bar.SetMaxHealth(maxHp);
+        // table.Add(unit, bar);
     }
 
     /// <summary>데미지 입을 때마다 호출</summary>
