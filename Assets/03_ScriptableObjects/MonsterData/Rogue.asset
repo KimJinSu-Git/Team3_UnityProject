@@ -20,13 +20,13 @@ MonoBehaviour:
   projectilePrefab: {fileID: 0}
   projectileSpeed: 5
   level: 1
-  maxHP: 350
-  damage: 60
+  maxHP: 643
+  damage: 341
   moveSpeed: 4
   attackRange: 2
   detectionRadius: 0
   attackSpeed: 1.5
-  cost: 3
+  cost: 4
   spawnTime: 0.5
   prefab: {fileID: 3943412672516993462, guid: 21192dc4a62fa55468004a9ba35cea75, type: 3}
   previewPrefab: {fileID: 5588666636982742082, guid: 3bd0f455ba9b0cd4ab5ee9691b2bc9e7,

@@ -645,7 +645,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterData: {fileID: 11400000, guid: cf92199ab30643143af436f564d51642, type: 2}
-  unitAggroRadius: 10
+  unitAggroRadius: 4
   towerDetectRadius: 40
   attackImpactNormalizedTime: 0.6
   isDead: 0

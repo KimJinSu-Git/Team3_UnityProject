@@ -6432,7 +6432,7 @@ MonoBehaviour:
     m_Bits: 768
   attackRange: 3.5
   attackInterval: 1.5
-  attackDamage: 100
+  attackDamage: 60
   fireDelay: 0.3
   arrowPrefab: {fileID: 7597660938547843268, guid: e3cff4c73f409b04883ed7f0c84569bb,
     type: 3}
@@ -6651,14 +6651,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   towerType: 0
-  maxHealth: 2000
-  _currentHealth: 2000
+  maxHealth: 1400
+  _currentHealth: 1400
   targetLayer:
     serializedVersion: 2
     m_Bits: 768
   attackRange: 3.5
   attackInterval: 1.5
-  attackDamage: 100
+  attackDamage: 50
   fireDelay: 0.3
   arrowPrefab: {fileID: 7597660938547843268, guid: e3cff4c73f409b04883ed7f0c84569bb,
     type: 3}
@@ -6933,14 +6933,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   towerType: 1
-  maxHealth: 2000
-  _currentHealth: 2000
+  maxHealth: 1400
+  _currentHealth: 1400
   targetLayer:
     serializedVersion: 2
     m_Bits: 768
   attackRange: 3.5
   attackInterval: 1.5
-  attackDamage: 100
+  attackDamage: 50
   fireDelay: 0.3
   arrowPrefab: {fileID: 7597660938547843268, guid: e3cff4c73f409b04883ed7f0c84569bb,
     type: 3}
@@ -9862,7 +9862,7 @@ MonoBehaviour:
     m_Bits: 768
   attackRange: 3.5
   attackInterval: 1.5
-  attackDamage: 100
+  attackDamage: 60
   fireDelay: 0.3
   arrowPrefab: {fileID: 7597660938547843268, guid: e3cff4c73f409b04883ed7f0c84569bb,
     type: 3}
@@ -10633,14 +10633,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   towerType: 2
-  maxHealth: 3500
-  _currentHealth: 3500
+  maxHealth: 3000
+  _currentHealth: 3000
   targetLayer:
     serializedVersion: 2
     m_Bits: 768
   attackRange: 3.5
   attackInterval: 1.5
-  attackDamage: 100
+  attackDamage: 60
   fireDelay: 0.3
   arrowPrefab: {fileID: 919132149155446097, guid: 47c285b6c1ba08c468468824b1285639,
     type: 3}
@@ -11579,14 +11579,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   towerType: 2
-  maxHealth: 3500
-  _currentHealth: 3500
+  maxHealth: 2400
+  _currentHealth: 2400
   targetLayer:
     serializedVersion: 2
     m_Bits: 768
   attackRange: 3.5
   attackInterval: 1.5
-  attackDamage: 100
+  attackDamage: 50
   fireDelay: 0.3
   arrowPrefab: {fileID: 919132149155446097, guid: 47c285b6c1ba08c468468824b1285639,
     type: 3}
