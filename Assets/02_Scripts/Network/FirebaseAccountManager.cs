@@ -128,7 +128,7 @@ public class FirebaseAccountManager : MonoBehaviour
             isLoggedIn = true;
             Debug.Log("로그인성공");
             statusMessage = " 로그인 성공";
-            SceneManager.LoadScene("MainMenu");
+            SceneManager.LoadScene("MainMenu _JIHUN");
         });
     }
 

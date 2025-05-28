@@ -17,8 +17,7 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
     [Header("Data")]
     public MonsterData monsterData;
 
-    [Header("Owner")]
-    public PlayerRef playerRef;
+    [Networked] public PlayerRef playerRef { get; set; }
 
     [Header("Detection Ranges")]
     [SerializeField] private float unitAggroRadius = 3f;

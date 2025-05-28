@@ -22,8 +22,8 @@ MonoBehaviour:
   projectilePrefab: {fileID: 0}
   projectileSpeed: 5
   level: 1
-  maxHP: 500
-  damage: 50
+  maxHP: 1930
+  damage: 120
   moveSpeed: 4
   attackRange: 2
   detectionRadius: 0
