@@ -1,9 +1,9 @@
-using TMPro;
+using TMPro; // ✅ 꼭 포함
 using UnityEngine;
 
 public class UserDataInteract : MonoBehaviour
 {
-    [SerializeField] private TextMeshPro userName;
+    [SerializeField] private TextMeshProUGUI userName; // ✅ UI라면 TextMeshProUGUI 사용
 
     private void Start()
     {

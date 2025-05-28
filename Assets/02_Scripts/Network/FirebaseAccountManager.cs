@@ -13,9 +13,6 @@ public class FirebaseAccountManager : MonoBehaviour
     private FirebaseAuth auth;
     private FirebaseFirestore firestore;
     
-    public TMP_InputField emailInput;
-    public TMP_InputField passwordInput;
-    
     private string email = "";
     private string password = "";
     private string nickname = "";
@@ -59,6 +56,7 @@ public class FirebaseAccountManager : MonoBehaviour
             FirebaseUser newUser = result.User;
             UserManager.Instance.SetUserData(newUser);
             statusMessage = "회원가입 성공";
+            Debug.Log(statusMessage);
             
             UpdateUserNickname(newUser, nickname);
             CreateUserDocument(newUser.UserId, email, nickname);
