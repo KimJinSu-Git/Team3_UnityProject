@@ -21,7 +21,7 @@ public class ShopItemPanelController : MonoBehaviour
 
     private ShopOfferData currentOffer;
     private PlayerCardInventory inventory;
-    private Dictionary<string, MonsterData> monsterDB;
+    private Dictionary<string, BaseData> baseDB;
     private UpgradeRequirementDB upgradeDB;
 
     void Awake()
@@ -36,34 +36,34 @@ public class ShopItemPanelController : MonoBehaviour
 
     public void OpenPanel(ShopOfferData offer,
                           PlayerCardInventory inventory,
-                          Dictionary<string, MonsterData> monsterDB,
+                          Dictionary<string, BaseData> baseDB,
                           UpgradeRequirementDB upgradeDB)
     {
         this.currentOffer = offer;
         this.inventory = inventory;
-        this.monsterDB = monsterDB;
+        this.baseDB = baseDB;
         this.upgradeDB = upgradeDB;
 
         string cardId = offer.item.itemId;
 
-        if (!monsterDB.TryGetValue(cardId, out var monster))
+        if (!baseDB.TryGetValue(cardId, out var baseData))
         {
             Debug.LogError($"[ShopPanel] 몬스터 데이터 없음: {cardId}");
             return;
         }
 
         // UI 채우기
-        titleText.text = monster.monsterName;
+        titleText.text = baseData.name;
         iconImage.sprite = offer.item.iconPath;
         countText.text = $"x {offer.quantity}";
-        cardNameText.text = monster.monsterName;
-        rarityText.text = monster.rarity.ToString();
+        cardNameText.text = baseData.name;
+        rarityText.text = baseData.rarity.ToString();
         currencyIcon.sprite = CurrencyIconManager.GetSprite(offer.currencyType);
         buyButton.GetComponentInChildren<TMP_Text>().text = offer.price.ToString();
 
         int owned = inventory.GetCardCount(cardId);
         int level = inventory.GetCardLevel(cardId);
-        int required = upgradeDB.GetRequiredCards(monster.rarity, level);
+        int required = upgradeDB.GetRequiredCards(baseData.rarity, level);
         progressText.text = $"{owned}/{required}";
 
         gameObject.SetActive(true);
@@ -73,7 +73,7 @@ public class ShopItemPanelController : MonoBehaviour
     {
         string cardId = currentOffer.item.itemId;
 
-        if (!monsterDB.TryGetValue(cardId, out var monster))
+        if (!baseDB.TryGetValue(cardId, out var baseCardData))
         {
             Debug.LogError($"[ShopPanel] 몬스터 데이터 없음: {cardId}");
             return;
@@ -92,14 +92,14 @@ public class ShopItemPanelController : MonoBehaviour
         }
         else
         {
-            int startLevel = upgradeDB.GetStartLevel(monster.rarity);
+            int startLevel = upgradeDB.GetStartLevel(baseCardData.rarity);
             inventory.allOwnedCards.Add(new PlayerCardData(cardId, startLevel, currentOffer.quantity)
             {
-                monsterData = monster
+                baseData = baseCardData
             });
         }
 
-        Debug.Log($"🛒 {monster.monsterName} {currentOffer.quantity}장 구매 완료");
+        Debug.Log($"🛒 {baseCardData.name} {currentOffer.quantity}장 구매 완료");
         gameObject.SetActive(false);
     }
 

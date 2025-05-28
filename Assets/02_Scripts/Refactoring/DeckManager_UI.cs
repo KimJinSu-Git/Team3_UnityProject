@@ -13,7 +13,7 @@ public class DeckManager_UI : MonoBehaviour
     public int maxDeckSize = 6;
 
     public CollectionPanel collectionPanel;
-    public UpgradeRequirementDB upgradeDB;
+    //public UpgradeRequirementDB upgradeDB;
     public PlayerCardInventory inventory;
 
     public bool isReplaceMode;
@@ -182,7 +182,7 @@ public class DeckManager_UI : MonoBehaviour
             replaceTargetCard = card;
             
             // ✅ 카드 타입에 따른 이름 표시
-            string cardName = card.monsterData?.monsterName ?? card.skillData?.skillName ?? "Unknown Card";
+            string cardName = card.name;
             Debug.Log($"[DeckManager] 교체 모드 진입: {cardName}");
 
             RefreshDeckUI();

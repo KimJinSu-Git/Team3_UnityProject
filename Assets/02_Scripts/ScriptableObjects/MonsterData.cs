@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "MonsterData", menuName = "ScriptableObjects/MonsterData")]
-public class MonsterData : ScriptableObject
+public class MonsterData : BaseData
 {
     public enum CharacterType
     {
@@ -29,18 +29,18 @@ public class MonsterData : ScriptableObject
         Building
     }
 
-    public enum Rarity
-    {
-        Common,
-        Rare,
-        Epic,
-        Legendary
-    }
+    // public enum Rarity
+    // {
+    //     Common,
+    //     Rare,
+    //     Epic,
+    //     Legendary
+    // }
     
     [Header("BaseInfo")]
-    public string id;
-    public string monsterName;   
-    public string description;
+    // public string id;
+    // public string monsterName;   
+    // public string description;
     public CharacterType characterType;
     
     [Header("Ranged Attack (FarAttack 전용)")]
@@ -58,13 +58,13 @@ public class MonsterData : ScriptableObject
     public float attackSpeed;
     
     [Header("SpawnInfo")]
-    public int cost;
+    // public int cost;
     public float spawnTime;
     
     [Header("Rendering")]
-    public GameObject prefab;
+    //public GameObject prefab;
     public GameObject previewPrefab;
-    public Sprite icon;
+    //public Sprite icon;
 
 
     [Header("📊 Base Stats")]
@@ -76,7 +76,7 @@ public class MonsterData : ScriptableObject
     [Header("⚔️ Combat Type")]
     public AttackType attackType;
     public CardType cardType;
-    public Rarity rarity;
+    //public Rarity rarity;
 
     [Header("🕒 Spawn Info")]
     public int elixirCost;            // 엘릭서 소모

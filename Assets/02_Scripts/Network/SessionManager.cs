@@ -155,15 +155,15 @@ public class SessionManager : MonoBehaviour, INetworkRunnerCallbacks
 
         Debug.Log($"✅ 현재 덱 카드 수: {DeckManager_UI.Instance.currentDeck.Count}");
 
-        InGameLoader.playerDeckToLoad = DeckManager_UI.Instance.currentDeck
-            .Where(card => InventoryUtility.Instance.monsterDB.ContainsKey(card.id))
-            .Select(card => new CardDataWrapper {
-                cardType = CardDataWrapper.CardType.Monster,
-                monsterData = InventoryUtility.Instance.monsterDB[card.id],
-                skillData = null
-            }).ToList();
+        // PlayerDeck.Instance.playerDeckToLoad = DeckManager_UI.Instance.currentDeck
+        //     .Where(card => InventoryUtility.Instance.monsterDB.ContainsKey(card.id))
+        //     .Select(card => new CardDataWrapper {
+        //         cardType = CardDataWrapper.CardType.Monster,
+        //         monsterData = InventoryUtility.Instance.monsterDB[card.id],
+        //         skillData = null
+        //     }).ToList();
 
-        Debug.Log($"✅ InGameLoader 덱 설정 완료: {InGameLoader.playerDeckToLoad.Count}장");
+        Debug.Log($"✅ InGameLoader 덱 설정 완료: {PlayerDeck.Instance.playerDeckToLoad.Count}장");
 
         await runner.LoadScene(inGameSceneRef);
     }

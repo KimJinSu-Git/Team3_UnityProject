@@ -15,21 +15,6 @@ public class Spawner_Network : NetworkBehaviour
     {
         Instance = this;
     }
-
-    // public void PoolCreate()
-    // {
-    //     foreach (var monsterData in CardHandManager.Instance.monsterDatas)
-    //     {
-    //         GameObject prefab = monsterData.Value.prefab;
-    //
-    //         NetworkObject networkObject;
-    //         // if (prefab.TryGetComponent<>(out networkObject) == true) // 네트워크 오브젝트가 있을때만
-    //         // {
-    //         //     //NetworkObjectPool.De
-    //         // }
-    //     }
-    // }
-    
     [Rpc(sources: RpcSources.All, targets: RpcTargets.StateAuthority)] // 서버에서 실행
     public void RPC_SpawnMonster(string prefabName, Vector3 spawnPos, Quaternion spawnRot, PlayerRef player)
     {
@@ -37,17 +22,14 @@ public class Spawner_Network : NetworkBehaviour
         
         NetworkObject networkMonster;
 
-        CardHandManager.Instance.monsterDatas.TryGetValue(prefabName, out MonsterData monsterData);
-        //Vector3 WorldSpawnPos = Area.TransformPoint(spawnPos);
+        CardHandManager.Instance.cardData.TryGetValue(prefabName, out BaseData baseData);
         Debug.Log(prefabName);
-        if (Object.HasStateAuthority) // 내가 서버라면
+        if (Object.HasStateAuthority)
         {
-            Runner.Spawn(monsterData.prefab, spawnPos, spawnRot, player,
+            Runner.Spawn(baseData.prefab, spawnPos, spawnRot, player,
                 onBeforeSpawned: (runner, obj) =>
                 {
                     obj.GetComponent<BaseMonsterController>().playerRef = player;
-                    // obj.transform.SetParent(Area);
-                    // obj.transform.localPosition = spawnPos;
                 });
         }
         Debug.Log(player.PlayerId);
@@ -73,49 +55,49 @@ public class Spawner_Network : NetworkBehaviour
     public void RPC_SpawnSpell(string skillName, Vector3 spawnPos, PlayerRef player)
     {
         // 스킬 데이터를 CardHandManager에서 가져오기
-        SkillData skillData = null;
+        //SkillData skillData = null;
+        BaseData baseData = null;
         GameObject spellPrefab = null;
 
         // CardHandManager의 스킬 데이터에서 찾기
-        if (CardHandManager.Instance.skillDatas.TryGetValue(skillName, out skillData))
+        if (CardHandManager.Instance.cardData.TryGetValue(skillName, out baseData))
         {
-            spellPrefab = skillData.spellPrefab; // SkillData에 prefab 필드가 있다고 가정
+            spellPrefab = baseData.prefab; // SkillData에 prefab 필드가 있다고 가정
         }
-        
-        // 백업으로 SkillManager에서도 찾기
-        if (skillData == null)
+        if (baseData is SkillData spell)
         {
-            skillData = SkillManager.Instance.GetSkillData(skillName);
-            spellPrefab = SkillManager.Instance.GetSpellPrefab(skillName);
-        }
+            // 백업으로 SkillManager에서도 찾기
+            if (baseData == null)
+            {
+                baseData = SkillManager.Instance.GetSkillData(skillName);
+                spellPrefab = SkillManager.Instance.GetSpellPrefab(skillName);
+            }
 
-        if (spellPrefab == null || skillData == null)
-        {
-            Debug.LogError($"[RPC_SpawnSpell] ❌ Spell prefab not found: {skillName}");
-            return;
-        }
+            if (spellPrefab == null || baseData == null)
+            {
+                Debug.LogError($"[RPC_SpawnSpell] ❌ Spell prefab not found: {skillName}");
+                return;
+            }
 
-        Runner.Spawn(spellPrefab, spawnPos, Quaternion.identity, player,
-            onBeforeSpawned: (runner, obj) =>
+            Runner.Spawn(spellPrefab, spawnPos, Quaternion.identity, player, onBeforeSpawned: (runner, obj) =>
             {
                 if (obj.TryGetComponent(out ArrowRainSpell arrowRain))
                 {
-                    arrowRain.Init(skillData, spawnPos, player, GetKingTower(player));
+                    arrowRain.Init(spell, spawnPos, player, GetKingTower(player));
                 }
                 else if (obj.TryGetComponent(out FireballSpell fireball))
                 {
-                    fireball.Init(skillData, spawnPos, player, GetKingTower(player));
+                    fireball.Init(spell, spawnPos, player, GetKingTower(player));
                 }
                 // 다른 스킬 타입들도 여기에 추가 가능
             });
+        }
     }
-
     public void RequestSpawnSpell(string skillName, Vector3 position)
     {
         if (!Runner.IsRunning) return;
         RPC_SpawnSpell(skillName, position, Runner.LocalPlayer);
     }
-
     private Transform GetKingTower(PlayerRef player)
     {
         return SkillManager.Instance.GetKingTowerOf(player);

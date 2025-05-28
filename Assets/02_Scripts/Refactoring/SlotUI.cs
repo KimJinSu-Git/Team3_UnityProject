@@ -57,7 +57,7 @@ public class SlotUI : MonoBehaviour
         }
 
         icon.sprite = monster.icon;
-        nameText.text = monster.monsterName;
+        nameText.text = monster.name;
         levelText.text = $"Lv.{card.level}";
         costText.text = monster.cost.ToString();
 
@@ -111,10 +111,10 @@ public class SlotUI : MonoBehaviour
 
         infoButton.onClick.AddListener(() =>
         {
-            string log = $"[Info] {cardData.monsterData.monsterName} - {cardData.monsterData.description}";
+            string log = $"[Info] {cardData.monsterData.name} - {cardData.monsterData.description}";
             if (cardData.skillData != null)
             {
-                log += $"\n[Skill] {cardData.skillData.skillName} - {cardData.skillData.description}";
+                log += $"\n[Skill] {cardData.skillData.name} - {cardData.skillData.description}";
             }
             Debug.Log(log);
         });

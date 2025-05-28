@@ -37,7 +37,7 @@ public class UpgradeManager : MonoBehaviour
         card.ownedCount -= requiredCards;
         card.level += 1;
 
-        Debug.Log($"[업그레이드 완료] {card.monsterData.monsterName} → Lv.{card.level}");
+        Debug.Log($"[업그레이드 완료] {card.monsterData.name} → Lv.{card.level}");
         return true;
     }
 }

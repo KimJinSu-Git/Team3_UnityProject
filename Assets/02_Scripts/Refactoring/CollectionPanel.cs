@@ -8,7 +8,7 @@ public class CollectionPanel : MonoBehaviour
     public GameObject slotPrefab;
 
     public DeckManager_UI deckManager;
-    [SerializeField] private UpgradeRequirementDB upgradeDB;
+    //[SerializeField] private UpgradeRequirementDB upgradeDB;
     [SerializeField] private PlayerCardInventory inventory;
     [SerializeField] private MonsterData[] monsterList;
 

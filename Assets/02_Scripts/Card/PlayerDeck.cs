@@ -4,13 +4,6 @@ using UnityEngine;
 
 public class PlayerDeck : MonoBehaviour
 {
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
+    public static PlayerDeck Instance;
+    public List<BaseData> playerDeckToLoad;
 }
