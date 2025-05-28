@@ -9,11 +9,14 @@ EditorBuildSettings:
     path: Assets/01_Scenes/MainMenu/Log-In.unity
     guid: 61b13ec90aafd0f418a24c627ea5531d
   - enabled: 1
-    path: Assets/01_Scenes/MainMenu/MainMenu.unity
-    guid: c60fadf78d12f3d4890c0c0bbe046bd1
+    path: Assets/01_Scenes/MainMenu/MainMenu_New.unity
+    guid: 35037db8c727f104a93bdfadc3fc4e0d
   - enabled: 1
     path: Assets/01_Scenes/Network/InGame_Network.unity
     guid: b5c64abc384103a42bac7735294b6e6c
+  - enabled: 1
+    path: Assets/01_Scenes/MainMenu/MainMenu.unity
+    guid: c60fadf78d12f3d4890c0c0bbe046bd1
   - enabled: 1
     path: Assets/01_Scenes/InGame_JINSU/InGame_Jinsu.unity
     guid: aeb58691764675b45a06bf4747e90a6c

@@ -2780,6 +2780,7 @@ GameObject:
   - component: {fileID: 187912272}
   - component: {fileID: 187912274}
   - component: {fileID: 187912273}
+  - component: {fileID: 187912275}
   m_Layer: 5
   m_Name: Slot6
   m_TagString: Untagged
@@ -2845,6 +2846,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 187912271}
   m_CullTransparentMesh: 1
+--- !u!114 &187912275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 187912271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f81d91e39f83e7749a61a0272f994143, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseData: {fileID: 0}
 --- !u!1 &188509128
 GameObject:
   m_ObjectHideFlags: 0
@@ -3003,6 +3017,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 198768488}
   m_CullTransparentMesh: 1
+--- !u!1 &202085682
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 202085684}
+  - component: {fileID: 202085683}
+  m_Layer: 0
+  m_Name: DeckManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &202085683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 202085682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cb4e06878a933445ae389387b3ea09b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentPlayerDeck: []
+  totalPlayerDeck: []
+--- !u!4 &202085684
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 202085682}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 450.8708, y: 612.3356, z: -8.5351095}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &213592389
 GameObject:
   m_ObjectHideFlags: 0
@@ -3245,6 +3305,7 @@ GameObject:
   - component: {fileID: 230150761}
   - component: {fileID: 230150763}
   - component: {fileID: 230150762}
+  - component: {fileID: 230150764}
   m_Layer: 5
   m_Name: Slot1
   m_TagString: Untagged
@@ -3310,6 +3371,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 230150760}
   m_CullTransparentMesh: 1
+--- !u!114 &230150764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 230150760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f81d91e39f83e7749a61a0272f994143, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseData: {fileID: 0}
 --- !u!1 &239983862
 GameObject:
   m_ObjectHideFlags: 0
@@ -8874,6 +8948,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 337647792}
   m_CullTransparentMesh: 0
+--- !u!1 &340171681
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 340171683}
+  - component: {fileID: 340171682}
+  m_Layer: 0
+  m_Name: DeckSaveLodadManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &340171682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 340171681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3871f038f65262c49bc79d5308988e67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &340171683
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 340171681}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 450.8708, y: 612.3356, z: -8.5351095}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &348174225
 GameObject:
   m_ObjectHideFlags: 0
@@ -9020,6 +9138,7 @@ GameObject:
   - component: {fileID: 351858252}
   - component: {fileID: 351858254}
   - component: {fileID: 351858253}
+  - component: {fileID: 351858255}
   m_Layer: 5
   m_Name: Slot5
   m_TagString: Untagged
@@ -9085,6 +9204,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 351858251}
   m_CullTransparentMesh: 1
+--- !u!114 &351858255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 351858251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f81d91e39f83e7749a61a0272f994143, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseData: {fileID: 0}
 --- !u!1 &370573574
 GameObject:
   m_ObjectHideFlags: 0
@@ -13123,9 +13255,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f577dc453d07fe4d921956c60831e9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goldIcon: {fileID: 249678495, guid: 248fcc6caf39c994582c7b67cf78d4a7, type: 3}
-  gemIcon: {fileID: -478379876, guid: 248fcc6caf39c994582c7b67cf78d4a7, type: 3}
-  elixirIcon: {fileID: -2115298580, guid: 248fcc6caf39c994582c7b67cf78d4a7, type: 3}
 --- !u!1 &731160545
 GameObject:
   m_ObjectHideFlags: 0
@@ -13911,15 +14040,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4569f5a6f6566884c92a3f003d26230c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  titleText: {fileID: 260340805}
-  progressText: {fileID: 797660073}
-  countText: {fileID: 178220152}
-  cardNameText: {fileID: 470254866}
-  rarityText: {fileID: 144414577}
-  iconImage: {fileID: 1849625482}
-  currencyIcon: {fileID: 150551051}
-  buyButton: {fileID: 681167735}
-  closeButton: {fileID: 1967164032}
 --- !u!1 &833227221
 GameObject:
   m_ObjectHideFlags: 0
@@ -23168,6 +23288,7 @@ GameObject:
   - component: {fileID: 1338926551}
   - component: {fileID: 1338926553}
   - component: {fileID: 1338926552}
+  - component: {fileID: 1338926554}
   m_Layer: 5
   m_Name: Slot3
   m_TagString: Untagged
@@ -23233,6 +23354,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1338926550}
   m_CullTransparentMesh: 1
+--- !u!114 &1338926554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1338926550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f81d91e39f83e7749a61a0272f994143, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseData: {fileID: 0}
 --- !u!1 &1353777448
 GameObject:
   m_ObjectHideFlags: 0
@@ -24675,6 +24809,7 @@ GameObject:
   - component: {fileID: 1462741898}
   - component: {fileID: 1462741900}
   - component: {fileID: 1462741899}
+  - component: {fileID: 1462741901}
   m_Layer: 5
   m_Name: Slot4
   m_TagString: Untagged
@@ -24740,6 +24875,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1462741897}
   m_CullTransparentMesh: 1
+--- !u!114 &1462741901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1462741897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f81d91e39f83e7749a61a0272f994143, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseData: {fileID: 0}
 --- !u!1 &1466457602
 GameObject:
   m_ObjectHideFlags: 0
@@ -25093,22 +25241,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec69d8811aa23c74c935add226ce8067, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collectionGrid: {fileID: 1481547987}
-  slotPrefab: {fileID: 3468639486237108812, guid: 0aaa70b1d2f6441428ed91cb650259df,
-    type: 3}
-  deckManager: {fileID: 1878833622}
-  upgradeDB: {fileID: 11400000, guid: d30140f031b98544e80c4cb302950648, type: 2}
-  inventory: {fileID: 1990967264}
-  monsterList:
-  - {fileID: 11400000, guid: b7c2bb449dc5bbe40862f6e90399a3d5, type: 2}
-  - {fileID: 11400000, guid: 5bbee63a66ce5ab4b91c9c2623387a86, type: 2}
-  - {fileID: 11400000, guid: d48d3d36725463048950462066838b85, type: 2}
-  - {fileID: 11400000, guid: f7fae0a7f0fcee7459e5e33624970963, type: 2}
-  - {fileID: 11400000, guid: 94e9348d01a777546a72adc050f117d2, type: 2}
-  - {fileID: 11400000, guid: 973e1696111a0e448b391fdd4191f6fb, type: 2}
-  - {fileID: 11400000, guid: cbaf1914ea9df974386c11e56b423833, type: 2}
-  - {fileID: 11400000, guid: abf7b3e377d72704489fd2a9c5ef3054, type: 2}
-  - {fileID: 11400000, guid: 19fa2337ae240394cbf10891794fa486, type: 2}
 --- !u!114 &1481547992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25248,18 +25380,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37492f464b6d6d543b1ccfc068c50dae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventory: {fileID: 1990967264}
-  monsterList:
-  - {fileID: 11400000, guid: 4dd494040cf16a74e9df518a3ba538b3, type: 2}
-  - {fileID: 11400000, guid: 4d591c441ca193c4d8e4b02b5d4feb21, type: 2}
-  - {fileID: 11400000, guid: cf92199ab30643143af436f564d51642, type: 2}
-  - {fileID: 11400000, guid: badb2e7e3ffc7774f9973ccf2b4130e1, type: 2}
-  - {fileID: 11400000, guid: 7f1ffbd091001134c9c265d616832dcf, type: 2}
-  - {fileID: 11400000, guid: 66ffdff3a33468f42ae7c9a5d7ff6dab, type: 2}
-  - {fileID: 11400000, guid: 86312d4d12a00604c800b898f1f263f4, type: 2}
-  skillList:
-  - {fileID: 11400000, guid: 423d0b37a69ebf943927d8bbb625a614, type: 2}
-  - {fileID: 11400000, guid: 6660bc61c66f429419cae069128d5c00, type: 2}
 --- !u!1 &1521497339
 GameObject:
   m_ObjectHideFlags: 0
@@ -25791,6 +25911,7 @@ GameObject:
   - component: {fileID: 1592714569}
   - component: {fileID: 1592714571}
   - component: {fileID: 1592714570}
+  - component: {fileID: 1592714572}
   m_Layer: 5
   m_Name: Slot2
   m_TagString: Untagged
@@ -25856,6 +25977,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1592714568}
   m_CullTransparentMesh: 1
+--- !u!114 &1592714572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1592714568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f81d91e39f83e7749a61a0272f994143, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseData: {fileID: 0}
 --- !u!1 &1594023461
 GameObject:
   m_ObjectHideFlags: 0
@@ -29365,6 +29499,7 @@ GameObject:
   - component: {fileID: 1878833620}
   - component: {fileID: 1878833622}
   - component: {fileID: 1878833623}
+  - component: {fileID: 1878833624}
   m_Layer: 5
   m_Name: DeckManager
   m_TagString: Untagged
@@ -29444,36 +29579,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3672fc1781c1f1446a70f62c730bf528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotPositions:
-  - {fileID: 992194861}
-  - {fileID: 33818477}
-  - {fileID: 1700982577}
-  - {fileID: 1764959849}
-  - {fileID: 1717299369}
-  - {fileID: 225271174}
-  slotPrefab: {fileID: 3468639486237108812, guid: 0aaa70b1d2f6441428ed91cb650259df,
-    type: 3}
-  currentDeck: []
-  maxDeckSize: 6
-  collectionPanel: {fileID: 1481547991}
-  upgradeDB: {fileID: 11400000, guid: d30140f031b98544e80c4cb302950648, type: 2}
-  inventory: {fileID: 1990967264}
-  isReplaceMode: 0
-  replaceTargetCard:
-    id: 
-    level: 0
-    ownedCount: 0
-  monsterList:
-  - {fileID: 11400000, guid: 86312d4d12a00604c800b898f1f263f4, type: 2}
-  - {fileID: 11400000, guid: 4dd494040cf16a74e9df518a3ba538b3, type: 2}
-  - {fileID: 11400000, guid: 7f1ffbd091001134c9c265d616832dcf, type: 2}
-  - {fileID: 11400000, guid: 4d591c441ca193c4d8e4b02b5d4feb21, type: 2}
-  - {fileID: 11400000, guid: cf92199ab30643143af436f564d51642, type: 2}
-  - {fileID: 11400000, guid: badb2e7e3ffc7774f9973ccf2b4130e1, type: 2}
-  - {fileID: 11400000, guid: 66ffdff3a33468f42ae7c9a5d7ff6dab, type: 2}
-  skillList:
-  - {fileID: 11400000, guid: 423d0b37a69ebf943927d8bbb625a614, type: 2}
-  - {fileID: 11400000, guid: 6660bc61c66f429419cae069128d5c00, type: 2}
 --- !u!114 &1878833623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29494,6 +29599,18 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &1878833624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1878833618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e35c8ad2fc3a0f4baf438af99836e6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1879405965
 GameObject:
   m_ObjectHideFlags: 0
@@ -30077,9 +30194,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f577dc453d07fe4d921956c60831e9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goldIcon: {fileID: 249678495, guid: 248fcc6caf39c994582c7b67cf78d4a7, type: 3}
-  gemIcon: {fileID: -478379876, guid: 248fcc6caf39c994582c7b67cf78d4a7, type: 3}
-  elixirIcon: {fileID: -2115298580, guid: 248fcc6caf39c994582c7b67cf78d4a7, type: 3}
 --- !u!1 &1939787490
 GameObject:
   m_ObjectHideFlags: 0
@@ -30655,37 +30769,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6cc4fddc3627024ba66f07ee313686d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allOwnedCards:
-  - id: ArrowRain
-    level: 1
-    ownedCount: 1
-  - id: Cannon
-    level: 1
-    ownedCount: 1
-  - id: Fireball
-    level: 3
-    ownedCount: 1
-  - id: Golem
-    level: 6
-    ownedCount: 1
-  - id: Mage
-    level: 3
-    ownedCount: 1
-  - id: Minion
-    level: 1
-    ownedCount: 1
-  - id: Necro
-    level: 6
-    ownedCount: 1
-  - id: Rogue
-    level: 1
-    ownedCount: 1
-  - id: Warrior
-    level: 3
-    ownedCount: 1
-  onCardChanged:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &1994541141
 GameObject:
   m_ObjectHideFlags: 0
@@ -31046,25 +31129,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa5783bf15a95404296f50aa2d4e3968, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  costText: {fileID: 1145455970}
-  currencyIcon: {fileID: 1626025532}
-  labelText: {fileID: 31597144}
-  refreshButtonImage: {fileID: 1740748200}
-  displayCount: 6
-  shopItemPrefab: {fileID: 1324795917534439217, guid: 0b52f0e13387a984fbecb9b26ec09ca9,
-    type: 3}
-  shopParent: {fileID: 1706903658}
-  cooldownTime: 0
-  inventory: {fileID: 1990967264}
-  upgradeDB: {fileID: 11400000, guid: d30140f031b98544e80c4cb302950648, type: 2}
-  monsterList:
-  - {fileID: 11400000, guid: 86312d4d12a00604c800b898f1f263f4, type: 2}
-  - {fileID: 11400000, guid: 4dd494040cf16a74e9df518a3ba538b3, type: 2}
-  - {fileID: 11400000, guid: 4d591c441ca193c4d8e4b02b5d4feb21, type: 2}
-  - {fileID: 11400000, guid: cf92199ab30643143af436f564d51642, type: 2}
-  - {fileID: 11400000, guid: badb2e7e3ffc7774f9973ccf2b4130e1, type: 2}
-  - {fileID: 11400000, guid: 7f1ffbd091001134c9c265d616832dcf, type: 2}
-  - {fileID: 11400000, guid: 66ffdff3a33468f42ae7c9a5d7ff6dab, type: 2}
 --- !u!1 &2019269778
 GameObject:
   m_ObjectHideFlags: 0
@@ -32163,8 +32227,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9268b25949e8ea439a464fb9bb3ddca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deckManager: {fileID: 1878833622}
-  inventory: {fileID: 1990967264}
 --- !u!1 &2116414699
 GameObject:
   m_ObjectHideFlags: 0
@@ -32974,3 +33036,5 @@ SceneRoots:
   - {fileID: 987458166}
   - {fileID: 1633204738}
   - {fileID: 447607801}
+  - {fileID: 340171683}
+  - {fileID: 202085684}

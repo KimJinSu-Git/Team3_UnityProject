@@ -10,28 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5cb8effa82bf75e43946a45f39bf3f1c, type: 3}
-  m_Name: Minion
+  m_Name: Cannon
   m_EditorClassIdentifier: 
-  id: 8
-  name: Minion
-  description: "\uC5B4\uB9B0 \uD574\uACE8 \uAD70\uB2E8\uC785\uB2C8\uB2E4."
-  cost: 2
-  prefab: {fileID: 6028967880764688065, guid: ff3fa9d0748a9914ea7fde228f3a4402, type: 3}
-  icon: {fileID: 21300000, guid: fce7120816d736642a7a0d107f49ed8b, type: 3}
+  id: 7
+  cardName: Cannon
+  description: 
+  cost: 3
+  damage: 83
+  prefab: {fileID: 5247959180403028144, guid: 7f8b1dcb9158dfd49a41c7f0694f7f71, type: 3}
+  icon: {fileID: 21300000, guid: a3ebb4cab1fd9de48a8cf774a7a2dd40, type: 3}
   cardDataType: 0
   rarity: 0
-  characterType: 0
-  projectilePrefab: {fileID: 0}
-  projectileSpeed: 5
+  characterType: 1
+  projectilePrefab: {fileID: 3231554630177446451, guid: 2f98acd1dc02c164692b0507983f968f,
+    type: 3}
+  projectileSpeed: 8
   level: 1
-  maxHP: 79
-  damage: 47
-  moveSpeed: 4
-  attackRange: 2
+  maxHP: 322
+  moveSpeed: 2
+  attackRange: 30
   detectionRadius: 0
-  attackSpeed: 1.5
+  attackSpeed: 1
   spawnTime: 1
-  previewPrefab: {fileID: 3698031327218383550, guid: 9839cbbc5841a0e4e898e955146a677a,
+  previewPrefab: {fileID: 4478622710407360074, guid: 69bd0e8d6710a614fa6e6e708432095d,
     type: 3}
   baseHP: 0
   baseDamage: 0

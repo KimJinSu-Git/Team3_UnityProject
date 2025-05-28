@@ -12,7 +12,7 @@ public class SkillData : BaseData
 
     [Header("Effect Info")]
     public float range;       // 범위 반경
-    public float damage;      // 데미지
+    //public float damage;      // 데미지
     public float duration;    // 범위 지속 시간
     public float delay;       // 이펙트 발동 전 딜레이 (ex: 화살이 하늘에서 떨어지는 시간 등)
 

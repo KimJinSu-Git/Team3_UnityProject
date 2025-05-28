@@ -73,11 +73,18 @@ public class CardHandManager : MonoBehaviour
         
         foreach (var img in currentEnemyAreaImages)
             img.enabled = false;
-        
-        // 외부 전달 덱이 있으면 주입
-        if ((deck == null || deck.Count == 0) && PlayerDeck.Instance.playerDeckToLoad != null)
+        if (deck == null)
         {
-            deck = PlayerDeck.Instance.playerDeckToLoad;
+            deck = new List<BaseData>();
+        }
+        // 외부 전달 덱이 있으면 주입
+        if ((deck == null || deck.Count == 0) && DeckManager.Instance.currentPlayerDeck != null)
+        {
+            foreach (BaseData usingPlayerDeck in DeckManager.Instance.currentPlayerDeck)
+            {
+                deck.Add(usingPlayerDeck);
+            }
+            // deck = UsePlayerDeck.Instance.UsingPlayerDeck;
         }
         //deck = new List<CardDataWrapper>(fullDeck);
         Shuffle(deck);
@@ -86,9 +93,9 @@ public class CardHandManager : MonoBehaviour
         cardData = new Dictionary<string, BaseData>();
         foreach (var data in deck)
         {
-            if (cardData.ContainsKey(data.name) == false)
+            if (!cardData.ContainsKey(data.cardName))
             {
-                cardData.Add(data.name, data);
+                cardData.Add(data.cardName, data);
             }
         }
         
@@ -144,7 +151,7 @@ public class CardHandManager : MonoBehaviour
         BaseData data = deck[0];
         deck.RemoveAt(0);
 
-        string cardName = data.name;
+        string cardName = data.cardName;
         Debug.Log($"[CardHandManager] drawing new side: {cardName}");
         
         // 기존 사이드 카드가 있으면 삭제 (사이드 슬롯에 남아 있는 경우만)

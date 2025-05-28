@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Firebase;
@@ -22,7 +23,17 @@ public class FirebaseAccountManager : MonoBehaviour
     private bool isInitialized = false;
     private bool isLoggedIn = false;
     private bool isSignUpMode = false;
+    // [SerializeField] private TextMeshProUGUI id_Text;
+    // [SerializeField] private TextMeshProUGUI password_Text;
+    [SerializeField] private TMP_InputField inputField_Id;
+    [SerializeField] private TMP_InputField inputField_Password;
 
+    public TMP_InputField inputField;
+    public void OnInputValueChanged()
+    {
+        string id_Text = inputField.text;
+        
+    }
     private void Start()
     {
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task => // 제대로 설치되어 있는지 확인하고, 문제 있으면 고치려 시도합니다. 초기화 전에 호출해야됨
@@ -128,7 +139,7 @@ public class FirebaseAccountManager : MonoBehaviour
             isLoggedIn = true;
             Debug.Log("로그인성공");
             statusMessage = " 로그인 성공";
-            SceneManager.LoadScene("MainMenu");
+            SceneManager.LoadScene("MainMenu_New");
         });
     }
 
@@ -139,69 +150,76 @@ public class FirebaseAccountManager : MonoBehaviour
         statusMessage = "로그아웃";
         UserManager.Instance.SetUserData(null);
     }
-    private void OnGUI()
+
+    private void Update()
     {
-        float centerX = Screen.width / 2;
-        float centerY = Screen.height / 2;
-    
-        GUI.Box(new Rect(centerX - 200, centerY - 100, 400, 200), "");
-    
-        if (!isInitialized)
-        {
-            GUI.Label(new Rect(10, 10, 500, 30), "Firebase 초기화 중...");
-            return;
-        }
-    
-        GUI.Label(new Rect(10, 10, 500, 25), statusMessage);
-        if (isSignUpMode) DrawSignUpUI(centerX, centerY);
-        else DrawLoginUI(centerX, centerY);
+        if(Input.GetKeyDown(KeyCode.Alpha3))
+        SignIn(inputField_Id.text, inputField_Password.text);
     }
-    private void DrawLoginUI(float centerX, float centerY)
-    {
-        GUI.Label(new Rect(centerX - 160, centerY - 40, 100, 25), "Email:");
-        email = GUI.TextField(new Rect(centerX - 50, centerY - 40, 200, 25), email);
     
-        GUI.Label(new Rect(centerX - 160, centerY, 100, 25), "Password:");
-        password = GUI.PasswordField(new Rect(centerX - 50, centerY, 200, 25), password, '*');
-    
-        if (GUI.Button(new Rect(centerX - 150, centerY + 50, 150, 30), "로그인"))
-        {
-            SignIn(email, password); // ******************* 이것만 버튼에 연동 *******************
-        }
-    
-        if (GUI.Button(new Rect(centerX + 10, centerY + 50, 150, 30), "회원가입"))
-        {
-            isSignUpMode = true;
-            statusMessage = "회원가입 화면으로 전환됨";
-        }
-    }
-    private void DrawSignUpUI(float centerX, float centerY)
-    {
-        GUI.Label(new Rect(centerX - 160, centerY - 60, 100, 25), "Email:");
-        email = GUI.TextField(new Rect(centerX - 50, centerY - 60, 200, 25), email);
-    
-        GUI.Label(new Rect(centerX - 160, centerY - 20, 100, 25), "Password:");
-        password = GUI.PasswordField(new Rect(centerX - 50, centerY - 20, 200, 25), password, '*');
-    
-        GUI.Label(new Rect(centerX - 160, centerY + 20, 100, 25), "Nickname:");
-        nickname = GUI.TextField(new Rect(centerX - 50, centerY + 20, 200, 25), nickname);
-    
-        if (GUI.Button(new Rect(centerX - 150, centerY + 70, 150, 30), "회원가입"))
-        {
-            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(nickname))
-            {
-                statusMessage = "모든 정보를 입력해주세요.";
-                return;
-            }
-    
-            CreateAccount(email, password, nickname); // ******************* 이것만 버튼에 연동 *******************
-        }
-    
-        if (GUI.Button(new Rect(centerX + 10, centerY + 70, 150, 30), "뒤로"))
-        {
-            isSignUpMode = false;
-            statusMessage = "로그인 화면으로 전환됨";
-        }
-    }
+    // private void OnGUI()
+    // {
+    //     float centerX = Screen.width / 2;
+    //     float centerY = Screen.height / 2;
+    //
+    //     GUI.Box(new Rect(centerX - 200, centerY - 100, 400, 200), "");
+    //
+    //     if (!isInitialized)
+    //     {
+    //         GUI.Label(new Rect(10, 10, 500, 30), "Firebase 초기화 중...");
+    //         return;
+    //     }
+    //
+    //     GUI.Label(new Rect(10, 10, 500, 25), statusMessage);
+    //     if (isSignUpMode) DrawSignUpUI(centerX, centerY);
+    //     else DrawLoginUI(centerX, centerY);
+    // }
+    // private void DrawLoginUI(float centerX, float centerY)
+    // {
+    //     GUI.Label(new Rect(centerX - 160, centerY - 40, 100, 25), "Email:");
+    //     email = GUI.TextField(new Rect(centerX - 50, centerY - 40, 200, 25), email);
+    //
+    //     GUI.Label(new Rect(centerX - 160, centerY, 100, 25), "Password:");
+    //     password = GUI.PasswordField(new Rect(centerX - 50, centerY, 200, 25), password, '*');
+    //
+    //     if (GUI.Button(new Rect(centerX - 150, centerY + 50, 150, 30), "로그인"))
+    //     {
+    //         SignIn(email, password); // ******************* 이것만 버튼에 연동 *******************
+    //     }
+    //
+    //     if (GUI.Button(new Rect(centerX + 10, centerY + 50, 150, 30), "회원가입"))
+    //     {
+    //         isSignUpMode = true;
+    //         statusMessage = "회원가입 화면으로 전환됨";
+    //     }
+    // }
+    // private void DrawSignUpUI(float centerX, float centerY)
+    // {
+    //     GUI.Label(new Rect(centerX - 160, centerY - 60, 100, 25), "Email:");
+    //     email = GUI.TextField(new Rect(centerX - 50, centerY - 60, 200, 25), email);
+    //
+    //     GUI.Label(new Rect(centerX - 160, centerY - 20, 100, 25), "Password:");
+    //     password = GUI.PasswordField(new Rect(centerX - 50, centerY - 20, 200, 25), password, '*');
+    //
+    //     GUI.Label(new Rect(centerX - 160, centerY + 20, 100, 25), "Nickname:");
+    //     nickname = GUI.TextField(new Rect(centerX - 50, centerY + 20, 200, 25), nickname);
+    //
+    //     if (GUI.Button(new Rect(centerX - 150, centerY + 70, 150, 30), "회원가입"))
+    //     {
+    //         if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password) || string.IsNullOrEmpty(nickname))
+    //         {
+    //             statusMessage = "모든 정보를 입력해주세요.";
+    //             return;
+    //         }
+    //
+    //         CreateAccount(email, password, nickname); // ******************* 이것만 버튼에 연동 *******************
+    //     }
+    //
+    //     if (GUI.Button(new Rect(centerX + 10, centerY + 70, 150, 30), "뒤로"))
+    //     {
+    //         isSignUpMode = false;
+    //         statusMessage = "로그인 화면으로 전환됨";
+    //     }
+    // }
     
 }

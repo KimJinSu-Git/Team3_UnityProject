@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Burst.Intrinsics;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public enum CardDataType
 {
@@ -18,9 +19,10 @@ public enum Rarity
 public class BaseData : ScriptableObject
 {
     public string id;
-    public string name;   
+    public string cardName;   
     public string description;
     public int cost;
+    public int damage;
     public GameObject prefab;
     public Sprite icon;
     public CardDataType cardDataType;

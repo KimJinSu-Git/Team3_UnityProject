@@ -100,7 +100,7 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         // 🔹 이름 및 아이콘 적용
         if (data != null)
         {
-            if(cardNameText != null) cardNameText.text = data.name;
+            if(cardNameText != null) cardNameText.text = data.cardName;
             if(iconImage != null) iconImage.sprite = data.icon;
         }
     }
@@ -213,12 +213,12 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
                 if (IsInNoSpawnZone(worldSpawnPos)) return;
 
                 ElixirManager.Instance.UseElixir(baseData.cost);
-                unitSpawner.RequestSpawn(baseData.name, worldSpawnPos, Quaternion.identity);
+                unitSpawner.RequestSpawn(baseData.cardName, worldSpawnPos, Quaternion.identity);
             }
             else if (baseData.cardDataType == CardDataType.Skill)
             {
                 ElixirManager.Instance.UseElixir(baseData.cost);
-                SkillManager.Instance.CastSkill(baseData.name, worldSpawnPos);
+                SkillManager.Instance.CastSkill(baseData.cardName, worldSpawnPos);
             }
             Debug.Log($"[CardUI] OnEndDrag: slotIndex={slotIndex}, invoking OnCardPlayed");
             onCardPlayed?.Invoke(slotIndex);

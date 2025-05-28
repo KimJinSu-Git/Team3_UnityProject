@@ -13,8 +13,13 @@ MonoBehaviour:
   m_Name: Minion
   m_EditorClassIdentifier: 
   id: 8
-  monsterName: Minion
+  name: Minion
   description: "\uC5B4\uB9B0 \uD574\uACE8 \uAD70\uB2E8\uC785\uB2C8\uB2E4."
+  cost: 2
+  prefab: {fileID: 6028967880764688065, guid: ff3fa9d0748a9914ea7fde228f3a4402, type: 3}
+  icon: {fileID: 21300000, guid: fce7120816d736642a7a0d107f49ed8b, type: 3}
+  cardDataType: 0
+  rarity: 0
   characterType: 0
   projectilePrefab: {fileID: 0}
   projectileSpeed: 5
@@ -25,18 +30,14 @@ MonoBehaviour:
   attackRange: 2
   detectionRadius: 0
   attackSpeed: 1.5
-  cost: 2
   spawnTime: 1
-  prefab: {fileID: 6028967880764688065, guid: ff3fa9d0748a9914ea7fde228f3a4402, type: 3}
   previewPrefab: {fileID: 3698031327218383550, guid: 9839cbbc5841a0e4e898e955146a677a,
     type: 3}
-  icon: {fileID: 21300000, guid: fce7120816d736642a7a0d107f49ed8b, type: 3}
   baseHP: 0
   baseDamage: 0
   baseAttackSpeed: 0
   baseMoveSpeed: 0
   attackType: 0
   cardType: 0
-  rarity: 0
   elixirCost: 0
   lifeDuration: -1

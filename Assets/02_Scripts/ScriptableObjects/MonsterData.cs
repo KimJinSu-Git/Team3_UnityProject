@@ -51,7 +51,7 @@ public class MonsterData : BaseData
     [Header("Stat")] 
     public int level;
     public int maxHP;
-    public int damage;
+    //public int damage;
     public float moveSpeed;
     public float attackRange;
     public float detectionRadius;
