@@ -1,6 +1,7 @@
 using UnityEngine;
 using DG.Tweening;
-using TMPro; // ✅ TextMeshPro 사용
+using TMPro;
+using UnityEngine.SceneManagement; // ✅ TextMeshPro 사용
 
 public class InGameResultController : MonoBehaviour
 {
@@ -125,5 +126,10 @@ public class InGameResultController : MonoBehaviour
         crown.transform.localScale = Vector3.zero;
         crown.transform.DOScaleX(2f, 0.5f).SetEase(Ease.OutBack);
         crown.transform.DOScaleY(2.5f, 0.5f).SetEase(Ease.OutBack);
+    }
+
+    public void GoToLobby()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }

@@ -14992,9 +14992,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MatchingUI, Assembly-CSharp
-        m_MethodName: OnMatchingButtonClicked
+      - m_Target: {fileID: 2107626938}
+        m_TargetAssemblyTypeName: InGameResultController, Assembly-CSharp
+        m_MethodName: GoToLobby
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
