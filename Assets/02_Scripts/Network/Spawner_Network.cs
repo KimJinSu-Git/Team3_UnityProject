@@ -65,4 +65,41 @@ public class Spawner_Network : NetworkBehaviour
         if (!Object.HasStateAuthority) return;
         targetMonster.GetComponent<IDamageAble>().TakeDamage(damage);
     }
+    
+    [Rpc(sources: RpcSources.All, targets: RpcTargets.StateAuthority)]
+    public void RPC_SpawnSpell(string skillName, Vector3 spawnPos, PlayerRef player)
+    {
+        SkillData skillData = SkillManager.Instance.GetSkillData(skillName);
+        GameObject spellPrefab = SkillManager.Instance.GetSpellPrefab(skillName);
+
+        if (spellPrefab == null || skillData == null)
+        {
+            Debug.LogError($"[RPC_SpawnSpell] ❌ Spell prefab not found on this client: {skillName}");
+            return;
+        }
+
+        Runner.Spawn(spellPrefab, spawnPos, Quaternion.identity, player,
+            onBeforeSpawned: (runner, obj) =>
+            {
+                if (obj.TryGetComponent(out ArrowRainSpell arrowRain))
+                {
+                    arrowRain.Init(skillData, spawnPos, player, GetKingTower(player));
+                }
+                else if (obj.TryGetComponent(out FireballSpell fireball))
+                {
+                    fireball.Init(skillData, spawnPos, player, GetKingTower(player));
+                }
+            });
+    }
+
+    public void RequestSpawnSpell(string skillName, Vector3 position)
+    {
+        if (!Runner.IsRunning) return;
+        RPC_SpawnSpell(skillName, position, Runner.LocalPlayer);
+    }
+
+    private Transform GetKingTower(PlayerRef player)
+    {
+        return SkillManager.Instance.GetKingTowerOf(player);
+    }
 }

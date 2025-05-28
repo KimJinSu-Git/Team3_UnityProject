@@ -265,7 +265,7 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             else if (cardType == CardDataWrapper.CardType.Skill)
             {
                 ElixirManager.Instance.UseElixir(skillData.cost);
-                SkillManager.Instance.CastSkill(skillData, worldSpawnPos);
+                SkillManager.Instance.CastSkill(skillData.skillName, worldSpawnPos);
             }
 
             onCardPlayed?.Invoke(slotIndex);
