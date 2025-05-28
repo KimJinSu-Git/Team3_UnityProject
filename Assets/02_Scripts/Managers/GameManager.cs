@@ -15,10 +15,13 @@ public class GameManager : NetworkBehaviour
 {
     public static GameManager Instance;
 
+    public bool ended;
     //[Header("왕관 수")]
     [Networked] private int myCrowns {get; set;}
     [Networked] private int enemyCrowns {get; set;}
-
+    public int MyCrowns => myCrowns;
+    public int EnemyCrowns => enemyCrowns;
+    
     [Header("게임 상태")]
     public GameState currentState = GameState.Ready;
 
@@ -30,6 +33,7 @@ public class GameManager : NetworkBehaviour
 
     public bool IsInOvertime { get; private set; } = false;
     public float GetTimeLeft() => timeLeft;
+    
 
     [Header("왕관 UI 컨트롤러")]
     public CrownScoreController playerCrownUI;
@@ -43,6 +47,7 @@ public class GameManager : NetworkBehaviour
     private void Awake()
     {
         Instance = this;
+        ended = false;
     }
 
     private void Start() => PrepareGame();
@@ -167,7 +172,11 @@ public class GameManager : NetworkBehaviour
 
         currentState = GameState.Ended;
 
+        ended = true;
+        
         string result = (myCrowns > enemyCrowns) ? "승리!" : (myCrowns < enemyCrowns ? "패배!" : "무승부!");
+        
+        
         Debug.Log($"게임 종료. 결과: {result}");
     }
 

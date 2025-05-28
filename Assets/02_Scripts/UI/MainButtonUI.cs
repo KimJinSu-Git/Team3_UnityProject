@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
@@ -59,6 +60,7 @@ public class MainButtonUI : MonoBehaviour
                 text.text = "매칭 중...";
                 
                 matchingUI[2].transform.DOMove(position[1].position, 1f);
+                matchingUI[3].transform.DOMove(position[3].position, 1f);
             }
             else
             {
@@ -106,6 +108,7 @@ public class MainButtonUI : MonoBehaviour
                     text.text = "전투";
                 
                 matchingUI[2].transform.DOMove(position[0].position, 1f);
+                matchingUI[3].transform.DOMove(position[2].position, 1f);
             }
             else
             {
@@ -119,7 +122,6 @@ public class MainButtonUI : MonoBehaviour
             }
         }
     }
-    
 
     #endregion
     

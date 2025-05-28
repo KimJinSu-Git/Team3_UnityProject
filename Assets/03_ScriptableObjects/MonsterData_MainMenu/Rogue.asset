@@ -13,20 +13,21 @@ MonoBehaviour:
   m_Name: Rogue
   m_EditorClassIdentifier: 
   id: Rogue
-  monsterName: Rogue
+  monsterName: "\uB85C\uADF8"
   description: "\uBBFC\uCCA9\uC131\uACFC \uAE30\uBBFC\uD568\uC744 \uAE30\uBC18\uC73C\uB85C 
     \uBE44\uC815\uBA74 \uC804\uD22C\uC5D0 \uD2B9\uD654\uB418\uC5B4 \uC788\uC2B5\uB2C8\uB2E4."
-  level: 1
-  maxHP: 400
-  damage: 120
-  moveSpeed: 1
+  baseHP: 0
+  baseDamage: 0
+  baseAttackSpeed: 0
+  baseMoveSpeed: 0
   attackRange: 1.8
-  attackSpeed: 1
-  attack: 3
-  cardType: 0
-  rarity: 1
   cost: 4
+  attackType: 0
+  cardType: 0
+  rarity: 0
+  elixirCost: 0
   spawnTime: 2
+  lifeDuration: -1
   prefab: {fileID: 3943412672516993462, guid: 21192dc4a62fa55468004a9ba35cea75, type: 3}
   previewPrefab: {fileID: 5588666636982742082, guid: 3bd0f455ba9b0cd4ab5ee9691b2bc9e7,
     type: 3}

@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/01_Scenes/InGame_Gyeong/InGame_Gyeong.unity
     guid: 234d7232895c1804ab8df331133ba8f1
+  - enabled: 1
+    path: Assets/01_Scenes/MainMenu_JIHUN/MainMenu _JIHUN.unity
+    guid: a75b8137c52988741885a82a6f3d80f1
   m_configObjects: {}

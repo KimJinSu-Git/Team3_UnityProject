@@ -1,4 +1,5 @@
 // ✅ ShopManagement (상점 전체 관리)
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
+// JSON 복사용 파일을 목록으로 포인팅하기 위해 사용
 [System.Serializable]
 public class ShopOfferListWrapper
 {
@@ -17,34 +19,34 @@ public class ShopManagement : MonoBehaviour
     public static ShopManagement Instance { get; private set; }
 
     [Header("Refresh")]
-    public TMP_Text costText;
-    public Image currencyIcon;
-    public TMP_Text labelText;
-    public Image refreshButtonImage;
+    public TMP_Text costText;                // 상점 갱신 비용 표시 텍스트
+    public Image currencyIcon;              // 결세 통화 이미지
+    public TMP_Text labelText;              // 갱신 버튼 리버트 텍스트
+    public Image refreshButtonImage;        // 갱신 버튼 이미지
 
     [Header("설정")]
-    public int displayCount = 6;
-    public GameObject shopItemPrefab;
-    public Transform shopParent;
-    public float cooldownTime = 5f;
+    public int displayCount = 6;            // 표시할 상점 항목 개수
+    public GameObject shopItemPrefab;       // 상점 아이템 프리파브
+    public Transform shopParent;            // 상점 아이템 부모
+    public float cooldownTime = 5f;         // 자동 갱신 포탈 시간
 
-    private List<ShopOfferData> allOffers;
-    private List<ShopOfferData> currentOffers;
+    private List<ShopOfferData> allOffers;          // 모든 판매 목록
+    private List<ShopOfferData> currentOffers;      // 현재 표시 중인 상점 항목
 
-    private int refreshCount = 0;
-    private bool isCoolingDown = false;
-    
+    private int refreshCount = 0;                  // 갱신 횟수
+    private bool isCoolingDown = false;           // 자동 갱신 중인지 체크
+
     [Header("레퍼런스")]
-    public PlayerCardInventory inventory;
-    public UpgradeRequirementDB upgradeDB;
-    
-    [Header("몬스터 리스트")]
-    [SerializeField] private MonsterData_Mainmenu[] monsterList;
-    public Dictionary<string, MonsterData_Mainmenu> monsterDB { get; private set; }
-    
+    public PlayerCardInventory inventory;               // 플레이어 카드 인벤토리
+    public UpgradeRequirementDB upgradeDB;             // 업그레이드 범위 DB
+
+    [Header("모델 목록")]
+    [SerializeField] private MonsterData_Mainmenu[] monsterList;  // 사용할 모델 목록
+    public Dictionary<string, MonsterData_Mainmenu> monsterDB { get; private set; } // ID-모델 명 디폴트
+
     void Awake()
     {
-        // 💡 먼저 싱글톤 지정
+        // 환신 첫 시 신고통 설정
         if (Instance == null) Instance = this;
         else
         {
@@ -52,7 +54,7 @@ public class ShopManagement : MonoBehaviour
             return;
         }
 
-        // ✅ 그다음 Dictionary 초기화
+        // 모델드림 초기화
         monsterDB = monsterList.ToDictionary(m => m.id, m => m);
 
         if (monsterDB.Count == 0)
@@ -61,25 +63,12 @@ public class ShopManagement : MonoBehaviour
             Debug.Log($"✅ monsterDB 초기화 완료: {monsterDB.Count}개");
     }
 
-
     void Start()
     {
-        Debug.Log($"[Shop] inventory: {(inventory == null ? "❌ null" : "✅ ok")}");
-        Debug.Log($"[Shop] monsterDB: {(monsterDB == null ? "❌ null" : "✅ ok")}");
-        Debug.Log($"[Shop] upgradeDB: {(upgradeDB == null ? "❌ null" : "✅ ok")}");
-        
-        LoadAllOffers();
-
-        refreshCount = PlayerPrefs.GetInt("refreshCount", 0);
-
-        if (PlayerWallet.Instance != null)
-        {
-            PlayerWallet.Instance.AddCurrency(CurrencyType.Gold, 10000); // 테스트용
-            PlayerWallet.Instance.AddCurrency(CurrencyType.Gem, 1000); // 빌드 시 삭제
-        }
-
-        ForceRefreshOnEnter();
-        UpdateCostUI();
+        LoadAllOffers();                                  // 사용 가능한 상점 파일 로드
+        refreshCount = PlayerPrefs.GetInt("refreshCount", 0); // 갱신 횟수 보관
+        CheckAutoRefresh();                               // 자동 갱신 체크
+        UpdateCostUI();                                   // 비용 UI 복잡
     }
 
     void Update()
@@ -95,10 +84,37 @@ public class ShopManagement : MonoBehaviour
 
     private void ForceRefreshOnEnter()
     {
-        ClearShopItems();
-        currentOffers = GetRandomOffers();
-        DisplayOffers(currentOffers);
-        Debug.Log("[Shop] ✅ 첫 진입 시 상점 초기화 완료");
+        ClearShopItems();                        // 상점 항목 지우기
+        currentOffers = GetRandomOffers();       // 복사 없이 보유
+        DisplayOffers(currentOffers);            // 표시
+        Debug.Log("[Shop] ✅ 첫 지방 시 상점 초기화 완료");
+    }
+
+    void CheckAutoRefresh()
+    {
+        string lastTimeStr = PlayerPrefs.GetString("lastRefreshTime", "");
+        DateTime now = DateTime.Now;
+
+        if (DateTime.TryParse(lastTimeStr, out DateTime lastTime))
+        {
+            TimeSpan diff = now - lastTime;
+
+            if (diff.TotalSeconds >= cooldownTime)
+            {
+                Debug.Log($"[Shop] ⏰ 자동 갱신됨 - 경간 시간: {diff.TotalSeconds:F1}초");
+                ForceRefreshOnEnter();
+                PlayerPrefs.SetString("lastRefreshTime", now.ToString());
+            }
+            else
+            {
+                Debug.Log($"[Shop] 💩 아직 갱신 안 되음 - 남은 시간: {cooldownTime - diff.TotalSeconds:F1}초");
+            }
+        }
+        else
+        {
+            Debug.Log("[Shop] 🆕 첫 갱신 시간 저장됨");
+            PlayerPrefs.SetString("lastRefreshTime", now.ToString());
+        }
     }
 
     void LoadAllOffers()
@@ -126,6 +142,11 @@ public class ShopManagement : MonoBehaviour
         foreach (var offer in allOffers)
         {
             offer.item.iconPath = Resources.Load<Sprite>($"Icons/{offer.item.icon}");
+
+            if (Enum.TryParse<CurrencyType>(offer.currency, out var parsed))
+                offer.currencyType = parsed;
+            else
+                offer.currencyType = CurrencyType.Gold;
         }
     }
 
@@ -135,7 +156,7 @@ public class ShopManagement : MonoBehaviour
 
         if (isCoolingDown)
         {
-            Debug.LogWarning("[Shop] ❌ 쿨타임 중이라 리프레시 불가");
+            Debug.LogWarning("[Shop] ❌ 쿠타임 중이라 리프레시 불가");
             return;
         }
 
@@ -150,8 +171,9 @@ public class ShopManagement : MonoBehaviour
 
         refreshCount++;
         PlayerPrefs.SetInt("refreshCount", refreshCount);
+        PlayerPrefs.SetString("lastRefreshTime", DateTime.Now.ToString());
 
-        Debug.Log("[Shop] ✅ 비용 차감 완료, 리프레시 시작");
+        Debug.Log("[Shop] ✅ 비용 참가 완료, 리프레시 시작");
         Debug.Log($"[Shop] Refresh Count = {refreshCount}");
 
         ClearShopItems();
@@ -192,10 +214,9 @@ public class ShopManagement : MonoBehaviour
 
     List<ShopOfferData> GetRandomOffers()
     {
-        return allOffers.OrderBy(x => Random.value).Take(displayCount).ToList();
+        return allOffers.OrderBy(x => Guid.NewGuid()).Take(displayCount).ToList();
     }
 
-    // DisplayOffers 수정
     void DisplayOffers(List<ShopOfferData> offers)
     {
         foreach (var offer in offers)

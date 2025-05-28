@@ -4,7 +4,7 @@
       "offerId": "Golem_Gold_20Q",
       "item": {
         "itemId": "Golem",
-        "title": "Golem",
+        "title": "골렘",
         "icon": "card_Golem"
       },
       "quantity": 20,
@@ -16,7 +16,7 @@
       "offerId": "Golem_Gem_20Q",
       "item": {
         "itemId": "Golem",
-        "title": "Golem",
+        "title": "골렘",
         "icon": "card_Golem"
       },
       "quantity": 20,
@@ -28,7 +28,7 @@
       "offerId": "Golem_Gold_30Q",
       "item": {
         "itemId": "Golem",
-        "title": "Golem",
+        "title": "골렘",
         "icon": "card_Golem"
       },
       "quantity": 30,
@@ -40,7 +40,7 @@
       "offerId": "Golem_Gem_30Q",
       "item": {
         "itemId": "Golem",
-        "title": "Golem",
+        "title": "골렘",
         "icon": "card_Golem"
       },
       "quantity": 30,
@@ -52,7 +52,7 @@
       "offerId": "Golem_Gold_40Q",
       "item": {
         "itemId": "Golem",
-        "title": "Golem",
+        "title": "골렘",
         "icon": "card_Golem"
       },
       "quantity": 40,
@@ -64,7 +64,7 @@
       "offerId": "Golem_Gem_40Q",
       "item": {
         "itemId": "Golem",
-        "title": "Golem",
+        "title": "골렘",
         "icon": "card_Golem"
       },
       "quantity": 40,
@@ -76,7 +76,7 @@
       "offerId": "Mage_Gold_5Q",
       "item": {
         "itemId": "Mage",
-        "title": "Mage",
+        "title": "메이지",
         "icon": "card_Mage"
       },
       "quantity": 5,
@@ -88,7 +88,7 @@
       "offerId": "Mage_Gem_5Q",
       "item": {
         "itemId": "Mage",
-        "title": "Mage",
+        "title": "메이지",
         "icon": "card_Mage"
       },
       "quantity": 5,
@@ -100,7 +100,7 @@
       "offerId": "Mage_Gold_6Q",
       "item": {
         "itemId": "Mage",
-        "title": "Mage",
+        "title": "메이지",
         "icon": "card_Mage"
       },
       "quantity": 6,
@@ -112,7 +112,7 @@
       "offerId": "Mage_Gem_6Q",
       "item": {
         "itemId": "Mage",
-        "title": "Mage",
+        "title": "메이지",
         "icon": "card_Mage"
       },
       "quantity": 6,
@@ -124,7 +124,7 @@
       "offerId": "Mage_Gold_7Q",
       "item": {
         "itemId": "Mage",
-        "title": "Mage",
+        "title": "메이지",
         "icon": "card_Mage"
       },
       "quantity": 7,
@@ -136,7 +136,7 @@
       "offerId": "Mage_Gem_7Q",
       "item": {
         "itemId": "Mage",
-        "title": "Mage",
+        "title": "메이지",
         "icon": "card_Mage"
       },
       "quantity": 7,
@@ -148,7 +148,7 @@
       "offerId": "Minion_Gold_50Q",
       "item": {
         "itemId": "Minion",
-        "title": "Minion",
+        "title": "미니언",
         "icon": "card_Minion"
       },
       "quantity": 50,
@@ -160,7 +160,7 @@
       "offerId": "Minion_Gem_50Q",
       "item": {
         "itemId": "Minion",
-        "title": "Minion",
+        "title": "미니언",
         "icon": "card_Minion"
       },
       "quantity": 50,
@@ -172,7 +172,7 @@
       "offerId": "Minion_Gold_80Q",
       "item": {
         "itemId": "Minion",
-        "title": "Minion",
+        "title": "미니언",
         "icon": "card_Minion"
       },
       "quantity": 80,
@@ -184,7 +184,7 @@
       "offerId": "Minion_Gem_80Q",
       "item": {
         "itemId": "Minion",
-        "title": "Minion",
+        "title": "미니언",
         "icon": "card_Minion"
       },
       "quantity": 80,
@@ -196,7 +196,7 @@
       "offerId": "Minion_Gold_100Q",
       "item": {
         "itemId": "Minion",
-        "title": "Minion",
+        "title": "미니언",
         "icon": "card_Minion"
       },
       "quantity": 100,
@@ -208,7 +208,7 @@
       "offerId": "Minion_Gem_100Q",
       "item": {
         "itemId": "Minion",
-        "title": "Minion",
+        "title": "미니언",
         "icon": "card_Minion"
       },
       "quantity": 100,
@@ -220,7 +220,7 @@
       "offerId": "Necro_Gold_20Q",
       "item": {
         "itemId": "Necro",
-        "title": "Necro",
+        "title": "네크로맨서",
         "icon": "card_Necro"
       },
       "quantity": 20,
@@ -232,7 +232,7 @@
       "offerId": "Necro_Gem_20Q",
       "item": {
         "itemId": "Necro",
-        "title": "Necro",
+        "title": "네크로맨서",
         "icon": "card_Necro"
       },
       "quantity": 20,
@@ -244,7 +244,7 @@
       "offerId": "Necro_Gold_30Q",
       "item": {
         "itemId": "Necro",
-        "title": "Necro",
+        "title": "네크로맨서",
         "icon": "card_Necro"
       },
       "quantity": 30,
@@ -256,7 +256,7 @@
       "offerId": "Necro_Gem_30Q",
       "item": {
         "itemId": "Necro",
-        "title": "Necro",
+        "title": "네크로맨서",
         "icon": "card_Necro"
       },
       "quantity": 30,
@@ -268,7 +268,7 @@
       "offerId": "Necro_Gold_40Q",
       "item": {
         "itemId": "Necro",
-        "title": "Necro",
+        "title": "네크로맨서",
         "icon": "card_Necro"
       },
       "quantity": 40,
@@ -280,7 +280,7 @@
       "offerId": "Necro_Gem_40Q",
       "item": {
         "itemId": "Necro",
-        "title": "Necro",
+        "title": "네크로맨서",
         "icon": "card_Necro"
       },
       "quantity": 40,
@@ -292,7 +292,7 @@
       "offerId": "Rogue_Gold_50Q",
       "item": {
         "itemId": "Rogue",
-        "title": "Rogue",
+        "title": "로그",
         "icon": "card_Rogue"
       },
       "quantity": 50,
@@ -304,7 +304,7 @@
       "offerId": "Rogue_Gem_50Q",
       "item": {
         "itemId": "Rogue",
-        "title": "Rogue",
+        "title": "로그",
         "icon": "card_Rogue"
       },
       "quantity": 50,
@@ -316,7 +316,7 @@
       "offerId": "Rogue_Gold_80Q",
       "item": {
         "itemId": "Rogue",
-        "title": "Rogue",
+        "title": "로그",
         "icon": "card_Rogue"
       },
       "quantity": 80,
@@ -328,7 +328,7 @@
       "offerId": "Rogue_Gem_80Q",
       "item": {
         "itemId": "Rogue",
-        "title": "Rogue",
+        "title": "로그",
         "icon": "card_Rogue"
       },
       "quantity": 80,
@@ -340,7 +340,7 @@
       "offerId": "Rogue_Gold_100Q",
       "item": {
         "itemId": "Rogue",
-        "title": "Rogue",
+        "title": "로그",
         "icon": "card_Rogue"
       },
       "quantity": 100,
@@ -352,7 +352,7 @@
       "offerId": "Rogue_Gem_100Q",
       "item": {
         "itemId": "Rogue",
-        "title": "Rogue",
+        "title": "로그",
         "icon": "card_Rogue"
       },
       "quantity": 100,
@@ -364,7 +364,7 @@
       "offerId": "Warrior_Gold_5Q",
       "item": {
         "itemId": "Warrior",
-        "title": "Warrior",
+        "title": "워리어",
         "icon": "card_Warrior"
       },
       "quantity": 5,
@@ -376,7 +376,7 @@
       "offerId": "Warrior_Gem_5Q",
       "item": {
         "itemId": "Warrior",
-        "title": "Warrior",
+        "title": "워리어",
         "icon": "card_Warrior"
       },
       "quantity": 5,
@@ -388,7 +388,7 @@
       "offerId": "Warrior_Gold_6Q",
       "item": {
         "itemId": "Warrior",
-        "title": "Warrior",
+        "title": "워리어",
         "icon": "card_Warrior"
       },
       "quantity": 6,
@@ -400,7 +400,7 @@
       "offerId": "Warrior_Gem_6Q",
       "item": {
         "itemId": "Warrior",
-        "title": "Warrior",
+        "title": "워리어",
         "icon": "card_Warrior"
       },
       "quantity": 6,
@@ -412,7 +412,7 @@
       "offerId": "Warrior_Gold_7Q",
       "item": {
         "itemId": "Warrior",
-        "title": "Warrior",
+        "title": "워리어",
         "icon": "card_Warrior"
       },
       "quantity": 7,
@@ -424,7 +424,7 @@
       "offerId": "Warrior_Gem_7Q",
       "item": {
         "itemId": "Warrior",
-        "title": "Warrior",
+        "title": "워리어",
         "icon": "card_Warrior"
       },
       "quantity": 7,
@@ -436,7 +436,7 @@
       "offerId": "Cannon_Gold_10Q",
       "item": {
         "itemId": "Cannon",
-        "title": "Cannon",
+        "title": "대포",
         "icon": "card_Cannon"
       },
       "quantity": 10,
@@ -448,7 +448,7 @@
       "offerId": "Cannon_Gem_10Q",
       "item": {
         "itemId": "Cannon",
-        "title": "Cannon",
+        "title": "대포",
         "icon": "card_Cannon"
       },
       "quantity": 10,
@@ -460,7 +460,7 @@
       "offerId": "Cannon_Gold_20Q",
       "item": {
         "itemId": "Cannon",
-        "title": "Cannon",
+        "title": "대포",
         "icon": "card_Cannon"
       },
       "quantity": 20,
@@ -472,7 +472,7 @@
       "offerId": "Cannon_Gem_20Q",
       "item": {
         "itemId": "Cannon",
-        "title": "Cannon",
+        "title": "대포",
         "icon": "card_Cannon"
       },
       "quantity": 20,
@@ -484,7 +484,7 @@
       "offerId": "Cannon_Gold_30Q",
       "item": {
         "itemId": "Cannon",
-        "title": "Cannon",
+        "title": "대포",
         "icon": "card_Cannon"
       },
       "quantity": 30,
@@ -496,7 +496,7 @@
       "offerId": "Cannon_Gem_30Q",
       "item": {
         "itemId": "Cannon",
-        "title": "Cannon",
+        "title": "대포",
         "icon": "card_Cannon"
       },
       "quantity": 30,
@@ -508,7 +508,7 @@
       "offerId": "ArrowRain_Gold_20Q",
       "item": {
         "itemId": "ArrowRain",
-        "title": "ArrowRain",
+        "title": "화살비",
         "icon": "card_ArrowRain"
       },
       "quantity": 20,
@@ -520,7 +520,7 @@
       "offerId": "ArrowRain_Gem_20Q",
       "item": {
         "itemId": "ArrowRain",
-        "title": "ArrowRain",
+        "title": "화살비",
         "icon": "card_ArrowRain"
       },
       "quantity": 20,
@@ -532,7 +532,7 @@
       "offerId": "ArrowRain_Gold_30Q",
       "item": {
         "itemId": "ArrowRain",
-        "title": "ArrowRain",
+        "title": "화살비",
         "icon": "card_ArrowRain"
       },
       "quantity": 30,
@@ -544,7 +544,7 @@
       "offerId": "ArrowRain_Gem_30Q",
       "item": {
         "itemId": "ArrowRain",
-        "title": "ArrowRain",
+        "title": "화살비",
         "icon": "card_ArrowRain"
       },
       "quantity": 30,
@@ -556,7 +556,7 @@
       "offerId": "Fireball_Gold_10Q",
       "item": {
         "itemId": "Fireball",
-        "title": "Fireball",
+        "title": "화염구",
         "icon": "card_Fireball"
       },
       "quantity": 10,
@@ -568,7 +568,7 @@
       "offerId": "Fireball_Gem_10Q",
       "item": {
         "itemId": "Fireball",
-        "title": "Fireball",
+        "title": "화염구",
         "icon": "card_Fireball"
       },
       "quantity": 10,
@@ -580,7 +580,7 @@
       "offerId": "Fireball_Gold_20Q",
       "item": {
         "itemId": "Fireball",
-        "title": "Fireball",
+        "title": "화염구",
         "icon": "card_Fireball"
       },
       "quantity": 20,
@@ -592,7 +592,7 @@
       "offerId": "Fireball_Gem_20Q",
       "item": {
         "itemId": "Fireball",
-        "title": "Fireball",
+        "title": "화염구",
         "icon": "card_Fireball"
       },
       "quantity": 20,

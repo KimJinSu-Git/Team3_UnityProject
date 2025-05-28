@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class CrownScoreController : NetworkBehaviour
 {
+    
     [Header("왕관 프리팹")]
     [SerializeField] private GameObject crownFlyPlayerPrefab; // 아군용 왕관
     [SerializeField] private GameObject crownFlyEnemyPrefab;  // 적군용 왕관
@@ -17,7 +18,7 @@ public class CrownScoreController : NetworkBehaviour
 
     [Networked] private int CurrentScore { get; set; }
     private bool OnCount = false;
-
+    
     public void AddCrownsFromPositions(List<Vector3> worldPositions, bool isPlayerSide)
     {
         StartCoroutine(AnimateCrowns(worldPositions, isPlayerSide));
