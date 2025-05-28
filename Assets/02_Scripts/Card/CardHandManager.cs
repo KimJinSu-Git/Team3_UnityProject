@@ -142,13 +142,15 @@ public class CardHandManager : MonoBehaviour
     
     private void DrawToSideSlot()    // 사이드 슬롯에 카드 하나 배치 (드래그 불가, 작은 크기)
     {
+        Debug.Log($"[CardHandManager] DrawToSideSlot: deckCount={deck.Count}");
         if (deck.Count == 0) return;
 
         // 덱에서 카드 데이터 꺼내기
         // MonsterData data = deck[0];
         CardDataWrapper data = deck[0];
         deck.RemoveAt(0);
-
+        Debug.Log($"[CardHandManager]   drawing new side: {(data.IsMonster? data.monsterData.monsterName : data.skillData.skillName)}");
+        // … 기존 코드 …
         // 기존 사이드 카드가 있으면 삭제 (사이드 슬롯에 남아 있는 경우만)
         if (sideCard != null && sideCard.transform.parent == sideSlotParent)
             Destroy(sideCard.gameObject);
@@ -186,77 +188,75 @@ public class CardHandManager : MonoBehaviour
     
     private void OnCardPlayed(int slotIndex)    // 카드 유닛 배치 시 호출되는 콜백
     {
-        // 3) 사이드 슬롯 카드 → 빈 슬롯으로 이동
+        Debug.Log($"[CardHandManager] OnCardPlayed({slotIndex}) called. Current sideCard={(sideCard!=null? sideCard.name:"NULL")}");
         StartCoroutine(MoveSideToHand(slotIndex));
     }
     
-    private IEnumerator MoveSideToHand(int slotIndex)   // 사이드 슬롯 카드를 빈 슬롯으로 이동시키고 재초기화
+    private IEnumerator MoveSideToHand(int slotIndex)
     {
-        // 1) 대기
-        yield return new WaitForSeconds(sideDelay);
+        // 1) 플레이된 손패 카드 UI & 데이터 처리
+        if (slotIndex < 0 || slotIndex >= hand.Count)
+            yield break;
 
-        // 1) 사용된 카드 데이터를 덱 뒤로 이동
-        // var playedData = hand[slotIndex].MonsterData;
-        // deck.Add(playedData);
-
-        // var playedData = new CardDataWrapper
-        // {
-        //     monsterData = hand[slotIndex].MonsterData,
-        //     skillData = hand[slotIndex].SkillData
-        // };
-        CardDataWrapper playedData = new CardDataWrapper
-        {
-            cardType = sideCard.MonsterData != null ? CardDataWrapper.CardType.Monster : CardDataWrapper.CardType.Skill,
-            monsterData = sideCard.MonsterData,
-            skillData = sideCard.SkillData
+        // 1-a) 플레이된 카드 데이터 캡처 → 덱 맨 뒤에 추가
+        CardUI playedCardUI = hand[slotIndex];
+        var playedData = new CardDataWrapper {
+            cardType    = playedCardUI.MonsterData != null
+                ? CardDataWrapper.CardType.Monster
+                : CardDataWrapper.CardType.Skill,
+            monsterData = playedCardUI.MonsterData,
+            skillData   = playedCardUI.SkillData
         };
         deck.Add(playedData);
-        
-        // 2) 손패에서 카드 UI 제거
+
+        // 1-b) 손패 리스트에서 제거 & UI 파괴
         hand.RemoveAt(slotIndex);
-        hand.Insert(slotIndex, sideCard);
-        
-        
-        // 2) 위치 & 스케일 애니메이션
-        Vector3 startPos   = sideCard.transform.position;
+        Destroy(playedCardUI.gameObject);
+
+        // 2) 잠시 대기
+        yield return new WaitForSeconds(sideDelay);
+
+        // 3) 사이드 슬롯 카드(UI)를 빈 슬롯 위치로 애니메이션
+        CardUI movingCard = sideCard; 
+        Vector3 startPos   = movingCard.transform.position;
         Vector3 endPos     = slotParents[slotIndex].position;
-        Vector3 startScale = sideCard.transform.localScale;
+        Vector3 startScale = movingCard.transform.localScale;
         float   t          = 0f;
         while (t < sideAnimDuration)
         {
             t += Time.deltaTime;
             float f = Mathf.Clamp01(t / sideAnimDuration);
-            sideCard.transform.position   = Vector3.Lerp(startPos, endPos, f);
-            sideCard.transform.localScale = Vector3.Lerp(startScale, Vector3.one, f);
+            movingCard.transform.position   = Vector3.Lerp(startPos, endPos, f);
+            movingCard.transform.localScale  = Vector3.Lerp(startScale, Vector3.one, f);
             yield return null;
         }
 
-        // 3) 빈 슬롯으로 부모 변경
-        sideCard.transform.SetParent(slotParents[slotIndex], false);
+        // 4) 슬롯에 고정 & 드래그 가능 상태로 재초기화
+        movingCard.transform.SetParent(slotParents[slotIndex], false);
+        movingCard.Init(
+            movingCard.MonsterData,
+            movingCard.SkillData,
+            // 여기서 미리 만든 playedData.cardType 사용
+            playedData.cardType,
+            unitSpawner,
+            currentNoSpawnZones,
+            currentEnemyAreaImages,
+            slotParents[slotIndex],
+            slotIndex,
+            OnCardPlayed,
+            Area,
+            true,         // 드래그 가능
+            Vector3.one   // 원래 크기
+        );
+        hand.Insert(slotIndex, movingCard);
 
-        // 4) 다시 손패 카드로 재초기화 (드래그 가능, 콜백 설정)
-        sideCard.Init(sideCard.MonsterData, sideCard.SkillData, playedData.cardType,
-            unitSpawner, currentNoSpawnZones, currentEnemyAreaImages,
-            slotParents[slotIndex], slotIndex, OnCardPlayed, Area,
-            true, Vector3.one);
-        // sideCard.Init(
-        //     sideCard.MonsterData,
-        //     sideCard.SkillData,
-        //     unitSpawner,
-        //     noSpawnZones,
-        //     enemyAreaImages,
-        //     slotParents[slotIndex],
-        //     slotIndex,
-        //     OnCardPlayed,
-        //     Area,
-        //     true,
-        //     Vector3.one
-        // );
-        
-
-        // 6) 다음 사이드 카드 뽑기
+        // 5) 다음 사이드 카드 뽑기
         DrawToSideSlot();
     }
+
+
+
+
     
     private void Shuffle<T>(List<T> list)
     {

@@ -267,9 +267,9 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
                 ElixirManager.Instance.UseElixir(skillData.cost);
                 SkillManager.Instance.CastSkill(skillData, worldSpawnPos);
             }
-
+            Debug.Log($"[CardUI] OnEndDrag: slotIndex={slotIndex}, invoking OnCardPlayed");
             onCardPlayed?.Invoke(slotIndex);
-            Destroy(gameObject);
+           // Destroy(gameObject);
         }
         
         // foreach (var zone in noSpawnZones)

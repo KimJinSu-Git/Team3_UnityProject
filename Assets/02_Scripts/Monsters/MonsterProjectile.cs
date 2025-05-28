@@ -15,6 +15,8 @@ public class MonsterProjectile : MonoBehaviour
         this.damage = damage;
         this.speed = speed;
 
+        transform.position += Vector3.forward * 1f + Vector3.up * 3f;
+
         Destroy(gameObject, 3f);
     }
 

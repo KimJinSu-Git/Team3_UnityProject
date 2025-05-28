@@ -18,7 +18,7 @@ MonoBehaviour:
     \uC5B8\uB370\uB4DC\uB97C \uC18C\uD658\uD558\uACE0, \uC0DD\uBA85\uC744 \uC870\uC885\uD558\uAC70\uB098
     \uBD80\uD65C\uC2DC\uD0A4\uB294 \uB2A5\uB825\uC744 \uAC00\uC9D1\uB2C8\uB2E4."
   characterType: 1
-  projectilePrefab: {fileID: 4068590041941001261, guid: 8056f33a601250643b64ad6d10c23dec,
+  projectilePrefab: {fileID: 1761466384613815937, guid: a052410e54f5aab4582e804a56b921ef,
     type: 3}
   projectileSpeed: 8
   level: 1

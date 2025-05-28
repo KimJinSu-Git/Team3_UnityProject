@@ -3371,16 +3371,10 @@ MonoBehaviour:
   - {fileID: 68595548}
   - {fileID: 695841535}
   - {fileID: 1356469068}
-  - {fileID: 1215162384}
-  - {fileID: 785708094}
-  - {fileID: 1376012145}
   clientEnemyZones:
   - {fileID: 1634701283}
   - {fileID: 1552236199}
   - {fileID: 1830474259}
-  - {fileID: 834735230}
-  - {fileID: 849473029}
-  - {fileID: 1538714230}
   currentNoSpawnZones: []
   currentEnemyAreaImages:
   - {fileID: 364654519}
