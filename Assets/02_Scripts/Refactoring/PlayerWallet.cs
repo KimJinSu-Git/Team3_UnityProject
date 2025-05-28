@@ -5,6 +5,8 @@ using Firebase.Firestore;
 using System;
 using System.Collections.Generic;
 using TMPro;
+using Firebase.Extensions;
+using UnityEngine.PlayerLoop;
 
 /// 💰 통화 종류 열거형 정의
 public enum CurrencyType
@@ -42,6 +44,21 @@ public class PlayerWallet : MonoBehaviour
         auth = FirebaseAuth.DefaultInstance;
         firestore = FirebaseFirestore.DefaultInstance;
     }
+    
+    private void OnEnable()
+    {
+        UpdateUI(); // UI가 켜질 때마다 값 반영
+    }
+    
+    void Start()
+    {
+        Debug.Log("[Wallet] Start() 실행됨 → LoadFromFirebase 호출 시도");
+
+        if (Instance != null)
+            Instance.LoadFromFirebase();
+        else
+            Debug.LogWarning("[Wallet] Instance가 null입니다. Load 실패");
+    }
 
     /// ☁️ Firebase에서 유저 재화 불러오기
     public void LoadFromFirebase()
@@ -53,28 +70,26 @@ public class PlayerWallet : MonoBehaviour
             return;
         }
 
-        firestore.Collection("users").Document(uid).GetSnapshotAsync().ContinueWith(task =>
-        {
-            if (task.IsCompleted && task.Result.Exists)
+        firestore.Collection("users").Document(uid).GetSnapshotAsync().ContinueWithOnMainThread(task =>
             {
-                // 🔄 기존 유저 재화 로딩
-                var data = task.Result.ToDictionary();
-                gold = data.ContainsKey("gold") ? Convert.ToInt32(data["gold"]) : 0;
-                gem = data.ContainsKey("gem") ? Convert.ToInt32(data["gem"]) : 0;
+                if (task.IsCompleted && task.Result.Exists)
+                {
+                    var data = task.Result.ToDictionary();
+                    gold = data.ContainsKey("gold") ? Convert.ToInt32(data["gold"]) : 0;
+                    gem = data.ContainsKey("gem") ? Convert.ToInt32(data["gem"]) : 0;
 
-                Debug.Log($"[Wallet] 로드 완료: Gold={gold}, Gem={gem}");
-                UpdateUI();
-            }
-            else
-            {
-                // 🆕 신규 유저 초기값 설정
-                Debug.Log("[Wallet] 신규 유저로 기본값 설정");
-                gold = 1000;
-                gem = 100;
-                SaveToFirebase();
-                UpdateUI();
-            }
-        });
+                    Debug.Log($"[Wallet] 로드 완료: Gold={gold}, Gem={gem}");
+                    UpdateUI(); // ✅ 이제 UI에 정상 반영됨
+                }
+                else
+                {
+                    Debug.Log("[Wallet] 신규 유저로 기본값 설정");
+                    gold = 1000;
+                    gem = 100;
+                    SaveToFirebase();
+                    UpdateUI();
+                }
+            });
     }
 
     /// ☁️ Firebase에 현재 재화 저장
@@ -164,6 +179,8 @@ public class PlayerWallet : MonoBehaviour
     /// 🔄 UI 업데이트 (Text에 값 반영)
     private void UpdateUI()
     {
+        Debug.Log($"[Wallet UI] goldText={(goldText == null ? "❌ NULL" : "✅ OK")}, gemText={(gemText == null ? "❌ NULL" : "✅ OK")}");
+
         if (goldText != null)
             goldText.text = gold.ToString();
 
