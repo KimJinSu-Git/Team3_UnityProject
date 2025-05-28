@@ -10,9 +10,9 @@ public class CollectionPanel : MonoBehaviour
     public DeckManager_UI deckManager;
     [SerializeField] private UpgradeRequirementDB upgradeDB;
     [SerializeField] private PlayerCardInventory inventory;
-    [SerializeField] private MonsterData_Mainmenu[] monsterList;
+    [SerializeField] private MonsterData[] monsterList;
 
-    private Dictionary<string, MonsterData_Mainmenu> monsterDB;
+    private Dictionary<string, MonsterData> monsterDB;
     private List<PlayerCardData> allCards => inventory.allOwnedCards;
 
     void Awake()

@@ -3327,34 +3327,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d59ce457781df0448fccd6a7b4a17cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fullDeck:
-  - cardType: 0
-    monsterData: {fileID: 11400000, guid: 86312d4d12a00604c800b898f1f263f4, type: 2}
-    skillData: {fileID: 0}
-  - cardType: 0
-    monsterData: {fileID: 11400000, guid: 4dd494040cf16a74e9df518a3ba538b3, type: 2}
-    skillData: {fileID: 0}
-  - cardType: 0
-    monsterData: {fileID: 11400000, guid: 7f1ffbd091001134c9c265d616832dcf, type: 2}
-    skillData: {fileID: 0}
-  - cardType: 0
-    monsterData: {fileID: 11400000, guid: 4d591c441ca193c4d8e4b02b5d4feb21, type: 2}
-    skillData: {fileID: 0}
-  - cardType: 0
-    monsterData: {fileID: 11400000, guid: cf92199ab30643143af436f564d51642, type: 2}
-    skillData: {fileID: 0}
-  - cardType: 0
-    monsterData: {fileID: 11400000, guid: badb2e7e3ffc7774f9973ccf2b4130e1, type: 2}
-    skillData: {fileID: 0}
-  - cardType: 0
-    monsterData: {fileID: 11400000, guid: 66ffdff3a33468f42ae7c9a5d7ff6dab, type: 2}
-    skillData: {fileID: 0}
-  - cardType: 1
-    monsterData: {fileID: 0}
-    skillData: {fileID: 11400000, guid: 423d0b37a69ebf943927d8bbb625a614, type: 2}
-  - cardType: 1
-    monsterData: {fileID: 0}
-    skillData: {fileID: 11400000, guid: 6660bc61c66f429419cae069128d5c00, type: 2}
+  fullDeck: []
   cardPrefab: {fileID: 536418147371490894, guid: b32702e2fbcf2cf4c9f95528687a9f94,
     type: 3}
   slotParents:
@@ -4909,7 +4882,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.033333335
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 88aca03f93fb33e48a60875549316267, type: 2}
+  m_NavMeshData: {fileID: 0}
   m_BuildHeightMesh: 0
 --- !u!1 &591463691
 GameObject:
@@ -7008,6 +6981,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a39f796adafd18044a7e50d7f767e0c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ended: 0
   currentState: 0
   playerCrownUI: {fileID: 716676894}
   enemyCrownUI: {fileID: 730626608}

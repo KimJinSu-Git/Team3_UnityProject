@@ -83,24 +83,12 @@ public class MonsterHealthBarManager : MonoBehaviour
     {
         if (table.ContainsKey(unit)) return;
 
-        // bool isAlly = unit.PlayerRef == localRef;
-        // var prefab  = isAlly ? playerBarPrefab : enemyBarPrefab;
+        bool isAlly = unit.PlayerRef == localRef;
+        var prefab  = isAlly ? playerBarPrefab : enemyBarPrefab;
 
-        if (SessionManager.Instance.CurrentGameRoomInfo.ClientPlayer == unit.PlayerRef)
-        {
-            var bar = Instantiate(enemyBarPrefab, uiCanvas.transform);
-            bar.SetMaxHealth(maxHp);
-            table.Add(unit, bar);
-        }
-        if (SessionManager.Instance.CurrentGameRoomInfo.HostPlayer == unit.PlayerRef)
-        {
-            var bar = Instantiate(playerBarPrefab, uiCanvas.transform);
-            bar.SetMaxHealth(maxHp);
-            table.Add(unit, bar);
-        }
-        // var bar = Instantiate(prefab, uiCanvas.transform);
-        // bar.SetMaxHealth(maxHp);
-        // table.Add(unit, bar);
+        var bar = Instantiate(prefab, uiCanvas.transform);
+        bar.SetMaxHealth(maxHp);
+        table.Add(unit, bar);
     }
 
     /// <summary>데미지 입을 때마다 호출</summary>

@@ -25250,15 +25250,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventory: {fileID: 1990967264}
   monsterList:
-  - {fileID: 11400000, guid: b7c2bb449dc5bbe40862f6e90399a3d5, type: 2}
-  - {fileID: 11400000, guid: 5bbee63a66ce5ab4b91c9c2623387a86, type: 2}
-  - {fileID: 11400000, guid: d48d3d36725463048950462066838b85, type: 2}
-  - {fileID: 11400000, guid: f7fae0a7f0fcee7459e5e33624970963, type: 2}
-  - {fileID: 11400000, guid: 94e9348d01a777546a72adc050f117d2, type: 2}
-  - {fileID: 11400000, guid: 973e1696111a0e448b391fdd4191f6fb, type: 2}
-  - {fileID: 11400000, guid: cbaf1914ea9df974386c11e56b423833, type: 2}
-  - {fileID: 11400000, guid: abf7b3e377d72704489fd2a9c5ef3054, type: 2}
-  - {fileID: 11400000, guid: 19fa2337ae240394cbf10891794fa486, type: 2}
+  - {fileID: 11400000, guid: 4dd494040cf16a74e9df518a3ba538b3, type: 2}
+  - {fileID: 11400000, guid: 4d591c441ca193c4d8e4b02b5d4feb21, type: 2}
+  - {fileID: 11400000, guid: cf92199ab30643143af436f564d51642, type: 2}
+  - {fileID: 11400000, guid: badb2e7e3ffc7774f9973ccf2b4130e1, type: 2}
+  - {fileID: 11400000, guid: 7f1ffbd091001134c9c265d616832dcf, type: 2}
+  - {fileID: 11400000, guid: 66ffdff3a33468f42ae7c9a5d7ff6dab, type: 2}
+  - {fileID: 11400000, guid: 86312d4d12a00604c800b898f1f263f4, type: 2}
+  skillList:
+  - {fileID: 11400000, guid: 423d0b37a69ebf943927d8bbb625a614, type: 2}
+  - {fileID: 11400000, guid: 6660bc61c66f429419cae069128d5c00, type: 2}
 --- !u!1 &1521497339
 GameObject:
   m_ObjectHideFlags: 0
@@ -29463,12 +29464,16 @@ MonoBehaviour:
     level: 0
     ownedCount: 0
   monsterList:
-  - {fileID: 11400000, guid: f7fae0a7f0fcee7459e5e33624970963, type: 2}
-  - {fileID: 11400000, guid: 94e9348d01a777546a72adc050f117d2, type: 2}
-  - {fileID: 11400000, guid: 973e1696111a0e448b391fdd4191f6fb, type: 2}
-  - {fileID: 11400000, guid: cbaf1914ea9df974386c11e56b423833, type: 2}
-  - {fileID: 11400000, guid: abf7b3e377d72704489fd2a9c5ef3054, type: 2}
-  - {fileID: 11400000, guid: 19fa2337ae240394cbf10891794fa486, type: 2}
+  - {fileID: 11400000, guid: 86312d4d12a00604c800b898f1f263f4, type: 2}
+  - {fileID: 11400000, guid: 4dd494040cf16a74e9df518a3ba538b3, type: 2}
+  - {fileID: 11400000, guid: 7f1ffbd091001134c9c265d616832dcf, type: 2}
+  - {fileID: 11400000, guid: 4d591c441ca193c4d8e4b02b5d4feb21, type: 2}
+  - {fileID: 11400000, guid: cf92199ab30643143af436f564d51642, type: 2}
+  - {fileID: 11400000, guid: badb2e7e3ffc7774f9973ccf2b4130e1, type: 2}
+  - {fileID: 11400000, guid: 66ffdff3a33468f42ae7c9a5d7ff6dab, type: 2}
+  skillList:
+  - {fileID: 11400000, guid: 423d0b37a69ebf943927d8bbb625a614, type: 2}
+  - {fileID: 11400000, guid: 6660bc61c66f429419cae069128d5c00, type: 2}
 --- !u!114 &1878833623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31053,15 +31058,13 @@ MonoBehaviour:
   inventory: {fileID: 1990967264}
   upgradeDB: {fileID: 11400000, guid: d30140f031b98544e80c4cb302950648, type: 2}
   monsterList:
-  - {fileID: 11400000, guid: b7c2bb449dc5bbe40862f6e90399a3d5, type: 2}
-  - {fileID: 11400000, guid: 5bbee63a66ce5ab4b91c9c2623387a86, type: 2}
-  - {fileID: 11400000, guid: d48d3d36725463048950462066838b85, type: 2}
-  - {fileID: 11400000, guid: f7fae0a7f0fcee7459e5e33624970963, type: 2}
-  - {fileID: 11400000, guid: 94e9348d01a777546a72adc050f117d2, type: 2}
-  - {fileID: 11400000, guid: 973e1696111a0e448b391fdd4191f6fb, type: 2}
-  - {fileID: 11400000, guid: cbaf1914ea9df974386c11e56b423833, type: 2}
-  - {fileID: 11400000, guid: abf7b3e377d72704489fd2a9c5ef3054, type: 2}
-  - {fileID: 11400000, guid: 19fa2337ae240394cbf10891794fa486, type: 2}
+  - {fileID: 11400000, guid: 86312d4d12a00604c800b898f1f263f4, type: 2}
+  - {fileID: 11400000, guid: 4dd494040cf16a74e9df518a3ba538b3, type: 2}
+  - {fileID: 11400000, guid: 4d591c441ca193c4d8e4b02b5d4feb21, type: 2}
+  - {fileID: 11400000, guid: cf92199ab30643143af436f564d51642, type: 2}
+  - {fileID: 11400000, guid: badb2e7e3ffc7774f9973ccf2b4130e1, type: 2}
+  - {fileID: 11400000, guid: 7f1ffbd091001134c9c265d616832dcf, type: 2}
+  - {fileID: 11400000, guid: 66ffdff3a33468f42ae7c9a5d7ff6dab, type: 2}
 --- !u!1 &2019269778
 GameObject:
   m_ObjectHideFlags: 0

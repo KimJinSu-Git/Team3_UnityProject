@@ -9,7 +9,7 @@ using TMPro;
 public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     // 🔹 외부 주입 데이터
-    private MonsterData_Mainmenu monsterData;
+    private MonsterData monsterData;
     private SkillData skillData;
     private Spawner_Network unitSpawner;
     private Collider[] noSpawnZones; 
@@ -36,7 +36,7 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     public Transform Area;
 
     // 🔹 외부 조회용
-    public MonsterData_Mainmenu MonsterData => monsterData;
+    public MonsterData MonsterData => monsterData;
     public SkillData SkillData => skillData;
 
     private void Awake()
@@ -64,7 +64,7 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     }
 
     public void Init(
-        MonsterData_Mainmenu monsterData,
+        MonsterData monsterData,
         SkillData skillData,
         CardDataWrapper.CardType cardType,
         Spawner_Network spawner,
@@ -221,7 +221,6 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             }
             Debug.Log($"[CardUI] OnEndDrag: slotIndex={slotIndex}, invoking OnCardPlayed");
             onCardPlayed?.Invoke(slotIndex);
-           // Destroy(gameObject);
         }
     }
 }

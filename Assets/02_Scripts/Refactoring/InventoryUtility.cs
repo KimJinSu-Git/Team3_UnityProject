@@ -13,8 +13,10 @@ public class InventoryUtility : MonoBehaviour
     public PlayerCardInventory inventory;
     
     [Header("몬스터 목록")]
-    [SerializeField] private MonsterData_Mainmenu[] monsterList;
-    public Dictionary<string, MonsterData_Mainmenu> monsterDB;
+    [SerializeField] private MonsterData[] monsterList;
+    public Dictionary<string, MonsterData> monsterDB;
+    [SerializeField] private SkillData[] skillList;
+    public Dictionary<string, SkillData> skillDB;
 
     private FirebaseAuth auth;
     private FirebaseFirestore firestore;
@@ -50,7 +52,7 @@ public class InventoryUtility : MonoBehaviour
             {
                 Debug.LogWarning("⚠️ Firebase 인벤토리 없음 → 초기화 진행");
 
-                CreateDefaultInventory(monsterDB);
+                CreateDefaultInventory(monsterDB, skillDB);
                 SaveInventoryToFirebase();
 
                 onComplete?.Invoke();
@@ -87,7 +89,7 @@ public class InventoryUtility : MonoBehaviour
         });
     }
 
-    public void CreateDefaultInventory(Dictionary<string, MonsterData_Mainmenu> monsterDB)
+    public void CreateDefaultInventory(Dictionary<string, MonsterData> monsterDB, Dictionary<string, SkillData> skillDB)
     {
         inventory.allOwnedCards.Clear();
 
@@ -96,6 +98,14 @@ public class InventoryUtility : MonoBehaviour
             inventory.allOwnedCards.Add(new PlayerCardData(monster.id, 1, 20)
             {
                 monsterData = monster
+            });
+        }
+
+        foreach (var skill in skillDB.Values)
+        {
+            inventory.allOwnedCards.Add(new PlayerCardData(skill.id, 1, 20)
+            {
+                skillData = skill
             });
         }
 

@@ -1,4 +1,3 @@
-// ✅ SlotUI - 덱/콜렉션 카드 슬롯 UI
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -49,15 +48,22 @@ public class SlotUI : MonoBehaviour
             return;
         }
 
+        // ✅ 스킬 데이터 자동 세팅 (cardData.skillName 기준)
+        if (card.skillData == null && !string.IsNullOrEmpty(card.id))
+        {
+            card.skillData = SkillManager.Instance.GetSkillData(card.id);
+            if (card.skillData == null)
+                Debug.LogWarning($"[SlotUI] skillData 찾을 수 없음: {card.id}");
+        }
+
         icon.sprite = monster.icon;
         nameText.text = monster.monsterName;
         levelText.text = $"Lv.{card.level}";
         costText.text = monster.cost.ToString();
 
-        // 초기 값 표시
         UpdateProgressUI();
 
-        // ✅ 카드 변경 이벤트 등록 (중복 방지 주의)
+        // 카드 변경 이벤트 등록 (중복 방지 주의)
         deckManager.inventory.onCardChanged.AddListener((changedId) =>
         {
             if (changedId == card.id)
@@ -68,7 +74,7 @@ public class SlotUI : MonoBehaviour
 
         SetupModeUI();
     }
-    
+
     private void UpdateProgressUI()
     {
         int owned = deckManager.inventory.GetCardCount(cardData.id);
@@ -79,8 +85,6 @@ public class SlotUI : MonoBehaviour
         else
             progressText.text = $"{owned}/{required}";
     }
-
-
 
     private void SetupModeUI()
     {
@@ -107,8 +111,12 @@ public class SlotUI : MonoBehaviour
 
         infoButton.onClick.AddListener(() =>
         {
-            if (cardData.monsterData != null)
-                Debug.Log($"[Info] {cardData.monsterData.monsterName} - {cardData.monsterData.description}");
+            string log = $"[Info] {cardData.monsterData.monsterName} - {cardData.monsterData.description}";
+            if (cardData.skillData != null)
+            {
+                log += $"\n[Skill] {cardData.skillData.skillName} - {cardData.skillData.description}";
+            }
+            Debug.Log(log);
         });
     }
 }

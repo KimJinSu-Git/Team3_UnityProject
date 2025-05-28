@@ -29,6 +29,7 @@ public class Spawner_Network : NetworkBehaviour
     //         // }
     //     }
     // }
+    
     [Rpc(sources: RpcSources.All, targets: RpcTargets.StateAuthority)] // 서버에서 실행
     public void RPC_SpawnMonster(string prefabName, Vector3 spawnPos, Quaternion spawnRot, PlayerRef player)
     {
@@ -36,10 +37,10 @@ public class Spawner_Network : NetworkBehaviour
         
         NetworkObject networkMonster;
 
-        CardHandManager.Instance.monsterDatas.TryGetValue(prefabName, out MonsterData_Mainmenu monsterData);
+        CardHandManager.Instance.monsterDatas.TryGetValue(prefabName, out MonsterData monsterData);
         //Vector3 WorldSpawnPos = Area.TransformPoint(spawnPos);
         Debug.Log(prefabName);
-        if (Object.HasStateAuthority) // 내가 클라면
+        if (Object.HasStateAuthority) // 내가 서버라면
         {
             Runner.Spawn(monsterData.prefab, spawnPos, spawnRot, player,
                 onBeforeSpawned: (runner, obj) =>
@@ -51,7 +52,8 @@ public class Spawner_Network : NetworkBehaviour
         }
         Debug.Log(player.PlayerId);
     }
-    public void RequestSpawn(string prefabName,Vector3 position, Quaternion rotation)
+    
+    public void RequestSpawn(string prefabName, Vector3 position, Quaternion rotation)
     {
         if (!Runner.IsRunning) return;
         // 요청한 플레이어
@@ -59,6 +61,7 @@ public class Spawner_Network : NetworkBehaviour
         // 서버의 RPC를 호출해서 서버에 보냄
         RPC_SpawnMonster(prefabName, position, rotation, localPlayer);
     }
+    
     [Rpc(sources: RpcSources.All, targets: RpcTargets.StateAuthority)]
     public void RPC_RequestTakeDamage(NetworkObject targetMonster, int damage)
     {
@@ -69,12 +72,26 @@ public class Spawner_Network : NetworkBehaviour
     [Rpc(sources: RpcSources.All, targets: RpcTargets.StateAuthority)]
     public void RPC_SpawnSpell(string skillName, Vector3 spawnPos, PlayerRef player)
     {
-        SkillData skillData = SkillManager.Instance.GetSkillData(skillName);
-        GameObject spellPrefab = SkillManager.Instance.GetSpellPrefab(skillName);
+        // 스킬 데이터를 CardHandManager에서 가져오기
+        SkillData skillData = null;
+        GameObject spellPrefab = null;
+
+        // CardHandManager의 스킬 데이터에서 찾기
+        if (CardHandManager.Instance.skillDatas.TryGetValue(skillName, out skillData))
+        {
+            spellPrefab = skillData.spellPrefab; // SkillData에 prefab 필드가 있다고 가정
+        }
+        
+        // 백업으로 SkillManager에서도 찾기
+        if (skillData == null)
+        {
+            skillData = SkillManager.Instance.GetSkillData(skillName);
+            spellPrefab = SkillManager.Instance.GetSpellPrefab(skillName);
+        }
 
         if (spellPrefab == null || skillData == null)
         {
-            Debug.LogError($"[RPC_SpawnSpell] ❌ Spell prefab not found on this client: {skillName}");
+            Debug.LogError($"[RPC_SpawnSpell] ❌ Spell prefab not found: {skillName}");
             return;
         }
 
@@ -89,6 +106,7 @@ public class Spawner_Network : NetworkBehaviour
                 {
                     fireball.Init(skillData, spawnPos, player, GetKingTower(player));
                 }
+                // 다른 스킬 타입들도 여기에 추가 가능
             });
     }
 

@@ -8,7 +8,8 @@ public class PlayerCardData
     public int level;           // 현재 카드 레벨
     public int ownedCount;      // 보유 중인 카드 수량
 
-    [NonSerialized] public MonsterData_Mainmenu monsterData; // 런타임에서 연결
+    [NonSerialized] public MonsterData monsterData; // 런타임에서 연결
+    [NonSerialized] public SkillData skillData; // 런타임에서 연결
 
     public PlayerCardData(string id, int level, int ownedCount = 0)
     {

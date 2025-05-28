@@ -16,7 +16,7 @@ public class ShopItemUI : MonoBehaviour
     private ShopOfferData currentOffer;
 
     public void SetOffer(ShopOfferData offer, PlayerCardInventory inventory,
-        Dictionary<string, MonsterData_Mainmenu> monsterDB, UpgradeRequirementDB upgradeDB)
+        Dictionary<string, MonsterData> monsterDB, UpgradeRequirementDB upgradeDB)
     {
         if (offer == null || offer.item == null)
         {

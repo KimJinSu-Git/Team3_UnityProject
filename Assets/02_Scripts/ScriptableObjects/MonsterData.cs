@@ -13,6 +13,30 @@ public class MonsterData : ScriptableObject
         FarAttack,
         Building
     }
+    
+    public enum AttackType
+    {
+        None,
+        GroundOnly,
+        AirOnly,
+        Both
+    }
+
+    public enum CardType
+    {
+        Unit,
+        Spell,
+        Building
+    }
+
+    public enum Rarity
+    {
+        Common,
+        Rare,
+        Epic,
+        Legendary
+    }
+    
     [Header("BaseInfo")]
     public string id;
     public string monsterName;   
@@ -41,4 +65,21 @@ public class MonsterData : ScriptableObject
     public GameObject prefab;
     public GameObject previewPrefab;
     public Sprite icon;
+
+
+    [Header("📊 Base Stats")]
+    public int baseHP;
+    public float baseDamage;
+    public float baseAttackSpeed;
+    public float baseMoveSpeed;
+
+    [Header("⚔️ Combat Type")]
+    public AttackType attackType;
+    public CardType cardType;
+    public Rarity rarity;
+
+    [Header("🕒 Spawn Info")]
+    public int elixirCost;            // 엘릭서 소모
+    public float lifeDuration = -1f;  // 제한 시간 있는 카드 (예: 건물)
+
 }

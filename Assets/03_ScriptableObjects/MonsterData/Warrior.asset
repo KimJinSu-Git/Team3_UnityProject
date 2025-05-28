@@ -31,4 +31,13 @@ MonoBehaviour:
   prefab: {fileID: 407657189707489769, guid: ea39231a5c9e64f44817f495f2042ad4, type: 3}
   previewPrefab: {fileID: 8608497301379298217, guid: 5b27f6560f8bf6947a9f7f6e9740c854,
     type: 3}
-  icon: {fileID: 21300000, guid: 3ee8044c59baf4793bc9ffd4ddbd7518, type: 3}
+  icon: {fileID: 21300000, guid: 0b86139026be45d40b9d1385ab95614f, type: 3}
+  baseHP: 0
+  baseDamage: 0
+  baseAttackSpeed: 0
+  baseMoveSpeed: 0
+  attackType: 0
+  cardType: 0
+  rarity: 0
+  elixirCost: 0
+  lifeDuration: -1

@@ -76,7 +76,7 @@ public class PlayerCardInventory : MonoBehaviour
     /// <summary>
     /// monsterData 연결 (런타임에서 한 번 호출)
     /// </summary>
-    public void AttachMonsterData(Dictionary<string, MonsterData_Mainmenu> monsterDB)
+    public void AttachMonsterData(Dictionary<string, MonsterData> monsterDB)
     {
         foreach (var card in allOwnedCards)
         {

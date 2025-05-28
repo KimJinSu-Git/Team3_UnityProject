@@ -13,15 +13,14 @@ public static class InGameLoader
 
 public class CardHandManager : MonoBehaviour
 {
-    public static  CardHandManager Instance;
+    public static CardHandManager Instance;
 
     [Header("덱 설정")]
-    // public List<MonsterData> fullDeck;        // 전체 카드 데이터(8장)
     public List<CardDataWrapper> fullDeck; // Monster or Skill 카드 모두 포함
-    private List<CardDataWrapper> deck;          // 런타임용 덱
-    public Dictionary<string, MonsterData_Mainmenu> monsterDatas; // 스텟등 확정성을 위해서 MonsterData전부를 넘겨줌
+    private List<CardDataWrapper> deck;    // 런타임용 덱
+    public Dictionary<string, MonsterData> monsterDatas; // 스텟등 확정성을 위해서 MonsterData 전부를 넘겨줌
+    public Dictionary<string, SkillData> skillDatas;     // ✅ 스킬 데이터도 동일하게 관리
 
-    
     [Header("UI 슬롯 & 프리팹")]
     public CardUI      cardPrefab;         // 카드 UI 프리팹
     public Transform[] slotParents;        // 손패 슬롯 부모(4개)
@@ -44,9 +43,8 @@ public class CardHandManager : MonoBehaviour
     [SerializeField] private Collider[] currentNoSpawnZones;
     [SerializeField] private Image[] currentEnemyAreaImages;
 
-    // private List<MonsterData> deck;          // 런타임용 덱
-    private List<CardUI>   hand  = new List<CardUI>(); // 현재 손패
-    private CardUI         sideCard;      // 사이드 슬롯 카드
+    private List<CardUI> hand = new List<CardUI>(); // 현재 손패
+    private CardUI       sideCard;                  // 사이드 슬롯 카드
 
     public Transform Area;
 
@@ -54,6 +52,7 @@ public class CardHandManager : MonoBehaviour
     {
         Instance = this;
     }
+
     void Start()
     {
         var runner = FindObjectOfType<NetworkRunner>();
@@ -70,12 +69,6 @@ public class CardHandManager : MonoBehaviour
             currentNoSpawnZones = clientEnemyZones;
         }
         
-        // foreach (var zone in hostEnemyZones)
-        //     zone.gameObject.SetActive(false);
-        // foreach (var zone in clientEnemyZones)
-        //     zone.gameObject.SetActive(false);
-        // foreach (var zone in currentNoSpawnZones)
-        //     zone.gameObject.SetActive(false);
         foreach (var img in currentEnemyAreaImages)
             img.enabled = false;
         
@@ -92,23 +85,33 @@ public class CardHandManager : MonoBehaviour
         deck = new List<CardDataWrapper>(fullDeck);
         Shuffle(deck);
 
-        // ✅ 3) 몬스터 데이터 캐싱
-        monsterDatas = new Dictionary<string, MonsterData_Mainmenu>();
-        Debug.Log($"[CardHandManager] fullDeck 개수: {fullDeck.Count}");
+        // ✅ 몬스터 데이터 캐싱
+        monsterDatas = new Dictionary<string, MonsterData>();
         foreach (var data in deck)
         {
-            Debug.Log($" - {data.cardType} / {data.monsterData?.monsterName ?? "null"}");
             if (data.IsMonster && data.monsterData != null && !monsterDatas.ContainsKey(data.monsterData.name))
             {
                 monsterDatas.Add(data.monsterData.name, data.monsterData);
             }
         }
+        
+        // ✅ 스킬 데이터 캐싱 (수정됨)
+        skillDatas = new Dictionary<string, SkillData>();
+        foreach (var data in deck)
+        {
+            if (data.IsSkill && data.skillData != null && !skillDatas.ContainsKey(data.skillData.name))
+            {
+                skillDatas.Add(data.skillData.name, data.skillData);
+            }
+        }
 
-        // ✅ 4) 초기 손패 4장 뽑기
+        Debug.Log($"[CardHandManager] 캐시된 몬스터: {monsterDatas.Count}개, 스킬: {skillDatas.Count}개");
+
+        // ✅ 초기 손패 4장 뽑기
         for (int i = 0; i < slotParents.Length; i++)
             DrawToSlot(i);
 
-        // ✅ 5) 사이드 슬롯에 5번째 카드 배치
+        // ✅ 사이드 슬롯에 5번째 카드 배치
         DrawToSideSlot();
     }
     
@@ -117,7 +120,6 @@ public class CardHandManager : MonoBehaviour
         if (deck.Count == 0) return;
 
         // 덱에서 카드 데이터 꺼내기
-        // MonsterData data = deck[0];
         CardDataWrapper data = deck[0];
         deck.RemoveAt(0);
 
@@ -137,19 +139,7 @@ public class CardHandManager : MonoBehaviour
                 slotParents[slotIndex], slotIndex, OnCardPlayed, Area,
                 true, Vector3.one);
         }
-        // card.Init(
-        //     data.monsterData,
-        //     data.skillData,
-        //     unitSpawner,
-        //     noSpawnZones,
-        //     enemyAreaImages,
-        //     slotParents[slotIndex], // 부모 슬롯 지정
-        //     slotIndex,
-        //     OnCardPlayed,
-        //     Area,
-        //     true,                    // 드래그 가능
-        //     Vector3.one              // 기본 크기
-        // );
+
         hand.Insert(slotIndex, card);
     }
     
@@ -159,11 +149,12 @@ public class CardHandManager : MonoBehaviour
         if (deck.Count == 0) return;
 
         // 덱에서 카드 데이터 꺼내기
-        // MonsterData data = deck[0];
         CardDataWrapper data = deck[0];
         deck.RemoveAt(0);
-        Debug.Log($"[CardHandManager]   drawing new side: {(data.IsMonster? data.monsterData.monsterName : data.skillData.skillName)}");
-        // … 기존 코드 …
+        
+        string cardName = data.IsMonster ? data.monsterData.monsterName : data.skillData.skillName;
+        Debug.Log($"[CardHandManager] drawing new side: {cardName}");
+        
         // 기존 사이드 카드가 있으면 삭제 (사이드 슬롯에 남아 있는 경우만)
         if (sideCard != null && sideCard.transform.parent == sideSlotParent)
             Destroy(sideCard.gameObject);
@@ -184,19 +175,6 @@ public class CardHandManager : MonoBehaviour
                 sideSlotParent, -1, null, Area,
                 false, sideScale);
         }
-        // sideCard.Init(
-        //     data.monsterData,
-        //     data.skillData,
-        //     unitSpawner,
-        //     noSpawnZones,
-        //     enemyAreaImages,
-        //     sideSlotParent,
-        //     -1,               // 슬롯 인덱스 없음
-        //     null,             // 콜백 없음
-        //     Area,
-        //     false,            // 드래그 불가
-        //     sideScale         // 축소된 크기
-        // );
     }
     
     private void OnCardPlayed(int slotIndex)    // 카드 유닛 배치 시 호출되는 콜백
@@ -235,12 +213,13 @@ public class CardHandManager : MonoBehaviour
         Vector3 endPos     = slotParents[slotIndex].position;
         Vector3 startScale = movingCard.transform.localScale;
         float   t          = 0f;
+        
         while (t < sideAnimDuration)
         {
             t += Time.deltaTime;
             float f = Mathf.Clamp01(t / sideAnimDuration);
             movingCard.transform.position   = Vector3.Lerp(startPos, endPos, f);
-            movingCard.transform.localScale  = Vector3.Lerp(startScale, Vector3.one, f);
+            movingCard.transform.localScale = Vector3.Lerp(startScale, Vector3.one, f);
             yield return null;
         }
 
@@ -249,7 +228,6 @@ public class CardHandManager : MonoBehaviour
         movingCard.Init(
             movingCard.MonsterData,
             movingCard.SkillData,
-            // 여기서 미리 만든 playedData.cardType 사용
             playedData.cardType,
             unitSpawner,
             currentNoSpawnZones,
@@ -267,15 +245,11 @@ public class CardHandManager : MonoBehaviour
         DrawToSideSlot();
     }
 
-
-
-
-    
     private void Shuffle<T>(List<T> list)
     {
         for (int i = list.Count - 1; i > 0; i--)
         {
-            int j    = Random.Range(0, i + 1);
+            int j = Random.Range(0, i + 1);
             (list[i], list[j]) = (list[j], list[i]);
         }
     }

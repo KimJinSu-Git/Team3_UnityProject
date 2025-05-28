@@ -15,21 +15,30 @@ MonoBehaviour:
   id: Minion
   monsterName: "\uBBF8\uB2C8\uC5B8"
   description: "\uC5B4\uB9B0 \uD574\uACE8 \uAD70\uB2E8\uC785\uB2C8\uB2E4."
-  baseHP: 0
+  characterType: 0
+  baseHP: 200
   baseDamage: 0
   baseAttackSpeed: 0
   baseMoveSpeed: 0
-  attackRange: 1
-  cost: 3
   attackType: 0
   cardType: 0
   rarity: 0
-  elixirCost: 0
+  elixirCost: 2
+  lifeDuration: 2
+  displayOrder: 1
+  keyword: 1
+  projectilePrefab: {fileID: 0}
+  projectileSpeed: 8
+  level: 0
+  maxHP: 0
+  damage: 0
+  moveSpeed: 0
+  attackRange: 1
+  detectionRadius: 0
+  attackSpeed: 0
+  cost: 3
   spawnTime: 1
-  lifeDuration: -1
   prefab: {fileID: 6028967880764688065, guid: ff3fa9d0748a9914ea7fde228f3a4402, type: 3}
   previewPrefab: {fileID: 3698031327218383550, guid: 9839cbbc5841a0e4e898e955146a677a,
     type: 3}
   icon: {fileID: 21300000, guid: fce7120816d736642a7a0d107f49ed8b, type: 3}
-  displayOrder: 1
-  keyword: 1

@@ -12,7 +12,7 @@ public class LevelRequirement
 [System.Serializable]
 public class RarityLevelInfo
 {
-    public MonsterData_Mainmenu.Rarity rarity;
+    public MonsterData.Rarity rarity;
     public int startLevel = 1;
     public List<LevelRequirement> levelRequirements;
 }
@@ -24,20 +24,20 @@ public class UpgradeRequirementDB : ScriptableObject
 
     public const int MAX_LEVEL = 11;
 
-    public int GetStartLevel(MonsterData_Mainmenu.Rarity rarity)
+    public int GetStartLevel(MonsterData.Rarity rarity)
     {
         var info = rarityRequirements.Find(r => r.rarity == rarity);
         return info != null ? info.startLevel : 1;
     }
 
-    public int GetRequiredCards(MonsterData_Mainmenu.Rarity rarity, int level)
+    public int GetRequiredCards(MonsterData.Rarity rarity, int level)
     {
         var info = rarityRequirements.Find(r => r.rarity == rarity);
         var levelReq = info?.levelRequirements.Find(r => r.level == level);
         return levelReq?.requiredCards ?? int.MaxValue;
     }
 
-    public int GetRequiredGold(MonsterData_Mainmenu.Rarity rarity, int level)
+    public int GetRequiredGold(MonsterData.Rarity rarity, int level)
     {
         var info = rarityRequirements.Find(r => r.rarity == rarity);
         var levelReq = info?.levelRequirements.Find(r => r.level == level);

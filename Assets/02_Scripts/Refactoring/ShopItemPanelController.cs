@@ -21,7 +21,7 @@ public class ShopItemPanelController : MonoBehaviour
 
     private ShopOfferData currentOffer;
     private PlayerCardInventory inventory;
-    private Dictionary<string, MonsterData_Mainmenu> monsterDB;
+    private Dictionary<string, MonsterData> monsterDB;
     private UpgradeRequirementDB upgradeDB;
 
     void Awake()
@@ -36,7 +36,7 @@ public class ShopItemPanelController : MonoBehaviour
 
     public void OpenPanel(ShopOfferData offer,
                           PlayerCardInventory inventory,
-                          Dictionary<string, MonsterData_Mainmenu> monsterDB,
+                          Dictionary<string, MonsterData> monsterDB,
                           UpgradeRequirementDB upgradeDB)
     {
         this.currentOffer = offer;

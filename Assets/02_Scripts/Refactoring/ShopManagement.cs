@@ -41,8 +41,8 @@ public class ShopManagement : MonoBehaviour
     public UpgradeRequirementDB upgradeDB;             // 업그레이드 범위 DB
 
     [Header("모델 목록")]
-    [SerializeField] private MonsterData_Mainmenu[] monsterList;  // 사용할 모델 목록
-    public Dictionary<string, MonsterData_Mainmenu> monsterDB { get; private set; } // ID-모델 명 디폴트
+    [SerializeField] private MonsterData[] monsterList;  // 사용할 모델 목록
+    public Dictionary<string, MonsterData> monsterDB { get; private set; } // ID-모델 명 디폴트
 
     void Awake()
     {
