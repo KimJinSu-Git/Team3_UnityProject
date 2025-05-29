@@ -144,10 +144,10 @@ public class TowerController : NetworkBehaviour, IDamageAble
         yield return new WaitForSeconds(delay);
         if (target == null) yield break;
 
-        GameObject arrow = Instantiate(arrowPrefab, firePoint.position, Quaternion.identity);
-        if (arrow.TryGetComponent(out ArrowProjectile projectile))
+        NetworkObject arrowObj = Runner.Spawn(arrowPrefab, firePoint.position, Quaternion.identity);
+        if (arrowObj.TryGetComponent<ArrowProjectile>(out var projectile))
         {
-            projectile.Init(target, attackDamage, this);
+            projectile.Init(target.position, playerRef, attackDamage);
         }
     }
 

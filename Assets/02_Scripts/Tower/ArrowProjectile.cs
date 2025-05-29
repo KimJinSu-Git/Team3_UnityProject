@@ -1,37 +1,58 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
+using Fusion;
 using UnityEngine;
 
-public class ArrowProjectile : MonoBehaviour
+public class ArrowProjectile : NetworkBehaviour
 {
-    private Transform target;
+    private Vector3 startPosition;
+    private Vector3 targetPosition;
+    private PlayerRef caster;
     private int damage;
-    private IDamageAble sender;
 
-    public void Init(Transform target, int damage, IDamageAble sender)
+    private float speed = 20f;
+
+    public void Init(Vector3 targetPos, PlayerRef owner, int damage)
     {
-        this.target = target;
-        this.damage = damage;
-        this.sender = sender;
+        if (Object.HasStateAuthority)
+        {
+            Vector3 start = transform.position;
+            RPC_Launch(start, targetPos, owner, damage);
+        }
     }
 
-    private void Update()
+    [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
+    private void RPC_Launch(Vector3 start, Vector3 target, PlayerRef owner, int dmg)
     {
-        if (target == null)
+        this.startPosition = start;
+        this.targetPosition = target;
+        this.caster = owner;
+        this.damage = dmg;
+
+        transform.position = startPosition;
+        StartCoroutine(MoveToTarget());
+    }
+
+    private IEnumerator MoveToTarget()
+    {
+        while (Vector3.Distance(transform.position, targetPosition) > 0.2f)
         {
-            Destroy(gameObject);
-            return;
+            Vector3 dir = (targetPosition - transform.position).normalized;
+            transform.position += dir * (speed * Time.deltaTime);
+
+            if (dir != Vector3.zero)
+                transform.forward = dir;
+
+            yield return null;
         }
 
-        transform.position = Vector3.MoveTowards(transform.position, target.position, 20f * Time.deltaTime);
-
-        if (Vector3.Distance(transform.position, target.position) < 0.2f)
+        Collider[] hits = Physics.OverlapSphere(transform.position, 0.5f, LayerMask.GetMask("Monster", "Tower"));
+        foreach (var hit in hits)
         {
-            if (target.TryGetComponent<IDamageAble>(out var receiver))
+            if (hit.TryGetComponent<IDamageAble>(out var receiver) && receiver.PlayerRef != caster)
             {
                 CombatEvent combatEvent = new CombatEvent
                 {
-                    Sender = sender,
                     Receiver = receiver,
                     Damage = damage,
                     UseEffect = true,
@@ -42,8 +63,13 @@ public class ArrowProjectile : MonoBehaviour
 
                 CombatSystem.Instance.AddCombatEvent(combatEvent);
             }
+        }
 
-            Destroy(gameObject);
+        yield return new WaitForSeconds(0.05f);
+
+        if (Object != null && Object.IsValid && Object.HasStateAuthority)
+        {
+            Runner.Despawn(Object);
         }
     }
 }

@@ -1,44 +1,66 @@
-using Fusion;
+using System.Collections;
 using UnityEngine;
+using Fusion;
 
 [RequireComponent(typeof(NetworkObject))]
-[RequireComponent(typeof(NetworkTransform))]
 public class MonsterProjectile : NetworkBehaviour
 {
-    private Transform target;
+    private Vector3 startPos;
+    private Vector3 targetPos;
     private PlayerRef owner;
     private int damage;
-    private float speed;
+    private float speed = 10f;
 
-    public void Init(Transform target, PlayerRef owner, int damage, float speed)
+    public void Init(Vector3 targetPos, PlayerRef owner, int damage, float speed)
     {
-        this.target = target;
-        this.owner = owner;
-        this.damage = damage;
-        this.speed = speed;
-
         if (Object.HasStateAuthority)
-            StartCoroutine(DestroySelf(3f));
+        {
+            Vector3 start = transform.position + Vector3.up * 2f;
+            RPC_Launch(start, targetPos, owner, damage, speed);
+        }
     }
 
-    private void Update()
+    [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
+    private void RPC_Launch(Vector3 start, Vector3 target, PlayerRef owner, int dmg, float spd)
     {
-        if (target == null)
+        this.startPos = start;
+        this.targetPos = target;
+        this.owner = owner;
+        this.damage = dmg;
+        this.speed = spd;
+
+        transform.position = start;
+        StartCoroutine(MoveToTarget());
+    }
+
+    private IEnumerator MoveToTarget()
+    {
+        Vector3 dir = (targetPos - startPos).normalized;
+        Vector3 prevPos = transform.position;
+
+        float t = 0f;
+        float dist = Vector3.Distance(startPos, targetPos);
+        float duration = dist / speed;
+
+        while (t < 1f)
         {
-            if (Object.HasStateAuthority)
-                Runner.Despawn(Object);
-            return;
+            t += Time.deltaTime / duration;
+            Vector3 pos = Vector3.Lerp(startPos, targetPos, t);
+            transform.position = pos;
+
+            Vector3 velocity = (transform.position - prevPos).normalized;
+            if (velocity != Vector3.zero)
+                transform.forward = velocity;
+
+            prevPos = transform.position;
+            yield return null;
         }
 
-        Vector3 dir = (target.position - transform.position).normalized;
-        transform.position += dir * (speed * Time.deltaTime);
-
-        if (dir != Vector3.zero)
-            transform.forward = dir;
-
-        if (Vector3.Distance(transform.position, target.position) < 0.5f)
+        // 타격 판정
+        Collider[] hits = Physics.OverlapSphere(transform.position, 0.5f, LayerMask.GetMask("Monster", "Tower"));
+        foreach (var hit in hits)
         {
-            if (target.TryGetComponent<IDamageAble>(out var dmg) && dmg.PlayerRef != owner)
+            if (hit.TryGetComponent<IDamageAble>(out var dmg) && dmg.PlayerRef != owner)
             {
                 CombatSystem.Instance.AddCombatEvent(new CombatEvent
                 {
@@ -50,16 +72,12 @@ public class MonsterProjectile : NetworkBehaviour
                     NetworkObject = dmg.NetworkObject
                 });
             }
-
-            if (Object.HasStateAuthority)
-                Runner.Despawn(Object);
         }
-    }
 
-    private System.Collections.IEnumerator DestroySelf(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        if (Object != null && Object.IsValid)
+        yield return new WaitForSeconds(0.1f);
+        if (Object != null && Object.IsValid && Object.HasStateAuthority)
+        {
             Runner.Despawn(Object);
+        }
     }
 }
