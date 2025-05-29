@@ -23,6 +23,8 @@ public class BaseData : ScriptableObject
     public string description;
     public int cost;
     public int damage;
+    public int ownedCardCount;
+    public bool isUsed;
     public GameObject prefab;
     public Sprite icon;
     public CardDataType cardDataType;
