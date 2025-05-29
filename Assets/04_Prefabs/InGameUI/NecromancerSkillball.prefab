@@ -4840,6 +4840,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3768790424270926040}
   - component: {fileID: 5803828534615143779}
+  - component: {fileID: -7947349747012193979}
   m_Layer: 0
   m_Name: NecromancerSkillball
   m_TagString: Untagged
@@ -4875,3 +4876,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55afdd23b348f5540b43e6841b8cd8f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-7947349747012193979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1761466384613815937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 3329868122
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 5803828534615143779}
+  ForceRemoteRenderTimeframe: 0
