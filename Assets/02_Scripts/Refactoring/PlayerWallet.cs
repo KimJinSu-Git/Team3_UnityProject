@@ -8,12 +8,6 @@ using TMPro;
 using Firebase.Extensions;
 using UnityEngine.PlayerLoop;
 
-/// 💰 통화 종류 열거형 정의
-public enum CurrencyType
-{
-    Gold,
-    Gem
-}
 
 /// 💳 플레이어의 골드/젬 재화 및 UI/Firebase 관리
 public class PlayerWallet : MonoBehaviour

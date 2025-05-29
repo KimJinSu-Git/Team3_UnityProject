@@ -72,7 +72,10 @@ public class DeckManagerUI : MonoBehaviour
 
         CreateDeckSlots();
         DeckManager.Instance.collectionPanel.Refresh();
+
+        DeckManager.Instance.DeckSave(); // 🔹 저장 추가
     }
+
 
 
     public void RemoveCard(int slotIndex)
@@ -82,11 +85,13 @@ public class DeckManagerUI : MonoBehaviour
 
         DeckManager.Instance.currentPlayerDeck.RemoveAt(slotIndex);
 
-        isReplaceMode = false; // 제거 시 교체 모드 끔
+        isReplaceMode = false;
         replaceTargetCard = null;
 
         CreateDeckSlots();
         DeckManager.Instance.collectionPanel.Refresh();
+
+        DeckManager.Instance.DeckSave(); // 🔹 저장 추가
     }
 
     public void TryAddOrReplace(BaseData cardData)
@@ -96,17 +101,18 @@ public class DeckManagerUI : MonoBehaviour
             DeckManager.Instance.currentPlayerDeck.Add(cardData);
             CreateDeckSlots();
             DeckManager.Instance.collectionPanel.Refresh();
-            isReplaceMode = false;  // 교체 모드 꺼줌
+            isReplaceMode = false;
             replaceTargetCard = null;
+
+            DeckManager.Instance.DeckSave(); // 🔹 저장 추가
         }
         else
         {
             isReplaceMode = true;
             replaceTargetCard = cardData;
             Debug.Log($"교체 모드 활성화: {cardData.cardName}");
-            CreateDeckSlots();  // 슬롯 UI 갱신
+            CreateDeckSlots();
             DeckManager.Instance.collectionPanel.Refresh();
-            // UI에서 교체 모드임을 표시하는 추가 구현 필요
         }
     }
 }
