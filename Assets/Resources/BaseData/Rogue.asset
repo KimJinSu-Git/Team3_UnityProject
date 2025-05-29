@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cb8effa82bf75e43946a45f39bf3f1c, type: 3}
   m_Name: Rogue
   m_EditorClassIdentifier: 
-  id: 6
+  id: Rogue
   cardName: Rogue
   description: "\uBBFC\uCCA9\uC131\uACFC \uAE30\uBBFC\uD568\uC744 \uAE30\uBC18\uC73C\uB85C 
     \uBE44\uC815\uBA74 \uC804\uD22C\uC5D0 \uD2B9\uD654\uB418\uC5B4 \uC788\uC2B5\uB2C8\uB2E4."

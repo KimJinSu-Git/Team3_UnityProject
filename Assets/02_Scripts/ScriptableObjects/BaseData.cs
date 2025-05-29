@@ -9,7 +9,7 @@ public enum CardDataType
     Monster,
     Skill
 }
-public enum Rarity
+public enum Grade
 {
     Common,
     Rare,
@@ -28,5 +28,5 @@ public class BaseData : ScriptableObject
     public GameObject prefab;
     public Sprite icon;
     public CardDataType cardDataType;
-    public Rarity rarity= Rarity.Common;
+    public Grade rarity= Grade.Common;
 }

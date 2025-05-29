@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9375b03571fe5ce458d49446f64f7d97, type: 3}
   m_Name: Fireball
   m_EditorClassIdentifier: 
-  id: 9
+  id: Fireball
   cardName: Fireball
   description: "\uAC15\uB825\uD55C \uBC94\uC704 \uD53C\uD574(AoE)\uB97C \uC8FC\uB294
     \uAE30\uBCF8\uC774\uC790 \uD575\uC2EC \uC2A4\uD0AC \uC911 \uD558\uB098\uC785\uB2C8\uB2E4."

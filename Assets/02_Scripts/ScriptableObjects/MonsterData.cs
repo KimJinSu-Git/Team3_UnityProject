@@ -28,14 +28,6 @@ public class MonsterData : BaseData
         Spell,
         Building
     }
-
-    // public enum Rarity
-    // {
-    //     Common,
-    //     Rare,
-    //     Epic,
-    //     Legendary
-    // }
     
     [Header("BaseInfo")]
     // public string id;
