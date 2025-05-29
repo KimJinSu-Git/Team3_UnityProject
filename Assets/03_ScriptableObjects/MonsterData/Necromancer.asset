@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cb8effa82bf75e43946a45f39bf3f1c, type: 3}
   m_Name: Necromancer
   m_EditorClassIdentifier: 
-  id: 3
-  name: Necromancer
+  id: 5
+  cardName: 
   description: "\uC5B4\uB460\uC758 \uB9C8\uBC95\uC0AC\uC785\uB2C8\uB2E4. \uBCF4\uD1B5
     \uC5B8\uB370\uB4DC\uB97C \uC18C\uD658\uD558\uACE0, \uC0DD\uBA85\uC744 \uC870\uC885\uD558\uAC70\uB098
     \uBD80\uD65C\uC2DC\uD0A4\uB294 \uB2A5\uB825\uC744 \uAC00\uC9D1\uB2C8\uB2E4."
   cost: 4
+  damage: 133
   prefab: {fileID: 1790362108378987168, guid: 51b299a647b48de45a68bce255a1a711, type: 3}
   icon: {fileID: 21300000, guid: d31c0e3ffad6c3c4b9288e3ecede22a0, type: 3}
   cardDataType: 0
@@ -28,7 +29,6 @@ MonoBehaviour:
   projectileSpeed: 8
   level: 1
   maxHP: 356
-  damage: 133
   moveSpeed: 4
   attackRange: 4
   detectionRadius: 0
@@ -42,5 +42,4 @@ MonoBehaviour:
   baseMoveSpeed: 0
   attackType: 0
   cardType: 0
-  elixirCost: 0
   lifeDuration: -1

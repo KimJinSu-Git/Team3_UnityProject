@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9375b03571fe5ce458d49446f64f7d97, type: 3}
   m_Name: ArrowRain
   m_EditorClassIdentifier: 
-  id: 3
+  id: 8
   cardName: ArrowRain
   description: "\uD654\uC0B4\uB85C \uB41C \uBE44\uAC00 \uC3DF\uC544\uC838 \uB0B4\uB9BD\uB2C8\uB2E4."
   cost: 3

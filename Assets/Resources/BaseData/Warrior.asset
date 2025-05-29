@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cb8effa82bf75e43946a45f39bf3f1c, type: 3}
   m_Name: Warrior
   m_EditorClassIdentifier: 
-  id: 0
+  id: 7
   cardName: Warrior
   description: "\uACBD\uAE30\uB97C \uC990\uAE30\uACE0\uC790 \uC8FD\uC5B4\uC11C\uB3C4
     \uAE30\uC0AC\uB85C \uC2F8\uC6B0\uB294 \uC5B8\uB370\uB4DC \uC804\uC0AC\uC785\uB2C8\uB2E4."
@@ -40,5 +40,4 @@ MonoBehaviour:
   baseMoveSpeed: 0
   attackType: 0
   cardType: 0
-  elixirCost: 0
   lifeDuration: -1

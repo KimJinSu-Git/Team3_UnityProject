@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cb8effa82bf75e43946a45f39bf3f1c, type: 3}
   m_Name: Golem
   m_EditorClassIdentifier: 
-  id: 1
+  id: 2
   cardName: Golem
   description: "\uBB34\uC0DD\uBB3C \uC7AC\uB8CC\uB85C \uB9CC\uB4E4\uC5B4\uC9C4 \uC778\uACF5
     \uC0DD\uBA85\uCCB4\uC785\uB2C8\uB2E4. \uB9C8\uBC95\uC774\uB098 \uC758\uC2DD\uC744
@@ -42,5 +42,4 @@ MonoBehaviour:
   baseMoveSpeed: 0
   attackType: 0
   cardType: 0
-  elixirCost: 0
   lifeDuration: -1

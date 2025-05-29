@@ -40,7 +40,7 @@ public class InGameResultController : MonoBehaviour
     
     private void Start()
     {
-        
+        isHost = (UserManager.Instance.FusionPlayerRef.RawEncoded -1  == 1);
         button.transform.localScale = Vector3.zero;
         if (resultText != null)
             resultText.text = ""; // ✅ 텍스트 초기화
@@ -48,10 +48,7 @@ public class InGameResultController : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log($"UserManager.Instance.FusionPlayerRef = {UserManager.Instance.FusionPlayerRef} ::: SessionManager.Instance.CurrentGameRoomInfo.HostPlayer = {UserManager.Instance.FusionPlayerRef}");
-        
-        Debug.Log($"FusionPlayerRef.RawEncoded = {UserManager.Instance.FusionPlayerRef.RawEncoded}");
-        isHost = (UserManager.Instance.FusionPlayerRef.RawEncoded -1  == 1);
+
         if (GameManager.Instance.ended.Equals(false)) return;
 
         if (!hasPlayed)

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cb8effa82bf75e43946a45f39bf3f1c, type: 3}
   m_Name: Cannon
   m_EditorClassIdentifier: 
-  id: 7
+  id: 1
   cardName: Cannon
   description: 
   cost: 3
@@ -40,5 +40,4 @@ MonoBehaviour:
   baseMoveSpeed: 0
   attackType: 0
   cardType: 0
-  elixirCost: 0
   lifeDuration: -1
