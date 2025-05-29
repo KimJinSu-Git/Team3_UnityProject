@@ -112,10 +112,12 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
 
     public override void FixedUpdateNetwork()
     {
-        //if (!Object.HasStateAuthority || isDead) return;
+        // Spawn 완료 및 StateAuthority만 처리
+        if (!Runner || !Runner.IsRunning || !Object || !Object.HasStateAuthority || isDead || !isInitialized)
+            return;
 
-        if (!Object || !Object.HasStateAuthority || isDead || !isInitialized ) return;
         RPC_HPUI();
+
         if (currentState != State.Attacking)
             UpdateTarget();
 
@@ -155,16 +157,28 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
         Collider[] hits = Physics.OverlapSphere(transform.position, radius, layerMask);
         Transform nearest = null;
         float distMin = float.MaxValue;
+
         foreach (var hit in hits)
         {
-            if (hit.TryGetComponent<IDamageAble>(out var dmg) && dmg.PlayerRef != playerRef)
+            if (!hit.TryGetComponent<IDamageAble>(out var dmg))
+                continue;
+
+            //  Networked 프로퍼티 접근 시 방어적 코딩
+            try
             {
-                float dist = Vector3.Distance(transform.position, hit.transform.position);
-                if (dist < distMin)
-                {
-                    distMin = dist;
-                    nearest = hit.transform;
-                }
+                if (dmg.PlayerRef == playerRef)
+                    continue;
+            }
+            catch
+            {
+                continue; // 아직 Spawned되지 않은 객체
+            }
+
+            float dist = Vector3.Distance(transform.position, hit.transform.position);
+            if (dist < distMin)
+            {
+                distMin = dist;
+                nearest = hit.transform;
             }
         }
         return nearest;
