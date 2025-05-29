@@ -3505,7 +3505,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d59ce457781df0448fccd6a7b4a17cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fullDeck: []
   cardPrefab: {fileID: 536418147371490894, guid: b32702e2fbcf2cf4c9f95528687a9f94,
     type: 3}
   slotParents:

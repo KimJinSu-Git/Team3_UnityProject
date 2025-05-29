@@ -71,6 +71,8 @@ public class ArrowRainProjectile : NetworkBehaviour
                 });
             }
         }
+        
+        yield return new WaitForSeconds(0.1f);
 
         if (Object != null && Object.IsValid && Object.HasStateAuthority)
         {

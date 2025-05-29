@@ -130,6 +130,6 @@ public class InGameResultController : MonoBehaviour
 
     public void GoToLobby()
     {
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("MainMenu_New");
     }
 }
