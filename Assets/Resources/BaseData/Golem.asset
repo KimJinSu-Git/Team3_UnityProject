@@ -20,6 +20,8 @@ MonoBehaviour:
     \uBA85\uB839\uC5D0 \uC808\uB300 \uBCF5\uC885\uD569\uB2C8\uB2E4"
   cost: 4
   damage: 120
+  ownedCardCount: 1
+  isUsed: 1
   prefab: {fileID: 7114386256712146724, guid: 9990ead7124b17f40baabf3847604d0b, type: 3}
   icon: {fileID: 21300000, guid: 309f767ecfef3ba41a9eab2ac7268191, type: 3}
   cardDataType: 0
