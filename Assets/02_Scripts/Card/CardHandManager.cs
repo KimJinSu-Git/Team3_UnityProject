@@ -62,12 +62,12 @@ public class CardHandManager : MonoBehaviour
         // Host/Client 여부에 따라 콜라이더 세팅
         if (runner != null && runner.IsServer)
         {
-            Debug.Log("Host에용");
+            Debug.Log("Host");
             currentNoSpawnZones = hostEnemyZones;
         }
         else
         {
-            Debug.Log("Client에용");
+            Debug.Log("Client");
             currentNoSpawnZones = clientEnemyZones;
         }
         

@@ -27,6 +27,8 @@ public class DeckSaveLoad_Firebase : MonoBehaviour
             cardDic.Add("cardID", card.id);
             cardDic.Add("cardName", card.cardName);
             cardDic.Add("damage", card.damage);
+            cardDic.Add("ownedCardCount", card.ownedCardCount);
+            cardDic.Add("isUsed", card.isUsed);
             if (card is MonsterData monsterCard)
             {
                 cardDic.Add("maxHP", monsterCard.maxHP);
@@ -41,7 +43,7 @@ public class DeckSaveLoad_Firebase : MonoBehaviour
         firestore.Collection("users").Document(UserId).Collection("deck").Document(documentName).SetAsync(deckData);
     }
 
-    public async void DeckLoad_FireBase(string userId, string documnetName, Action<List<BaseData>> onDeckLoaded) // 모든 카드데이터 현제 스텟데이터 세팅해서 가져옴
+    public async void DeckLoad_FireBase(string userId, string documnetName,bool totalDeck, Action<List<BaseData>> onDeckLoaded) // 모든 카드데이터 현제 스텟데이터 세팅해서 가져옴
     {
         DocumentReference doRef = firestore.Collection("users").Document(userId).Collection("deck").Document(documnetName);
         
@@ -60,13 +62,24 @@ public class DeckSaveLoad_Firebase : MonoBehaviour
                     BaseData baseData = Resources.Load<BaseData>($"BaseData/{cardName}");
                     //넣으면서 값 세팅
                     baseData.damage = Convert.ToInt32(cardDic["damage"]);
-                    //baseData.damage = (int)cardDic["damage"];
+                        baseData.ownedCardCount = Convert.ToInt32(cardDic["ownedCardCount"]);
                     if (baseData is MonsterData monsterCard)
                     {
                         monsterCard.maxHP = Convert.ToInt32(cardDic["maxHP"]);
                     }
-                    // 세팅한 카드데이터 저장해서
-                    deckList.Add(baseData);
+                    baseData.isUsed = Convert.ToBoolean(cardDic["isUsed"]);
+
+                    if (totalDeck == false)
+                    {
+                        if (baseData.isUsed == true)
+                        {
+                            deckList.Add(baseData);
+                        }
+                    }
+                    else
+                    {
+                        deckList.Add(baseData);
+                    }
                 }
                 // 넘겨줌
                 onDeckLoaded?.Invoke(deckList);
