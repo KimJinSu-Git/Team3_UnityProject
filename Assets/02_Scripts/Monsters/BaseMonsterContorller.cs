@@ -280,7 +280,7 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
         }
 
         // spawn 위치: 몬스터의 위치에서 위로 약간 띄운 지점
-        Vector3 spawnPos = transform.position + Vector3.up * 2f;
+        Vector3 spawnPos = transform.position + Vector3.up;
         NetworkObject spawned = Runner.Spawn(netObj, spawnPos, Quaternion.identity, Object.InputAuthority);
 
         // RPC 방식의 Init 호출

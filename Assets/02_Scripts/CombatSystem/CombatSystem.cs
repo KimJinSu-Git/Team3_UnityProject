@@ -35,7 +35,7 @@ public class CombatSystem : NetworkBehaviour // MainGame에 CombatSystem 게임�
     public void RPC_TakeDamage(NetworkId receiverId, int damage)
     {
         NetworkObject networkObject = Runner.FindObject(receiverId);
-        networkObject.GetComponent<IDamageAble>().TakeDamage(damage);
+        networkObject.GetComponent<IDamageAble>()?.TakeDamage(damage);
     }
     public void RegisterCreature(Collider collider, IDamageAble damageAble)
     {
