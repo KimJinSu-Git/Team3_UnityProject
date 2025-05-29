@@ -191,7 +191,34 @@ public class FirebaseAccountManager : MonoBehaviour
 
     private void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            HandleTabFocus();
+        }
+    }
+    
+    private void HandleTabFocus()
+    {
+        if (inputField_Id.isFocused)
+        {
+            inputField_Password.Select();
+        }
+        else if (inputField_Password.isFocused)
+        {
+            inputField_Id.Select();
+        }
+        else if (inputField_SignId != null && inputField_SignId.isFocused)
+        {
+            inputField_SignPassword.Select();
+        }
+        else if (inputField_SignPassword != null && inputField_SignPassword.isFocused)
+        {
+            inputField_SignNickname.Select();
+        }
+        else if (inputField_SignNickname != null && inputField_SignNickname.isFocused)
+        {
+            inputField_SignId.Select();
+        }
     }
     
     // private void OnGUI()
