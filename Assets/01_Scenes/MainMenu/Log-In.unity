@@ -227,8 +227,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1621029825}
-  - {fileID: 109380548}
   - {fileID: 1209016776}
+  - {fileID: 109380548}
   m_Father: {fileID: 1254842208}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -289,7 +289,7 @@ GameObject:
   - component: {fileID: 109380550}
   - component: {fileID: 109380549}
   m_Layer: 5
-  m_Name: InputField_ID
+  m_Name: InputField_Nickname
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -313,7 +313,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 412.20755, y: -224.11461}
+  m_AnchoredPosition: {x: 412.20755, y: -383.91766}
   m_SizeDelta: {x: 824.4151, y: 128.62308}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &109380549
@@ -611,9 +611,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: FirebaseAccountManager_JiHun, Assembly-CSharp
-        m_MethodName: OnLogin
+      - m_Target: {fileID: 376374486}
+        m_TargetAssemblyTypeName: FirebaseAccountManager, Assembly-CSharp
+        m_MethodName: OnClickLogin
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -853,7 +853,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: NickName
+  m_text: ID
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c1482dbce654844b9ba1c753cbea5d80, type: 2}
   m_sharedMaterial: {fileID: 7374927986402738804, guid: c1482dbce654844b9ba1c753cbea5d80,
@@ -1089,9 +1089,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: TargetScreenUI, Assembly-CSharp
-        m_MethodName: GoToTargetAndFadeIn
+      - m_Target: {fileID: 376374486}
+        m_TargetAssemblyTypeName: FirebaseAccountManager, Assembly-CSharp
+        m_MethodName: SwitchToLogin
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1185,7 +1185,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputField_Id: {fileID: 2069329313}
   inputField_Password: {fileID: 443285862}
-  inputField: {fileID: 0}
+  inputField_SignId: {fileID: 1621029826}
+  inputField_SignPassword: {fileID: 1209016777}
+  inputField_SignNickname: {fileID: 109380549}
+  loginPanel: {fileID: 1309497817}
+  signUpPanel: {fileID: 464880010}
 --- !u!1 &415136549
 GameObject:
   m_ObjectHideFlags: 0
@@ -2613,9 +2617,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: FirebaseAccountManager_JiHun, Assembly-CSharp
-        m_MethodName: OnSignUp
+      - m_Target: {fileID: 376374486}
+        m_TargetAssemblyTypeName: FirebaseAccountManager, Assembly-CSharp
+        m_MethodName: OnClickSignUp
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2768,7 +2772,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 412.20755, y: -383.91766}
+  m_AnchoredPosition: {x: 412.20755, y: -224.11461}
   m_SizeDelta: {x: 824.4151, y: 128.62308}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1209016777
@@ -4136,9 +4140,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: TargetScreenUI, Assembly-CSharp
-        m_MethodName: GoToTargetAndFadeIn
+      - m_Target: {fileID: 376374486}
+        m_TargetAssemblyTypeName: FirebaseAccountManager, Assembly-CSharp
+        m_MethodName: SwitchToSignUp
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

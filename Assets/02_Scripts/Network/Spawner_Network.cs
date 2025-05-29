@@ -40,6 +40,11 @@ public class Spawner_Network : NetworkBehaviour
         if (!Runner.IsRunning) return;
         // 요청한 플레이어
         PlayerRef localPlayer = Runner.LocalPlayer;
+        // 클라이언트라면 180도 회전 적용
+        if (Runner.IsClient && !Runner.IsServer)
+        {
+            rotation *= Quaternion.Euler(0f, 180f, 0f);
+        }
         // 서버의 RPC를 호출해서 서버에 보냄
         RPC_SpawnMonster(prefabName, position, rotation, localPlayer);
     }

@@ -25,15 +25,53 @@ public class FirebaseAccountManager : MonoBehaviour
     private bool isSignUpMode = false;
     // [SerializeField] private TextMeshProUGUI id_Text;
     // [SerializeField] private TextMeshProUGUI password_Text;
+    // 로그인 창
     [SerializeField] private TMP_InputField inputField_Id;
     [SerializeField] private TMP_InputField inputField_Password;
-
-    public TMP_InputField inputField;
-    public void OnInputValueChanged()
-    {
-        string id_Text = inputField.text;
         
+    // 회원가입 창    
+    [SerializeField] private TMP_InputField inputField_SignId;
+    [SerializeField] private TMP_InputField inputField_SignPassword;
+    [SerializeField] private TMP_InputField inputField_SignNickname;
+    
+    // public TMP_InputField inputField;
+    
+    [SerializeField] private GameObject loginPanel;
+    [SerializeField] private GameObject signUpPanel;
+
+    public void SwitchToSignUp()
+    {
+        loginPanel.SetActive(false);
+        signUpPanel.SetActive(true);
     }
+
+    public void SwitchToLogin()
+    {
+        loginPanel.SetActive(true);
+        signUpPanel.SetActive(false);
+    }
+    
+    public void OnClickSignUp()
+    {
+        string email = inputField_SignId.text;
+        string password = inputField_SignPassword.text;
+        string nickname = inputField_SignNickname.text;
+
+        CreateAccount(email, password, nickname);
+    }
+    
+    public void OnClickLogin()
+    {
+        string email = inputField_Id.text;
+        string password = inputField_Password.text;
+
+        SignIn(email, password);
+    }
+    // public void OnInputValueChanged()
+    // {
+    //     string id_Text = inputField.text;
+    // }
+    
     private void Start()
     {
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task => // 제대로 설치되어 있는지 확인하고, 문제 있으면 고치려 시도합니다. 초기화 전에 호출해야됨
@@ -153,8 +191,34 @@ public class FirebaseAccountManager : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Alpha3))
-        SignIn(inputField_Id.text, inputField_Password.text);
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            HandleTabFocus();
+        }
+    }
+    
+    private void HandleTabFocus()
+    {
+        if (inputField_Id.isFocused)
+        {
+            inputField_Password.Select();
+        }
+        else if (inputField_Password.isFocused)
+        {
+            inputField_Id.Select();
+        }
+        else if (inputField_SignId != null && inputField_SignId.isFocused)
+        {
+            inputField_SignPassword.Select();
+        }
+        else if (inputField_SignPassword != null && inputField_SignPassword.isFocused)
+        {
+            inputField_SignNickname.Select();
+        }
+        else if (inputField_SignNickname != null && inputField_SignNickname.isFocused)
+        {
+            inputField_SignId.Select();
+        }
     }
     
     // private void OnGUI()
