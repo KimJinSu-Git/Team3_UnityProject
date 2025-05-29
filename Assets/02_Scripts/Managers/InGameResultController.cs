@@ -19,6 +19,9 @@ public class InGameResultController : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI resultText; // ✅ 결과 표시 텍스트
 
+
+
+    
     private bool hasPlayed = false;
     private bool delayPassed = false;
     private float delayTimer = 0f;
@@ -33,8 +36,11 @@ public class InGameResultController : MonoBehaviour
     private bool spawningDone = false;
     private bool resultShown = false; // ✅ 결과 출력 여부
 
+    [SerializeField] private bool isHost;
+    
     private void Start()
     {
+        
         button.transform.localScale = Vector3.zero;
         if (resultText != null)
             resultText.text = ""; // ✅ 텍스트 초기화
@@ -42,7 +48,11 @@ public class InGameResultController : MonoBehaviour
 
     private void Update()
     {
-        if (!GameManager.Instance.ended) return;
+        Debug.Log($"UserManager.Instance.FusionPlayerRef = {UserManager.Instance.FusionPlayerRef} ::: SessionManager.Instance.CurrentGameRoomInfo.HostPlayer = {UserManager.Instance.FusionPlayerRef}");
+        
+        Debug.Log($"FusionPlayerRef.RawEncoded = {UserManager.Instance.FusionPlayerRef.RawEncoded}");
+        isHost = (UserManager.Instance.FusionPlayerRef.RawEncoded -1  == 1);
+        if (GameManager.Instance.ended.Equals(false)) return;
 
         if (!hasPlayed)
         {
@@ -55,8 +65,18 @@ public class InGameResultController : MonoBehaviour
 
             for (int i = 0; i < 3; i++)
             {
-                SpawnCrownWithEffect(PlayerCushionPrefab, playerCrownResult[i].position + new Vector3(0f, -40f, 0f));
-                SpawnCrownWithEffect(EnemyCushionPrefab, enemyCrownResult[i].position + new Vector3(0f, -40f, 0f));
+                if (isHost)
+                {
+                    SpawnCrownWithEffect(PlayerCushionPrefab,
+                        playerCrownResult[i].position + new Vector3(0f, -40f, 0f));
+                    SpawnCrownWithEffect(EnemyCushionPrefab, enemyCrownResult[i].position + new Vector3(0f, -40f, 0f));
+                }
+                else
+                {
+                    SpawnCrownWithEffect(EnemyCushionPrefab,
+                        playerCrownResult[i].position + new Vector3(0f, -40f, 0f));
+                    SpawnCrownWithEffect(PlayerCushionPrefab, enemyCrownResult[i].position + new Vector3(0f, -40f, 0f));
+                }
             }
         }
 
@@ -78,17 +98,33 @@ public class InGameResultController : MonoBehaviour
             {
                 spawnTimer = 0f;
                 bool spawned = false;
-
-                if (spawnIndex < myCrowns)
+                if (isHost)
                 {
-                    SpawnCrownWithEffect(crownFlyPlayerPrefab, playerCrownResult[spawnIndex].position);
-                    spawned = true;
+                    if (spawnIndex < myCrowns)
+                    {
+                        SpawnCrownWithEffect(crownFlyPlayerPrefab, playerCrownResult[spawnIndex].position);
+                        spawned = true;
+                    }
+
+                    if (spawnIndex < enemyCrowns)
+                    {
+                        SpawnCrownWithEffect(crownFlyEnemyPrefab, enemyCrownResult[spawnIndex].position);
+                        spawned = true;
+                    }
                 }
-
-                if (spawnIndex < enemyCrowns)
+                else
                 {
-                    SpawnCrownWithEffect(crownFlyEnemyPrefab, enemyCrownResult[spawnIndex].position);
-                    spawned = true;
+                    if (spawnIndex < myCrowns)
+                    {
+                        SpawnCrownWithEffect(crownFlyPlayerPrefab, enemyCrownResult[spawnIndex].position);
+                        spawned = true;
+                    }
+
+                    if (spawnIndex < enemyCrowns)
+                    {
+                        SpawnCrownWithEffect(crownFlyEnemyPrefab, playerCrownResult[spawnIndex].position);
+                        spawned = true;
+                    }
                 }
 
                 spawnIndex++;
@@ -104,15 +140,29 @@ public class InGameResultController : MonoBehaviour
         if (spawningDone && !resultShown)
         {
             resultShown = true;
-
-            if (resultText != null)
+            if (isHost)
             {
-                if (myCrowns > enemyCrowns)
-                    resultText.text = "승 리";
-                else if (myCrowns < enemyCrowns)
-                    resultText.text = "패 배";
-                else
-                    resultText.text = "동 점";
+                if (resultText != null)
+                {
+                    if (myCrowns > enemyCrowns)
+                        resultText.text = "승 리";
+                    else if (myCrowns < enemyCrowns)
+                        resultText.text = "패 배";
+                    else
+                        resultText.text = "동 점";
+                }
+            }
+            else
+            {
+                if (resultText != null)
+                {
+                    if (myCrowns > enemyCrowns)
+                        resultText.text = "패 배";
+                    else if (myCrowns < enemyCrowns)
+                        resultText.text = "승 리";
+                    else
+                        resultText.text = "동 점";
+                }
             }
 
             resultText.gameObject.transform.DOScale(1f, 0.4f);
@@ -130,6 +180,6 @@ public class InGameResultController : MonoBehaviour
 
     public void GoToLobby()
     {
-        SceneManager.LoadScene("MainMenu_New");
+        SceneManager.LoadScene("MainMenu");
     }
 }
