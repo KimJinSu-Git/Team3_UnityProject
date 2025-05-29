@@ -277,15 +277,16 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
             Debug.LogError("projectilePrefab에 NetworkObject가 없습니다.");
             return;
         }
-        
-        NetworkObject spawnedObj = Runner.Spawn(netObj, transform.position, Quaternion.identity, Object.InputAuthority);
 
-        // Init 호출
+        Vector3 spawnPos = transform.position + (Vector3.up * 2f); // 조금 띄워주기
+        NetworkObject spawnedObj = Runner.Spawn(netObj, spawnPos, Quaternion.identity, Object.InputAuthority);
+
         if (spawnedObj.TryGetComponent<MonsterProjectile>(out var proj))
         {
+            Debug.Log($"MonsterProjectile 생성됨 - 타겟: {currentTarget.name}, 위치: {spawnPos}");
             proj.Init(currentTarget, playerRef, monsterData.damage, monsterData.projectileSpeed);
         }
-    }   
+    }
     
     protected virtual void DoDealDamage()
     {

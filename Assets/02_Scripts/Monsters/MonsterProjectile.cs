@@ -1,6 +1,8 @@
 using Fusion;
 using UnityEngine;
 
+[RequireComponent(typeof(NetworkObject))]
+[RequireComponent(typeof(NetworkTransform))]
 public class MonsterProjectile : NetworkBehaviour
 {
     private Transform target;
@@ -14,8 +16,6 @@ public class MonsterProjectile : NetworkBehaviour
         this.owner = owner;
         this.damage = damage;
         this.speed = speed;
-
-        transform.position += (Vector3.up * 3f);
 
         if (Object.HasStateAuthority)
             StartCoroutine(DestroySelf(3f));
