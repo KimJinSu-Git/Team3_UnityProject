@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Fusion;
+using UnityEditor.Compilation;
 using UnityEngine;
 
 public enum GameState
@@ -166,18 +167,27 @@ public class GameManager : NetworkBehaviour
         EndGame();
     }
 
-    private void EndGame()
+    private void EndGame() //Host에서만 게임 종료
     {
         if (currentState == GameState.Ended) return;
 
         currentState = GameState.Ended;
-
         ended = true;
-        
+
         string result = (myCrowns > enemyCrowns) ? "승리!" : (myCrowns < enemyCrowns ? "패배!" : "무승부!");
-        
-        
+
         Debug.Log($"게임 종료. 결과: {result}");
+
+        if (Object.HasStateAuthority)
+        {
+            RPC_NotifyGameEnded(result);
+        }
+    }
+
+    [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
+    private void RPC_NotifyGameEnded(string result)
+    {
+        Debug.Log($"클라이언트 종료 알림: {result}");
     }
 
     private bool IsEnemyTower(TowerController tower) => tower.CompareTag("EnemyTower");
