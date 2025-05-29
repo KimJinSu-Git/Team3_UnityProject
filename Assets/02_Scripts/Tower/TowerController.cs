@@ -215,32 +215,45 @@ public class TowerController : NetworkBehaviour, IDamageAble
     {
         Debug.Log($"{towerType} 파괴됨!");
 
+        // 시각 효과 제거
         if (spawnCollider != null && spawnAreaImage != null)
         {
             spawnCollider.SetActive(false);
             spawnAreaImage.SetActive(false);
         }
-
         if (hpBarObj != null)
         {
             hpBarObj.SetActive(false);
         }
-           
-        if (towerType == TowerType.King)
-            GameManager.Instance.RPC_OnKingTowerDestroyed(this);
-        else if (towerType == TowerType.LeftPrincess)
+
+        // NetworkObject 참조 가져오기
+        NetworkObject netObj = GetComponent<NetworkObject>();
+        if (netObj == null)
         {
-            BrokenCastleManager.OnTriggerCastleBroken(1);
-            GameManager.Instance.RPC_OnPrincessTowerDestroyed(this);
-        }
-        else if (towerType == TowerType.RightPrincess)
-        {
-            BrokenCastleManager.OnTriggerCastleBroken(2);
-            GameManager.Instance.RPC_OnPrincessTowerDestroyed(this);
+            Debug.LogError("Die(): NetworkObject 컴포넌트를 찾을 수 없습니다!");
+            Destroy(gameObject);
+            return;
         }
 
+        if (towerType == TowerType.King)
+        {
+            // 킹 타워 파괴 RPC 호출
+            GameManager.Instance.RPC_OnKingTowerDestroyed(netObj);
+        }
+        else
+        {
+            // 프린세스 타워 파괴 시 BrokenCastleManager 호출
+            int castleIndex = (towerType == TowerType.LeftPrincess) ? 1 : 2;
+            BrokenCastleManager.OnTriggerCastleBroken(castleIndex);
+
+            // 프린세스 타워 파괴 RPC 호출
+            GameManager.Instance.RPC_OnPrincessTowerDestroyed(netObj);
+        }
+
+        // 오브젝트 제거
         Destroy(gameObject);
     }
+
 
     private void OnDrawGizmos()
     {

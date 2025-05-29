@@ -100,24 +100,26 @@ public class GameManager : NetworkBehaviour
     }
 
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
-    public void RPC_OnPrincessTowerDestroyed(TowerController tower)
+    public void RPC_OnPrincessTowerDestroyed(NetworkObject towerNetObj)
     {
+        // (2) 먼저 currentState 체크
         if (currentState != GameState.Playing) return;
 
+        // (3) NetworkObject → TowerController
+        var tower = towerNetObj.GetComponent<TowerController>();
+        if (tower == null) return;
+
+        // (4) 기존 로직 재사용
         Debug.Log($"{tower.towerType} 파괴 → 왕관 +1");
 
-        if (IsEnemyTower(tower))
-        {
-            //myCrowns++;
-            RPC_CrownUp(true);
-            playerCrownUI.AddCrownsFromPositions(new List<Vector3> { tower.transform.position }, true);
-        }
-        else
-        {
-            //enemyCrowns++;
-            RPC_CrownUp(false);
-            enemyCrownUI.AddCrownsFromPositions(new List<Vector3> { tower.transform.position }, false);
-        }
+        bool isEnemy = IsEnemyTower(tower);
+        RPC_CrownUp(isEnemy);
+    
+        var ui = isEnemy ? playerCrownUI : enemyCrownUI;
+        ui.AddCrownsFromPositions(
+            new List<Vector3> { tower.transform.position },
+            isEnemy
+        );
     }
 
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
@@ -133,26 +135,42 @@ public class GameManager : NetworkBehaviour
         }
     }
     
-    [Rpc(sources: RpcSources.All, targets: RpcTargets.StateAuthority)]
-    public void RPC_OnKingTowerDestroyed(TowerController tower)
+    [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
+    public void RPC_OnKingTowerDestroyed(NetworkObject towerNetObj)
     {
         if (currentState != GameState.Playing) return;
 
+        // NetworkObject → TowerController
+        var tower = towerNetObj.GetComponent<TowerController>();
+        if (tower == null)
+        {
+            Debug.LogError("RPC_OnKingTowerDestroyed: TowerController를 찾을 수 없습니다!");
+            return;
+        }
+
         Debug.Log("킹 타워 파괴 → 즉시 종료");
 
-        List<Vector3> crownSpawnPositions = new List<Vector3>();
-        crownSpawnPositions.Add(tower.transform.position);
-
-        List<TowerController> targetPrincessTowers = IsEnemyTower(tower) ? enemyPrincessTowers : playerPrincessTowers;
-        foreach (var pricessTower in targetPrincessTowers)
+        // 크라운 스폰 위치 모음
+        List<Vector3> crownSpawnPositions = new List<Vector3>
         {
-            if (pricessTower != null && pricessTower.IsAlive)
+            tower.transform.position
+        };
+
+        // 남은 프린세스 타워들도 강제 파괴하고 위치 저장
+        var targetPrincessTowers = IsEnemyTower(tower) 
+            ? enemyPrincessTowers 
+            : playerPrincessTowers;
+
+        foreach (var princessTower in targetPrincessTowers)
+        {
+            if (princessTower != null && princessTower.IsAlive)
             {
-                pricessTower.ForceDestroy();
-                crownSpawnPositions.Add(pricessTower.transform.position);
+                princessTower.ForceDestroy();
+                crownSpawnPositions.Add(princessTower.transform.position);
             }
         }
 
+        // 최종 크라운 값 세팅 및 UI 갱신
         if (IsEnemyTower(tower))
         {
             myCrowns = 3;
