@@ -18,6 +18,8 @@ public class DeckManager : MonoBehaviour
     public List<BaseData> totalPlayerDeck = new List<BaseData>(); // 총덱
     //public Dictionary<string, BaseData> totalDeckDic = new Dictionary<string, BaseData>();
     private FirebaseFirestore firestore;
+
+    public CollectionPanel collectionPanel;
     
     public event Action OnCurrentDeckReady;
 

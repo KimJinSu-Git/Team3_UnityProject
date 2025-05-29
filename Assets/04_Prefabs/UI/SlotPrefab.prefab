@@ -221,7 +221,6 @@ GameObject:
   - component: {fileID: 8206593693899275578}
   - component: {fileID: 2484991558442236567}
   - component: {fileID: 7651553369676094802}
-  - component: {fileID: 4824589553538234344}
   m_Layer: 5
   m_Name: CardImgge
   m_TagString: Untagged
@@ -286,24 +285,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4824589553538234344
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1628064618088403771}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1743fd71c5ea12b4199ac26da425698a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  titleText: {fileID: 5072267155243055017}
-  iconImage: {fileID: 0}
-  countText: {fileID: 0}
-  progressFill: {fileID: 0}
-  priceText: {fileID: 0}
-  CurrencyIcon: {fileID: 0}
 --- !u!1 &2465561680593218817
 GameObject:
   m_ObjectHideFlags: 0
@@ -554,7 +535,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: -635673026278534829}
         m_TargetAssemblyTypeName: SlotUI, Assembly-CSharp
-        m_MethodName: OnClickSlot
+        m_MethodName: ToggleInfoPanel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
