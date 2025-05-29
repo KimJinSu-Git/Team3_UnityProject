@@ -230,12 +230,10 @@ public class TowerController : NetworkBehaviour, IDamageAble
             GameManager.Instance.RPC_OnKingTowerDestroyed(this);
         else if (towerType == TowerType.LeftPrincess)
         {
-            BrokenCastleManager.OnTriggerCastleBroken(1);
             GameManager.Instance.RPC_OnPrincessTowerDestroyed(this);
         }
         else if (towerType == TowerType.RightPrincess)
         {
-            BrokenCastleManager.OnTriggerCastleBroken(2);
             GameManager.Instance.RPC_OnPrincessTowerDestroyed(this);
         }
 

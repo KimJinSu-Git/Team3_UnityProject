@@ -102,7 +102,7 @@ public class GameManager : NetworkBehaviour
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
     public void RPC_OnPrincessTowerDestroyed(TowerController tower)
     {
-        if (currentState != GameState.Playing) return;
+        if (currentState != GameState.Playing ) return;
 
         Debug.Log($"{tower.towerType} 파괴 → 왕관 +1");
 
@@ -164,10 +164,10 @@ public class GameManager : NetworkBehaviour
             enemyCrownUI.AddCrownsFromPositions(crownSpawnPositions, false);
         }
 
-        EndGame();
+        
     }
 
-    private void EndGame() //Host에서만 게임 종료
+    public void EndGame() //Host에서만 게임 종료
     {
         if (currentState == GameState.Ended) return;
 

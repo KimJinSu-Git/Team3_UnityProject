@@ -88,6 +88,7 @@ public class CrownScoreController : NetworkBehaviour
         if (CurrentScore >= 3)
         {
             CurrentScore = 3;
+            GameManager.Instance.EndGame();
         }
     }
     private int prevScore = -1;
