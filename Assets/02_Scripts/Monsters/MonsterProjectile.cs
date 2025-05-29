@@ -1,7 +1,7 @@
 using Fusion;
 using UnityEngine;
 
-public class MonsterProjectile : MonoBehaviour
+public class MonsterProjectile : NetworkBehaviour
 {
     private Transform target;
     private PlayerRef owner;
@@ -17,20 +17,22 @@ public class MonsterProjectile : MonoBehaviour
 
         transform.position += (Vector3.up * 3f);
 
-        Destroy(gameObject, 3f);
+        if (Object.HasStateAuthority)
+            StartCoroutine(DestroySelf(3f));
     }
 
     private void Update()
     {
         if (target == null)
         {
-            Destroy(gameObject);
+            if (Object.HasStateAuthority)
+                Runner.Despawn(Object);
             return;
         }
 
         Vector3 dir = (target.position - transform.position).normalized;
         transform.position += dir * (speed * Time.deltaTime);
-        
+
         if (dir != Vector3.zero)
             transform.forward = dir;
 
@@ -48,7 +50,16 @@ public class MonsterProjectile : MonoBehaviour
                     NetworkObject = dmg.NetworkObject
                 });
             }
-            Destroy(gameObject);
+
+            if (Object.HasStateAuthority)
+                Runner.Despawn(Object);
         }
+    }
+
+    private System.Collections.IEnumerator DestroySelf(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (Object != null && Object.IsValid)
+            Runner.Despawn(Object);
     }
 }

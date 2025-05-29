@@ -16971,6 +16971,7 @@ MonoBehaviour:
   crownFlyEnemyPrefab: {fileID: 7853042599568289666, guid: 594ec238aa56e674a9dc3a257abcbff5,
     type: 3}
   resultText: {fileID: 1733590816}
+  isHost: 0
 --- !u!1 &2111430572
 GameObject:
   m_ObjectHideFlags: 0

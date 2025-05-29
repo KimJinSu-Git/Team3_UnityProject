@@ -93,6 +93,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8733427695809355972}
   - component: {fileID: 4809983157869672520}
+  - component: {fileID: -9121151794800706059}
   m_Layer: 0
   m_Name: UnitArrowProjectile
   m_TagString: Untagged
@@ -128,3 +129,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55afdd23b348f5540b43e6841b8cd8f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-9121151794800706059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7597660938547843268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 1266698887
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 4809983157869672520}
+  ForceRemoteRenderTimeframe: 0

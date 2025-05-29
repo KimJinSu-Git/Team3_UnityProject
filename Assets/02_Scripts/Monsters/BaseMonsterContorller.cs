@@ -271,12 +271,21 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
     {
         if (monsterData.projectilePrefab == null || currentTarget == null) return;
 
-        GameObject go = Instantiate(monsterData.projectilePrefab, transform.position, Quaternion.identity);
-        if (go.TryGetComponent<MonsterProjectile>(out var proj))
+        var netObj = monsterData.projectilePrefab.GetComponent<NetworkObject>();
+        if (netObj == null)
+        {
+            Debug.LogError("projectilePrefab에 NetworkObject가 없습니다.");
+            return;
+        }
+        
+        NetworkObject spawnedObj = Runner.Spawn(netObj, transform.position, Quaternion.identity, Object.InputAuthority);
+
+        // Init 호출
+        if (spawnedObj.TryGetComponent<MonsterProjectile>(out var proj))
         {
             proj.Init(currentTarget, playerRef, monsterData.damage, monsterData.projectileSpeed);
         }
-    }
+    }   
     
     protected virtual void DoDealDamage()
     {
