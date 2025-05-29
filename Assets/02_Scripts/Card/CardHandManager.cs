@@ -91,7 +91,7 @@ public class CardHandManager : MonoBehaviour
 
         // 몬스터 데이터 캐싱
         cardData = new Dictionary<string, BaseData>();
-        foreach (var data in deck)
+        foreach (var data in DeckManager.Instance.totalPlayerDeck)
         {
             if (!cardData.ContainsKey(data.cardName))
             {
