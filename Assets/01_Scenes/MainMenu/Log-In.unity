@@ -853,7 +853,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: NickName
+  m_text: ID
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c1482dbce654844b9ba1c753cbea5d80, type: 2}
   m_sharedMaterial: {fileID: 7374927986402738804, guid: c1482dbce654844b9ba1c753cbea5d80,
@@ -1188,7 +1188,6 @@ MonoBehaviour:
   inputField_SignId: {fileID: 1621029826}
   inputField_SignPassword: {fileID: 1209016777}
   inputField_SignNickname: {fileID: 109380549}
-  inputField: {fileID: 0}
   loginPanel: {fileID: 1309497817}
   signUpPanel: {fileID: 464880010}
 --- !u!1 &415136549
