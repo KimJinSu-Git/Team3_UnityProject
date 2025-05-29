@@ -1,37 +1,37 @@
 using System.Collections;
-using Fusion;
 using UnityEngine;
+using Fusion;
 
+[RequireComponent(typeof(NetworkObject))]
 public class ArrowProjectile : NetworkBehaviour
 {
     private Vector3 startPosition;
     private Vector3 targetPosition;
-    private Transform target;
     private PlayerRef caster;
     private int damage;
-
     private float speed = 20f;
+    private Transform targetTransform;
+    private PlayerRef targetOwner;
 
-    public void Init(Transform targetTransform, PlayerRef owner, int damage)
+    public void Init(Transform target, PlayerRef owner, int damage)
     {
         if (Object.HasStateAuthority)
         {
             Vector3 start = transform.position;
-            Vector3 end = targetTransform.position;
-            var targetObj = targetTransform.GetComponent<NetworkObject>();
-            if (targetObj != null)
-            {
-                RPC_Launch(start, end, targetObj, owner, damage);
-            }
+            RPC_Launch(start, target.position, owner, damage);
+
+            targetTransform = target;
+
+            if (target.TryGetComponent<IDamageAble>(out var dmg))
+                targetOwner = dmg.PlayerRef;
         }
     }
 
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
-    private void RPC_Launch(Vector3 start, Vector3 targetPos, NetworkObject targetObj, PlayerRef owner, int dmg)
+    private void RPC_Launch(Vector3 start, Vector3 target, PlayerRef owner, int dmg)
     {
         this.startPosition = start;
-        this.targetPosition = targetPos;
-        this.target = targetObj.transform;
+        this.targetPosition = target;
         this.caster = owner;
         this.damage = dmg;
 
@@ -52,17 +52,20 @@ public class ArrowProjectile : NetworkBehaviour
             yield return null;
         }
 
-        if (target != null && target.TryGetComponent<IDamageAble>(out var dmg) && dmg.PlayerRef != caster)
+        if (targetTransform != null && targetTransform.TryGetComponent<IDamageAble>(out var dmg))
         {
-            CombatSystem.Instance.AddCombatEvent(new CombatEvent
+            if (dmg.PlayerRef != caster && dmg.PlayerRef == targetOwner)
             {
-                Receiver = dmg,
-                Damage = damage,
-                UseEffect = true,
-                EffectName = "HitEffect",
-                EffectPosition = dmg.GameObject.transform.position,
-                NetworkObject = dmg.NetworkObject
-            });
+                CombatSystem.Instance.AddCombatEvent(new CombatEvent
+                {
+                    Receiver = dmg,
+                    Damage = damage,
+                    UseEffect = true,
+                    EffectName = "HitEffect",
+                    EffectPosition = dmg.GameObject.transform.position,
+                    NetworkObject = dmg.NetworkObject
+                });
+            }
         }
 
         yield return new WaitForSeconds(0.05f);
