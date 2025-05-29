@@ -180,14 +180,15 @@ public class GameManager : NetworkBehaviour
 
         if (Object.HasStateAuthority)
         {
-            RPC_NotifyGameEnded(result);
+            RPC_NotifyGameEnded();
         }
     }
 
     [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
-    private void RPC_NotifyGameEnded(string result)
+    private void RPC_NotifyGameEnded() // 클라이언트 게임 종료
     {
-        Debug.Log($"클라이언트 종료 알림: {result}");
+        currentState = GameState.Ended;
+        ended = true;
     }
 
     private bool IsEnemyTower(TowerController tower) => tower.CompareTag("EnemyTower");
