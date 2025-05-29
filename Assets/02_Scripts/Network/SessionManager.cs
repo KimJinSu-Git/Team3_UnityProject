@@ -28,7 +28,7 @@ public class SessionManager : MonoBehaviour, INetworkRunnerCallbacks
     private const int LOBBY_SCENE_INDEX = 1;
     private const int IN_GAME_SCENE_INDEX = 2;
     
-    private const int MAX_PLAYER_COUNT = 1;
+    private const int MAX_PLAYER_COUNT = 2;
 
     private NetworkRunner runner;
     private NetworkSceneManagerDefault sceneManager;
@@ -139,37 +139,10 @@ public class SessionManager : MonoBehaviour, INetworkRunnerCallbacks
     }
     private async Task StartInGame()
     {
-        Debug.Log("✅ [StartInGame] 호출됨");
-
-        if (DeckManager_UI.Instance == null)
-        {
-            Debug.LogError("❌ DeckManager_UI.Instance가 null입니다!");
-            return;
-        }
-
-        if (InventoryUtility.Instance == null)
-        {
-            Debug.LogError("❌ InventoryUtility.Instance가 null입니다!");
-            return;
-        }
-
-        Debug.Log($"✅ 현재 덱 카드 수: {DeckManager_UI.Instance.currentDeck.Count}");
-
-        InGameLoader.playerDeckToLoad = DeckManager_UI.Instance.currentDeck
-            .Where(card => InventoryUtility.Instance.monsterDB.ContainsKey(card.id))
-            .Select(card => new CardDataWrapper {
-                cardType = CardDataWrapper.CardType.Monster,
-                monsterData = InventoryUtility.Instance.monsterDB[card.id],
-                skillData = null
-            }).ToList();
-
-        Debug.Log($"✅ InGameLoader 덱 설정 완료: {InGameLoader.playerDeckToLoad.Count}장");
-
-        await runner.LoadScene(inGameSceneRef);
+          await runner.LoadScene(inGameSceneRef);
     }
     public void OnSceneLoadDone(NetworkRunner runner)
     {
-        //UserManager.Instance.SetFusionPlayerRef(runner.LocalPlayer);
         if (runner.IsServer)
         {
             // 프리팹생성해주기

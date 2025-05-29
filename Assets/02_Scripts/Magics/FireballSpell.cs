@@ -8,29 +8,47 @@ using UnityEngine;
 public class FireballSpell : NetworkBehaviour
 {
     public GameObject fireballProjectilePrefab;
-    public Transform kingTowerTransform;
     
     private SkillData skillData;
     private PlayerRef caster;
     private Vector3 targetPosition;
+    private Transform kingTower;
 
-    public void Init(SkillData data, Vector3 targetPos, PlayerRef owner, Transform kingTower)
+    public void Init(SkillData data, Vector3 targetPos, PlayerRef owner, Transform kingTowerTransform)
     {
         skillData = data;
         caster = owner;
         targetPosition = targetPos;
-        kingTowerTransform = kingTower;
+        kingTower = kingTowerTransform;
 
-        // 시작 위치 = 아군 킹 타워 위치 + 약간 위
-        Vector3 startPos = kingTowerTransform.position + Vector3.up * 2f;
+        if (Object.HasStateAuthority)
+        {
+            RPC_ActivateFireball();
+        }
+    }
+    
+    [Rpc(sources: RpcSources.All, targets: RpcTargets.StateAuthority)]
+    private void RPC_ActivateFireball() 
+    {
+        StartCoroutine(Fire());
+    }
 
-        // 발사체 생성 및 초기화
-        GameObject fireball = Instantiate(fireballProjectilePrefab, startPos, Quaternion.identity);
+    private IEnumerator Fire()
+    {
+        Vector3 spawnPos = kingTower.position + Vector3.up * 2f;
 
-        var projectile = fireball.GetComponent<FireballProjectile>();
-        projectile.Init(targetPosition, caster, Mathf.RoundToInt(skillData.damage));
+        // NetworkObject로 가져오기 (필수!)
+        NetworkObject fireballNetObj = Runner.Spawn(fireballProjectilePrefab.GetComponent<NetworkObject>(), spawnPos, Quaternion.identity, caster);
 
-        Destroy(gameObject, 2);
+        FireballProjectile fireball = fireballNetObj.GetComponent<FireballProjectile>();
+        fireball.Init(targetPosition, caster, Mathf.RoundToInt(skillData.damage));
+
+        yield return new WaitForSeconds(2f);
+
+        if (Object != null && Object.IsValid && Object.HasStateAuthority)
+        {
+            Runner.Despawn(Object);
+        }
     }
     
     

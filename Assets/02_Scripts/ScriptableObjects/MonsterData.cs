@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "MonsterData", menuName = "ScriptableObjects/MonsterData")]
-public class MonsterData : ScriptableObject
+public class MonsterData : BaseData
 {
     public enum CharacterType
     {
@@ -13,10 +13,34 @@ public class MonsterData : ScriptableObject
         FarAttack,
         Building
     }
+    
+    public enum AttackType
+    {
+        None,
+        GroundOnly,
+        AirOnly,
+        Both
+    }
+
+    public enum CardType
+    {
+        Unit,
+        Spell,
+        Building
+    }
+
+    // public enum Rarity
+    // {
+    //     Common,
+    //     Rare,
+    //     Epic,
+    //     Legendary
+    // }
+    
     [Header("BaseInfo")]
-    public string id;
-    public string monsterName;   
-    public string description;
+    // public string id;
+    // public string monsterName;   
+    // public string description;
     public CharacterType characterType;
     
     [Header("Ranged Attack (FarAttack 전용)")]
@@ -27,18 +51,34 @@ public class MonsterData : ScriptableObject
     [Header("Stat")] 
     public int level;
     public int maxHP;
-    public int damage;
+    //public int damage;
     public float moveSpeed;
     public float attackRange;
     public float detectionRadius;
     public float attackSpeed;
     
     [Header("SpawnInfo")]
-    public int cost;
+    // public int cost;
     public float spawnTime;
     
     [Header("Rendering")]
-    public GameObject prefab;
+    //public GameObject prefab;
     public GameObject previewPrefab;
-    public Sprite icon;
+    //public Sprite icon;
+
+
+    [Header("📊 Base Stats")]
+    public int baseHP;
+    public float baseDamage;
+    public float baseAttackSpeed;
+    public float baseMoveSpeed;
+
+    [Header("⚔️ Combat Type")]
+    public AttackType attackType;
+    public CardType cardType;
+    //public Rarity rarity;
+
+    [Header("🕒 Spawn Info")]
+    public float lifeDuration = -1f;  // 제한 시간 있는 카드 (예: 건물)
+
 }

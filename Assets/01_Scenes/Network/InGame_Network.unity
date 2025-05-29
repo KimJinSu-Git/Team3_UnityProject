@@ -3505,7 +3505,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d59ce457781df0448fccd6a7b4a17cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fullDeck: []
   cardPrefab: {fileID: 536418147371490894, guid: b32702e2fbcf2cf4c9f95528687a9f94,
     type: 3}
   slotParents:
@@ -3522,16 +3521,10 @@ MonoBehaviour:
   - {fileID: 68595548}
   - {fileID: 695841535}
   - {fileID: 1356469068}
-  - {fileID: 1215162384}
-  - {fileID: 785708094}
-  - {fileID: 1376012145}
   clientEnemyZones:
   - {fileID: 1634701283}
   - {fileID: 1552236199}
   - {fileID: 1830474259}
-  - {fileID: 834735230}
-  - {fileID: 849473029}
-  - {fileID: 1538714230}
   currentNoSpawnZones: []
   currentEnemyAreaImages:
   - {fileID: 364654519}
@@ -4479,6 +4472,81 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8612806154160148857}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &526563978
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 526563981}
+  - component: {fileID: 526563980}
+  - component: {fileID: 526563979}
+  m_Layer: 0
+  m_Name: SkillManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &526563979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 526563978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SortKey: 3418148035
+  ObjectInterest: 1
+  Flags: 262145
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 526563980}
+  ForceRemoteRenderTimeframe: 0
+--- !u!114 &526563980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 526563978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03b99e789fa813e44ab8a2a8f358be96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spellPrefabs:
+  - skillName: ArrowRain
+    prefab: {fileID: 412454120642360062, guid: 9756f27cd1ff937428589b209ead9311, type: 3}
+    data: {fileID: 11400000, guid: 423d0b37a69ebf943927d8bbb625a614, type: 2}
+  - skillName: Fireball
+    prefab: {fileID: 2240476998455059014, guid: d3059e8e0c7a46842add99bec4601615,
+      type: 3}
+    data: {fileID: 11400000, guid: 6660bc61c66f429419cae069128d5c00, type: 2}
+  hostKingTower: {fileID: 1538714228}
+  clientKingTower: {fileID: 1376012143}
+  myKingTowerTransform: {fileID: 0}
+--- !u!4 &526563981
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 526563978}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.5172666, y: 1.6784724, z: 4.5960855}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &528713992
 GameObject:
   m_ObjectHideFlags: 0
@@ -13712,77 +13780,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!1 &1760976195
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1760976198}
-  - component: {fileID: 1760976197}
-  - component: {fileID: 1760976196}
-  m_Layer: 0
-  m_Name: SkillManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1760976196
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1760976195}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SortKey: 791155970
-  ObjectInterest: 1
-  Flags: 262145
-  NestedObjects: []
-  NetworkedBehaviours:
-  - {fileID: 1760976197}
-  ForceRemoteRenderTimeframe: 0
---- !u!114 &1760976197
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1760976195}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03b99e789fa813e44ab8a2a8f358be96, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  arrowRainPrefab: {fileID: 412454120642360062, guid: 9756f27cd1ff937428589b209ead9311,
-    type: 3}
-  fireballPrefab: {fileID: 2240476998455059014, guid: d3059e8e0c7a46842add99bec4601615,
-    type: 3}
-  hostKingTower: {fileID: 1538714228}
-  clientKingTower: {fileID: 1376012143}
-  myKingTowerTransform: {fileID: 1538714228}
---- !u!4 &1760976198
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1760976195}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.5172666, y: 1.6784724, z: 4.5960855}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1777575885
 GameObject:
   m_ObjectHideFlags: 0
@@ -14992,9 +14989,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MatchingUI, Assembly-CSharp
-        m_MethodName: OnMatchingButtonClicked
+      - m_Target: {fileID: 2107626938}
+        m_TargetAssemblyTypeName: InGameResultController, Assembly-CSharp
+        m_MethodName: GoToLobby
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -29591,6 +29588,6 @@ SceneRoots:
   - {fileID: 1069566508}
   - {fileID: 2127208869}
   - {fileID: 229061871}
-  - {fileID: 1760976198}
   - {fileID: 2042261846}
   - {fileID: 2127656214}
+  - {fileID: 526563981}

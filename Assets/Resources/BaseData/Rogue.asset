@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cb8effa82bf75e43946a45f39bf3f1c, type: 3}
+  m_Name: Rogue
+  m_EditorClassIdentifier: 
+  id: 6
+  cardName: Rogue
+  description: "\uBBFC\uCCA9\uC131\uACFC \uAE30\uBBFC\uD568\uC744 \uAE30\uBC18\uC73C\uB85C 
+    \uBE44\uC815\uBA74 \uC804\uD22C\uC5D0 \uD2B9\uD654\uB418\uC5B4 \uC788\uC2B5\uB2C8\uB2E4."
+  cost: 4
+  damage: 341
+  prefab: {fileID: 3943412672516993462, guid: 21192dc4a62fa55468004a9ba35cea75, type: 3}
+  icon: {fileID: 21300000, guid: c096e676ea6cd5641aa76bdca41d8bf6, type: 3}
+  cardDataType: 0
+  rarity: 0
+  characterType: 0
+  projectilePrefab: {fileID: 0}
+  projectileSpeed: 5
+  level: 1
+  maxHP: 643
+  moveSpeed: 4
+  attackRange: 2
+  detectionRadius: 0
+  attackSpeed: 1.5
+  spawnTime: 0.5
+  previewPrefab: {fileID: 5588666636982742082, guid: 3bd0f455ba9b0cd4ab5ee9691b2bc9e7,
+    type: 3}
+  baseHP: 0
+  baseDamage: 0
+  baseAttackSpeed: 0
+  baseMoveSpeed: 0
+  attackType: 0
+  cardType: 0
+  lifeDuration: -1

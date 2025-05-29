@@ -1,4 +1,3 @@
-// ✅ SlotUI - 덱/콜렉션 카드 슬롯 UI
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -17,72 +16,57 @@ public class SlotUI : MonoBehaviour
     public Button infoButton;
     public GameObject infoPanel;
 
-    private DeckManager_UI deckManager;
-    private PlayerCardData cardData;
+    private DeckManagerUI deckManager;
+    private BaseData cardData;
     private int slotIndex;
     private SlotMode mode;
 
     private void Awake()
     {
-        infoButton.onClick.AddListener(OnClickSlot);
+        infoButton.onClick.AddListener(ToggleInfoPanel);
         infoPanel.SetActive(false);
     }
 
-    public void OnClickSlot()
-    {
-        bool isActive = infoPanel.activeSelf;
-        infoPanel.SetActive(!isActive);
-    }
-
-    public void Setup(PlayerCardData card, int index, DeckManager_UI manager, SlotMode slotMode)
+    public void Setup(BaseData card, int index, DeckManagerUI manager, SlotMode slotMode)
     {
         cardData = card;
         slotIndex = index;
         deckManager = manager;
         mode = slotMode;
 
-        var monster = card.monsterData;
-
-        if (monster == null)
+        if (cardData is MonsterData monster)
         {
-            Debug.LogError("[SlotUI] monsterData 연결되지 않음");
-            return;
+            SetupMonsterData(monster);
+        }
+        else if (cardData is SkillData skill)
+        {
+            SetupSkillData(skill);
+        }
+        else
+        {
+            Debug.LogError("[SlotUI] 알 수 없는 카드 타입");
         }
 
-        icon.sprite = monster.icon;
-        nameText.text = monster.monsterName;
-        levelText.text = $"Lv.{card.level}";
-        costText.text = monster.cost.ToString();
-
-        // 초기 값 표시
-        UpdateProgressUI();
-
-        // ✅ 카드 변경 이벤트 등록 (중복 방지 주의)
-        deckManager.inventory.onCardChanged.AddListener((changedId) =>
-        {
-            if (changedId == card.id)
-            {
-                UpdateProgressUI();
-            }
-        });
-
-        SetupModeUI();
+        SetupButtonEvents();
     }
-    
-    private void UpdateProgressUI()
+
+    private void SetupMonsterData(MonsterData monster)
     {
-        int owned = deckManager.inventory.GetCardCount(cardData.id);
-        int required = deckManager.upgradeDB.GetRequiredCards(cardData.monsterData.rarity, cardData.level);
-
-        if (required <= 0 || required >= 1000000)
-            progressText.text = "-";
-        else
-            progressText.text = $"{owned}/{required}";
+        icon.sprite = monster.icon;
+        nameText.text = monster.cardName;
+        levelText.text = $"Lv.{monster.level}";
+        costText.text = monster.cost.ToString();
     }
 
+    private void SetupSkillData(SkillData skill)
+    {
+        icon.sprite = skill.icon;
+        nameText.text = skill.cardName;
+        levelText.text = ""; // 스킬은 레벨 없을 수 있음
+        costText.text = skill.cost.ToString();
+    }
 
-
-    private void SetupModeUI()
+    private void SetupButtonEvents()
     {
         actionButton.onClick.RemoveAllListeners();
 
@@ -91,24 +75,37 @@ public class SlotUI : MonoBehaviour
             if (deckManager.isReplaceMode)
             {
                 actionButtonText.text = "교체";
-                actionButton.onClick.AddListener(() => deckManager.ReplaceCard(slotIndex));
+                actionButton.onClick.AddListener(() =>
+                {
+                    Debug.Log($"ReplaceCard 호출 - 슬롯 인덱스: {slotIndex}");
+                    deckManager.ReplaceCard(slotIndex, deckManager.replaceTargetCard);
+                });
             }
             else
             {
                 actionButtonText.text = "제거";
-                actionButton.onClick.AddListener(() => deckManager.RemoveCard(slotIndex));
+                actionButton.onClick.AddListener(() =>
+                {
+                    Debug.Log($"RemoveCard 호출 - 슬롯 인덱스: {slotIndex}");
+                    deckManager.RemoveCard(slotIndex);
+                });
             }
         }
         else if (mode == SlotMode.Collection)
         {
             actionButtonText.text = "사용";
-            actionButton.onClick.AddListener(() => deckManager.TryAddOrReplace(cardData));
+            actionButton.onClick.AddListener(() =>
+            {
+                Debug.Log($"TryAddOrReplace 호출 - 카드: {cardData.cardName}");
+                deckManager.TryAddOrReplace(cardData);
+            });
         }
+    }
 
-        infoButton.onClick.AddListener(() =>
-        {
-            if (cardData.monsterData != null)
-                Debug.Log($"[Info] {cardData.monsterData.monsterName} - {cardData.monsterData.description}");
-        });
+
+    public void ToggleInfoPanel()
+    {
+        infoPanel.SetActive(!infoPanel.activeSelf);
     }
 }
+

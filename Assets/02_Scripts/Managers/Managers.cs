@@ -7,12 +7,6 @@ public class Managers : MonoBehaviour
 {
     static Managers _instance;
     private static bool _Init;
-
-    PoolManager poolManager = new PoolManager();
-    EffectManager effectManager = new EffectManager();
-    
-    public static PoolManager PoolManager { get { return _instance.poolManager; } }
-    public static EffectManager EffectManager { get { return _instance.effectManager; } }
     public static Managers Instance
     {
         get
@@ -33,8 +27,4 @@ public class Managers : MonoBehaviour
         }
     }
 
-    public void Start()
-    {
-        EffectManager.Init();
-    }
 }

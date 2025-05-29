@@ -9,15 +9,16 @@ using TMPro;
 public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     // 🔹 외부 주입 데이터
-    private MonsterData_Mainmenu monsterData;
-    private SkillData skillData;
+    // private MonsterData monsterData;
+    // private SkillData skillData;
+    private BaseData baseData;
     private Spawner_Network unitSpawner;
     private Collider[] noSpawnZones; 
     private Image[] enemyAreaImages;
     private int slotIndex;
     private Action<int> onCardPlayed;
     private bool isDraggable;
-    private CardDataWrapper.CardType cardType;
+    //private CardDataWrapper.CardType cardType;
 
     // 🔹 UI 요소들
     [SerializeField] private Image iconImage;         // 카드 아이콘 이미지 (👈 추가)
@@ -36,8 +37,9 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     public Transform Area;
 
     // 🔹 외부 조회용
-    public MonsterData_Mainmenu MonsterData => monsterData;
-    public SkillData SkillData => skillData;
+    public BaseData BaseData => baseData;
+    // public MonsterData MonsterData => monsterData;
+    // public SkillData SkillData => skillData;
 
     private void Awake()
     {
@@ -50,7 +52,8 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
     private void Update()
     {
-        int cost = monsterData != null ? monsterData.cost : skillData != null ? skillData.cost : 0;
+        //int cost = monsterData != null ? monsterData.cost : skillData != null ? skillData.cost : 0;
+        int cost = baseData.cost;
         bool affordable = ElixirManager.Instance.GetCurrentElixir() >= cost;
         isDraggable = affordable;
         SetVisualState(affordable);
@@ -64,9 +67,7 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     }
 
     public void Init(
-        MonsterData_Mainmenu monsterData,
-        SkillData skillData,
-        CardDataWrapper.CardType cardType,
+        BaseData data,
         Spawner_Network spawner,
         Collider[] noSpawnZones,
         Image[] areaImages,
@@ -78,9 +79,9 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         Vector3? startScale = null
     )
     {
-        this.monsterData = monsterData;
-        this.skillData = skillData;
-        this.cardType = cardType;
+        // this.monsterData = monsterData;
+        // this.skillData = skillData;
+        this.baseData = data;
         unitSpawner = spawner;
         this.noSpawnZones = noSpawnZones;
         this.enemyAreaImages = areaImages;
@@ -97,15 +98,10 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         transform.localScale = startScale ?? Vector3.one;
 
         // 🔹 이름 및 아이콘 적용
-        if (monsterData != null)
+        if (data != null)
         {
-            if (cardNameText != null) cardNameText.text = monsterData.monsterName;
-            if (iconImage != null) iconImage.sprite = monsterData.icon;
-        }
-        else if (skillData != null)
-        {
-            if (cardNameText != null) cardNameText.text = skillData.skillName;
-            if (iconImage != null) iconImage.sprite = skillData.icon;
+            if(cardNameText != null) cardNameText.text = data.cardName;
+            if(iconImage != null) iconImage.sprite = data.icon;
         }
     }
 
@@ -126,29 +122,35 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         canvasGroup.alpha = 0f;
         canvasGroup.blocksRaycasts = false;
 
-        if (monsterData != null)
+        if (baseData.cardDataType == CardDataType.Monster)
         {
-            previewInstance = Instantiate(monsterData.previewPrefab);
-            foreach (var img in enemyAreaImages) img.enabled = true;
-            foreach (var zone in noSpawnZones) zone.enabled = true;
-        }
-        else if (skillData != null)
-        {
-            foreach (var zone in noSpawnZones) zone.enabled = false;
-
-            castingCircleGO = new GameObject("CastingCircle");
-            circleHelper = castingCircleGO.AddComponent<DrawCircleHelper>();
-            circleHelper.Draw(skillData.range);
-
-            if (skillData.castingCircle != null)
+            if (baseData is MonsterData monsterData)
             {
-                castingPreview = new GameObject("CastingCircleSprite");
-                var renderer = castingPreview.AddComponent<SpriteRenderer>();
-                renderer.sprite = skillData.castingCircle;
-                renderer.sortingOrder = 100;
+                previewInstance = Instantiate(monsterData.previewPrefab);
+                foreach (var img in enemyAreaImages) img.enabled = true;
+                foreach (var zone in noSpawnZones) zone.enabled = true;
+            }
+        }
+        else if (baseData.cardDataType == CardDataType.Skill)
+        {
+            if (baseData is SkillData skillData)
+            {
+                foreach (var zone in noSpawnZones) zone.enabled = false;
 
-                float r = skillData.range;
-                castingPreview.transform.localScale = new Vector3(r * 2, 1f, r * 2);
+                castingCircleGO = new GameObject("CastingCircle");
+                circleHelper = castingCircleGO.AddComponent<DrawCircleHelper>();
+                circleHelper.Draw(skillData.range);
+
+                if (skillData.castingCircle != null)
+                {
+                    castingPreview = new GameObject("CastingCircleSprite");
+                    var renderer = castingPreview.AddComponent<SpriteRenderer>();
+                    renderer.sprite = skillData.castingCircle;
+                    renderer.sortingOrder = 100;
+
+                    float r = skillData.range;
+                    castingPreview.transform.localScale = new Vector3(r * 2, 1f, r * 2);
+                }
             }
         }
 
@@ -170,8 +172,7 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         if (Physics.Raycast(worldCamera.ScreenPointToRay(eventData.position), out var hit, 100f))
         {
             bool canPreview =
-                (monsterData != null && !IsInNoSpawnZone(hit.point)) ||
-                (skillData != null);
+                (baseData != null && !IsInNoSpawnZone(hit.point));
 
             if (canPreview)
             {
@@ -207,21 +208,20 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
         {
             Vector3 worldSpawnPos = hit.point;
 
-            if (cardType == CardDataWrapper.CardType.Monster)
+            if (baseData.cardDataType == CardDataType.Monster)
             {
                 if (IsInNoSpawnZone(worldSpawnPos)) return;
 
-                ElixirManager.Instance.UseElixir(monsterData.cost);
-                unitSpawner.RequestSpawn(monsterData.name, worldSpawnPos, Quaternion.identity);
+                ElixirManager.Instance.UseElixir(baseData.cost);
+                unitSpawner.RequestSpawn(baseData.cardName, worldSpawnPos, Quaternion.identity);
             }
-            else if (cardType == CardDataWrapper.CardType.Skill)
+            else if (baseData.cardDataType == CardDataType.Skill)
             {
-                ElixirManager.Instance.UseElixir(skillData.cost);
-                SkillManager.Instance.CastSkill(skillData, worldSpawnPos);
+                ElixirManager.Instance.UseElixir(baseData.cost);
+                SkillManager.Instance.CastSkill(baseData.cardName, worldSpawnPos);
             }
-
+            Debug.Log($"[CardUI] OnEndDrag: slotIndex={slotIndex}, invoking OnCardPlayed");
             onCardPlayed?.Invoke(slotIndex);
-            Destroy(gameObject);
         }
     }
 }

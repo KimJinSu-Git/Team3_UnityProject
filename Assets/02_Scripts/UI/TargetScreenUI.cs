@@ -10,18 +10,27 @@ public class TargetScreenUI : MonoBehaviour
     /*** Record UI 이동 구간 ***/
 
     [SerializeField] private GameObject TargetScreen;
-    private VideoPlayer video;
+   private VideoPlayer video;
     public void GoToTargetScreen()
     {
-        video = gameObject.GetComponentInChildren<VideoPlayer>();
+      video = gameObject.GetComponentInChildren<VideoPlayer>();
         TargetScreen.SetActive(true);
     }
 
     public void BackToTargetScreen()
     {
-        video.frame = 0;
-        video.Play();
+      if (video != null)
+      {
+          video.frame = 0;
+          video.Play();
+      }
         TargetScreen.SetActive(false);
+    }
+    
+    public void GoToTargetAndFadeIn()
+    {
+        TargetScreen.SetActive(true);
+        gameObject.SetActive(false);
     }
 }
 
