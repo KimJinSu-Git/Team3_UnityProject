@@ -147,7 +147,7 @@ public class TowerController : NetworkBehaviour, IDamageAble
         NetworkObject arrowObj = Runner.Spawn(arrowPrefab, firePoint.position, Quaternion.identity);
         if (arrowObj.TryGetComponent<ArrowProjectile>(out var projectile))
         {
-            projectile.Init(target.position, playerRef, attackDamage);
+            projectile.Init(target, playerRef, attackDamage);
         }
     }
 

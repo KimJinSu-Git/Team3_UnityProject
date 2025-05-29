@@ -286,8 +286,7 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
         // RPC 방식의 Init 호출
         if (spawned.TryGetComponent<MonsterProjectile>(out var proj))
         {
-            Vector3 targetPos = currentTarget.position;
-            proj.Init(targetPos, playerRef, monsterData.damage, monsterData.projectileSpeed);
+            proj.Init(currentTarget, playerRef, monsterData.damage, monsterData.projectileSpeed);
         }
     }
     

@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using Fusion;
 using UnityEngine;
@@ -7,25 +6,32 @@ public class ArrowProjectile : NetworkBehaviour
 {
     private Vector3 startPosition;
     private Vector3 targetPosition;
+    private Transform target;
     private PlayerRef caster;
     private int damage;
 
     private float speed = 20f;
 
-    public void Init(Vector3 targetPos, PlayerRef owner, int damage)
+    public void Init(Transform targetTransform, PlayerRef owner, int damage)
     {
         if (Object.HasStateAuthority)
         {
             Vector3 start = transform.position;
-            RPC_Launch(start, targetPos, owner, damage);
+            Vector3 end = targetTransform.position;
+            var targetObj = targetTransform.GetComponent<NetworkObject>();
+            if (targetObj != null)
+            {
+                RPC_Launch(start, end, targetObj, owner, damage);
+            }
         }
     }
 
     [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
-    private void RPC_Launch(Vector3 start, Vector3 target, PlayerRef owner, int dmg)
+    private void RPC_Launch(Vector3 start, Vector3 targetPos, NetworkObject targetObj, PlayerRef owner, int dmg)
     {
         this.startPosition = start;
-        this.targetPosition = target;
+        this.targetPosition = targetPos;
+        this.target = targetObj.transform;
         this.caster = owner;
         this.damage = dmg;
 
@@ -46,23 +52,17 @@ public class ArrowProjectile : NetworkBehaviour
             yield return null;
         }
 
-        Collider[] hits = Physics.OverlapSphere(transform.position, 0.5f, LayerMask.GetMask("Monster", "Tower"));
-        foreach (var hit in hits)
+        if (target != null && target.TryGetComponent<IDamageAble>(out var dmg) && dmg.PlayerRef != caster)
         {
-            if (hit.TryGetComponent<IDamageAble>(out var receiver) && receiver.PlayerRef != caster)
+            CombatSystem.Instance.AddCombatEvent(new CombatEvent
             {
-                CombatEvent combatEvent = new CombatEvent
-                {
-                    Receiver = receiver,
-                    Damage = damage,
-                    UseEffect = true,
-                    EffectName = "ArrowHit",
-                    EffectPosition = receiver.GameObject.transform.position,
-                    NetworkObject = receiver.NetworkObject
-                };
-
-                CombatSystem.Instance.AddCombatEvent(combatEvent);
-            }
+                Receiver = dmg,
+                Damage = damage,
+                UseEffect = true,
+                EffectName = "HitEffect",
+                EffectPosition = dmg.GameObject.transform.position,
+                NetworkObject = dmg.NetworkObject
+            });
         }
 
         yield return new WaitForSeconds(0.05f);

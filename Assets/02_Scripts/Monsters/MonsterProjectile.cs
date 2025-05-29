@@ -9,14 +9,20 @@ public class MonsterProjectile : NetworkBehaviour
     private Vector3 targetPos;
     private PlayerRef owner;
     private int damage;
-    private float speed = 10f;
+    private float speed = 50f;
 
-    public void Init(Vector3 targetPos, PlayerRef owner, int damage, float speed)
+    private IDamageAble targetDamageAble; // ✅ 명중할 대상
+
+    public void Init(Transform target, PlayerRef owner, int damage, float speed)
     {
+        if (!target.TryGetComponent<IDamageAble>(out var dmg)) return;
+
+        this.targetDamageAble = dmg; // ✅ 로컬에서 저장
         if (Object.HasStateAuthority)
         {
-            Vector3 start = transform.position + Vector3.up * 2f;
-            RPC_Launch(start, targetPos, owner, damage, speed);
+            Vector3 start = transform.position;
+            Vector3 targetPosition = target.position;
+            RPC_Launch(start, targetPosition, owner, damage, speed);
         }
     }
 
@@ -29,13 +35,12 @@ public class MonsterProjectile : NetworkBehaviour
         this.damage = dmg;
         this.speed = spd;
 
-        transform.position = start;
+        transform.position = startPos;
         StartCoroutine(MoveToTarget());
     }
 
     private IEnumerator MoveToTarget()
     {
-        Vector3 dir = (targetPos - startPos).normalized;
         Vector3 prevPos = transform.position;
 
         float t = 0f;
@@ -56,25 +61,22 @@ public class MonsterProjectile : NetworkBehaviour
             yield return null;
         }
 
-        // 타격 판정
-        Collider[] hits = Physics.OverlapSphere(transform.position, 0.5f, LayerMask.GetMask("Monster", "Tower"));
-        foreach (var hit in hits)
+        // ✅ 명중한 대상이 null 아니고 아직 살아있으면
+        if (targetDamageAble != null && targetDamageAble.PlayerRef != owner)
         {
-            if (hit.TryGetComponent<IDamageAble>(out var dmg) && dmg.PlayerRef != owner)
+            CombatSystem.Instance.AddCombatEvent(new CombatEvent
             {
-                CombatSystem.Instance.AddCombatEvent(new CombatEvent
-                {
-                    Receiver = dmg,
-                    Damage = damage,
-                    UseEffect = true,
-                    EffectName = "HitEffect",
-                    EffectPosition = dmg.GameObject.transform.position,
-                    NetworkObject = dmg.NetworkObject
-                });
-            }
+                Receiver = targetDamageAble,
+                Damage = damage,
+                UseEffect = true,
+                EffectName = "HitEffect",
+                EffectPosition = targetDamageAble.GameObject.transform.position,
+                NetworkObject = targetDamageAble.NetworkObject
+            });
         }
 
         yield return new WaitForSeconds(0.1f);
+
         if (Object != null && Object.IsValid && Object.HasStateAuthority)
         {
             Runner.Despawn(Object);
