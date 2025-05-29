@@ -79,7 +79,6 @@ public class MonsterData : BaseData
     //public Rarity rarity;
 
     [Header("🕒 Spawn Info")]
-    public int elixirCost;            // 엘릭서 소모
     public float lifeDuration = -1f;  // 제한 시간 있는 카드 (예: 건물)
 
 }
