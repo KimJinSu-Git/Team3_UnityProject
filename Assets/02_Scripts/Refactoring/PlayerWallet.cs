@@ -18,7 +18,7 @@ public class PlayerWallet : MonoBehaviour
     public int gem { get; private set; }  // 현재 젬
 
     private FirebaseAuth auth; // Firebase 인증
-    private FirebaseFirestore firestore; // Firebase Firestore DB
+    //private FirebaseFirestore firestore; // Firebase Firestore DB
 
     [Header("UI 연결")]
     [SerializeField] private TextMeshProUGUI goldText; // 골드 표시 UI
@@ -36,7 +36,7 @@ public class PlayerWallet : MonoBehaviour
 
         // ✅ Firebase 참조 설정
         auth = FirebaseAuth.DefaultInstance;
-        firestore = FirebaseFirestore.DefaultInstance;
+        //firestore = FirebaseFirestore.DefaultInstance;
     }
     
     private void OnEnable()
@@ -64,7 +64,7 @@ public class PlayerWallet : MonoBehaviour
             return;
         }
 
-        firestore.Collection("users").Document(uid).GetSnapshotAsync().ContinueWithOnMainThread(task =>
+        FirestoreManager.Instance.firestore.Collection("users").Document(uid).GetSnapshotAsync().ContinueWithOnMainThread(task =>
             {
                 if (task.IsCompleted && task.Result.Exists)
                 {
@@ -98,7 +98,7 @@ public class PlayerWallet : MonoBehaviour
             { "gem", gem }
         };
 
-        firestore.Collection("users").Document(uid).SetAsync(data, SetOptions.MergeAll);
+        FirestoreManager.Instance.firestore.Collection("users").Document(uid).SetAsync(data, SetOptions.MergeAll);
     }
 
     // ===================== 재화 처리 공통 메서드 =====================
