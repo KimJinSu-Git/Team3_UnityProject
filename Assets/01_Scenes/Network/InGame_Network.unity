@@ -6883,8 +6883,8 @@ MonoBehaviour:
     type: 3}
   firePoint: {fileID: 73379508104128724}
   archerAnimator: {fileID: 5724217166576992812}
-  spawnAreaImage: {fileID: 0}
-  spawnCollider: {fileID: 0}
+  spawnAreaImage: {fileID: 1234596228}
+  spawnCollider: {fileID: 1552236197}
   healthBar: {fileID: 1676178953}
   hpBarObj: {fileID: 1676178951}
   collider: {fileID: 0}
@@ -7165,8 +7165,8 @@ MonoBehaviour:
     type: 3}
   firePoint: {fileID: 73379509176235886}
   archerAnimator: {fileID: 5724217165509877142}
-  spawnAreaImage: {fileID: 0}
-  spawnCollider: {fileID: 0}
+  spawnAreaImage: {fileID: 915041935}
+  spawnCollider: {fileID: 1634701281}
   healthBar: {fileID: 1695011704}
   hpBarObj: {fileID: 1695011702}
   collider: {fileID: 0}
@@ -11953,8 +11953,8 @@ MonoBehaviour:
     type: 3}
   firePoint: {fileID: 73379508401115156}
   archerAnimator: {fileID: 5724217167287663340}
-  spawnAreaImage: {fileID: 0}
-  spawnCollider: {fileID: 0}
+  spawnAreaImage: {fileID: 1162086444}
+  spawnCollider: {fileID: 1830474257}
   healthBar: {fileID: 765308386}
   hpBarObj: {fileID: 765308384}
   collider: {fileID: 0}

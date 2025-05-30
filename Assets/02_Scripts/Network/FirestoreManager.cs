@@ -9,7 +9,7 @@ using UnityEngine;
 public class FirestoreManager : MonoBehaviour
 {
     public static FirestoreManager Instance;
-    //public static FirestoreManager Instance => _instance ??= new FirestoreManager();
+
 
     private FirebaseApp customApp;
     public FirebaseFirestore firestore;

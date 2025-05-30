@@ -5,12 +5,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
-
-// public static class InGameLoader
-// {
-//     public static List<CardDataWrapper> playerDeckToLoad;
-// }
-
 public class CardHandManager : MonoBehaviour
 {
     public static CardHandManager Instance;
