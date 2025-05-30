@@ -107,6 +107,7 @@ public class TowerController : NetworkBehaviour, IDamageAble
     {
         RPC_TowerHelathBar();
         if (Input.GetKeyDown(KeyCode.R)) TakeDamage(100);
+        if (IsDead) RPC_Die();
 
         attackTimer += Time.deltaTime;
         if (attackTimer >= attackInterval)
@@ -130,7 +131,7 @@ public class TowerController : NetworkBehaviour, IDamageAble
         if (Input.GetKeyDown(KeyCode.Space))
         {
             currentHealth -= 500;
-            if (currentHealth <= 0) Die();
+            if (currentHealth <= 0) RPC_Die();
         }
     }
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
@@ -194,19 +195,7 @@ public class TowerController : NetworkBehaviour, IDamageAble
         if (healthBar != null)
             healthBar.SetHealth(currentHealth);
         
-        if (currentHealth <= 0)
-        {
-            if (Object.HasStateAuthority)
-            {
-                Debug.Log($"[RPC_TowerHelathBar] StateAuthority가 직접 Die() 호출: {towerType}");
-                Die();
-            }
-            else
-            {
-                Debug.Log($"[RPC_TowerHelathBar] 클라이언트가 Rpc_RequestDestruction 요청: {towerType}");
-                Rpc_RequestDestruction();
-            }
-        }
+        if (currentHealth <= 0) RPC_Die();
     }
     private IEnumerator HitFlash()
     {
@@ -225,21 +214,23 @@ public class TowerController : NetworkBehaviour, IDamageAble
         StartCoroutine(HitFlash());
     }
     
-    public void Die()
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPC_Die()
     {
         Debug.Log($"{towerType} 파괴됨!");
-        if (IsDead) return; 
+        if (IsDead) return; // ✅ 추가: 중복 방지
         IsDead = true;
         
         Rpc_TurnOffVisuals();
-        if (!Object.HasStateAuthority) return;
-        
         if (spawnCollider != null && spawnAreaImage != null)
         {
             spawnCollider.SetActive(false);
             spawnAreaImage.SetActive(false);
         }
 
+        if (!Object.HasStateAuthority) return;
+        
+        
         if (hpBarObj != null)
         {
             hpBarObj.SetActive(false);
@@ -263,13 +254,6 @@ public class TowerController : NetworkBehaviour, IDamageAble
          if (hpBarObj != null) hpBarObj.SetActive(false);
      }
 
-     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-     public void Rpc_RequestDestruction()
-     {
-         Debug.Log($"[Rpc_RequestDestruction] 호출됨: towerType={towerType}, PlayerRef={Runner.LocalPlayer}");
-         Die();
-     }
-     
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
@@ -280,6 +264,6 @@ public class TowerController : NetworkBehaviour, IDamageAble
     {
         if (!IsAlive) return;
         currentHealth = 0;
-        Die();
+        RPC_Die();
     }
 }
