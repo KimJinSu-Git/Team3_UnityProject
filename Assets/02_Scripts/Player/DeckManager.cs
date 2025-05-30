@@ -38,11 +38,11 @@ public class DeckManager : MonoBehaviour
         await WaitForAuth();
         totalPlayerDeck.Add(Resources.Load<BaseData>("BaseData/Warrior"));
         totalPlayerDeck.Add(Resources.Load<BaseData>("BaseData/Golem"));
-        totalPlayerDeck.Add(Resources.Load<BaseData>("BaseData/Mage"));
+        totalPlayerDeck.Add(Resources.Load<BaseData>("BaseData/Archer"));
         totalPlayerDeck.Add(Resources.Load<BaseData>("BaseData/ArrowRain"));
         totalPlayerDeck.Add(Resources.Load<BaseData>("BaseData/Rogue"));
         totalPlayerDeck.Add(Resources.Load<BaseData>("BaseData/Minion"));
-        totalPlayerDeck.Add(Resources.Load<BaseData>("BaseData/Necromancer"));
+        totalPlayerDeck.Add(Resources.Load<BaseData>("BaseData/Mage"));
         totalPlayerDeck.Add(Resources.Load<BaseData>("BaseData/Cannon"));
         totalPlayerDeck.Add(Resources.Load<BaseData>("BaseData/Fireball"));
         await FirstSetCurrentDeckDic();

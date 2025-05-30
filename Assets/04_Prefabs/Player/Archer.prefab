@@ -1467,7 +1467,7 @@ GameObject:
   - component: {fileID: 3588401959727988631}
   - component: {fileID: 7077898459944254206}
   m_Layer: 8
-  m_Name: UnitArcher
+  m_Name: Archer
   m_TagString: Untagged
   m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0

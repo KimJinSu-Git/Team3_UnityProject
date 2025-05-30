@@ -560,7 +560,7 @@ GameObject:
   - component: {fileID: -1137812517022962684}
   - component: {fileID: -5209283568051364497}
   m_Layer: 8
-  m_Name: Necromancer
+  m_Name: Mage
   m_TagString: Untagged
   m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
