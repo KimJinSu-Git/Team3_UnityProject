@@ -22,7 +22,7 @@ MonoBehaviour:
   ownedCardCount: 1
   isUsed: 0
   prefab: {fileID: 1790362108378987168, guid: 51b299a647b48de45a68bce255a1a711, type: 3}
-  icon: {fileID: 21300000, guid: d31c0e3ffad6c3c4b9288e3ecede22a0, type: 3}
+  icon: {fileID: 21300000, guid: 73477e0fe64e4e140a93d5462cdba191, type: 3}
   cardDataType: 0
   rarity: 0
   characterType: 1
