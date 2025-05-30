@@ -107,7 +107,6 @@ public class TowerController : NetworkBehaviour, IDamageAble
     {
         RPC_TowerHelathBar();
         if (Input.GetKeyDown(KeyCode.R)) TakeDamage(100);
-        if (IsDead) Die();
 
         attackTimer += Time.deltaTime;
         if (attackTimer >= attackInterval)
@@ -195,7 +194,19 @@ public class TowerController : NetworkBehaviour, IDamageAble
         if (healthBar != null)
             healthBar.SetHealth(currentHealth);
         
-        if (currentHealth <= 0) Die();
+        if (currentHealth <= 0)
+        {
+            if (Object.HasStateAuthority)
+            {
+                Debug.Log($"[RPC_TowerHelathBar] StateAuthority가 직접 Die() 호출: {towerType}");
+                Die();
+            }
+            else
+            {
+                Debug.Log($"[RPC_TowerHelathBar] 클라이언트가 Rpc_RequestDestruction 요청: {towerType}");
+                Rpc_RequestDestruction();
+            }
+        }
     }
     private IEnumerator HitFlash()
     {
@@ -216,32 +227,49 @@ public class TowerController : NetworkBehaviour, IDamageAble
     
     public void Die()
     {
-        if (IsDead) return;
+        Debug.Log($"{towerType} 파괴됨!");
+        if (IsDead) return; 
         IsDead = true;
-
-        // 모든 클라이언트에게 비주얼 끄기
+        
         Rpc_TurnOffVisuals();
-
-        // 서버만 게임 매니저 호출 및 제거
-        if (Object.HasStateAuthority)
+        if (!Object.HasStateAuthority) return;
+        
+        if (spawnCollider != null && spawnAreaImage != null)
         {
-            if (towerType == TowerType.King)
-                GameManager.Instance.RPC_OnKingTowerDestroyed(this);
-            else
-                GameManager.Instance.RPC_OnPrincessTowerDestroyed(this);
-
-            Runner.Despawn(Object); // 오브젝트 삭제
+            spawnCollider.SetActive(false);
+            spawnAreaImage.SetActive(false);
         }
+
+        if (hpBarObj != null)
+        {
+            hpBarObj.SetActive(false);
+        }
+           
+        if (towerType == TowerType.King)
+            GameManager.Instance.RPC_OnKingTowerDestroyed(this);
+        else
+        {
+            GameManager.Instance.RPC_OnPrincessTowerDestroyed(this);
+        }
+
+        Destroy(gameObject);
     }
     
-    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    public void Rpc_TurnOffVisuals()
-    {
-        if (spawnCollider != null) spawnCollider.SetActive(false);
-        if (spawnAreaImage != null) spawnAreaImage.SetActive(false);
-        if (hpBarObj != null) hpBarObj.SetActive(false);
-    }
+     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+     public void Rpc_TurnOffVisuals()
+     {
+         if (spawnCollider != null) spawnCollider.SetActive(false);
+         if (spawnAreaImage != null) spawnAreaImage.SetActive(false);
+         if (hpBarObj != null) hpBarObj.SetActive(false);
+     }
 
+     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+     public void Rpc_RequestDestruction()
+     {
+         Debug.Log($"[Rpc_RequestDestruction] 호출됨: towerType={towerType}, PlayerRef={Runner.LocalPlayer}");
+         Die();
+     }
+     
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
