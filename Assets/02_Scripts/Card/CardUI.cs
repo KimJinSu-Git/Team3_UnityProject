@@ -109,7 +109,7 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     {
         foreach (var zone in noSpawnZones)
         {
-            if (zone != null && zone.bounds.Contains(point))
+            if (zone != null && zone.gameObject.activeInHierarchy && zone.bounds.Contains(point))
                 return true;
         }
         return false;
@@ -128,7 +128,11 @@ public class CardUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
             {
                 previewInstance = Instantiate(monsterData.previewPrefab);
                 foreach (var img in enemyAreaImages) img.enabled = true;
-                foreach (var zone in noSpawnZones) zone.enabled = true;
+                foreach (var zone in noSpawnZones)
+                {
+                    if (zone != null && zone.gameObject.activeInHierarchy)
+                        zone.enabled = true;
+                }
             }
         }
         else if (baseData.cardDataType == CardDataType.Skill)

@@ -99,7 +99,7 @@ public class GameManager : NetworkBehaviour
         gameStartTime = Time.time;
     }
 
-    [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
+    [Rpc(sources: RpcSources.All, targets: RpcTargets.StateAuthority)]
     public void RPC_OnPrincessTowerDestroyed(TowerController tower)
     {
         if (currentState != GameState.Playing ) return;

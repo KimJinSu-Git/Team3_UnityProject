@@ -143,6 +143,9 @@ public class TowerController : NetworkBehaviour, IDamageAble
     {
         yield return new WaitForSeconds(delay);
         if (target == null) yield break;
+        
+        float distance = Vector3.Distance(transform.position, target.position);
+        if (distance > attackRange) yield break; // 사거리 밖이면 공격 중단
 
         NetworkObject arrowObj = Runner.Spawn(arrowPrefab, firePoint.position, Quaternion.identity);
         if (arrowObj.TryGetComponent<ArrowProjectile>(out var projectile))
@@ -214,7 +217,12 @@ public class TowerController : NetworkBehaviour, IDamageAble
     public void Die()
     {
         Debug.Log($"{towerType} 파괴됨!");
-
+        if (IsDead) return; // ✅ 추가: 중복 방지
+        IsDead = true;
+        
+        // Rpc_TurnOffVisuals();
+        // if (!Object.HasStateAuthority) return;
+        
         if (spawnCollider != null && spawnAreaImage != null)
         {
             spawnCollider.SetActive(false);
@@ -228,17 +236,21 @@ public class TowerController : NetworkBehaviour, IDamageAble
            
         if (towerType == TowerType.King)
             GameManager.Instance.RPC_OnKingTowerDestroyed(this);
-        else if (towerType == TowerType.LeftPrincess)
-        {
-            GameManager.Instance.RPC_OnPrincessTowerDestroyed(this);
-        }
-        else if (towerType == TowerType.RightPrincess)
+        else
         {
             GameManager.Instance.RPC_OnPrincessTowerDestroyed(this);
         }
 
         Destroy(gameObject);
     }
+    
+    // [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+    // public void Rpc_TurnOffVisuals()
+    // {
+    //     if (spawnCollider != null) spawnCollider.SetActive(false);
+    //     if (spawnAreaImage != null) spawnAreaImage.SetActive(false);
+    //     if (hpBarObj != null) hpBarObj.SetActive(false);
+    // }
 
     private void OnDrawGizmos()
     {
