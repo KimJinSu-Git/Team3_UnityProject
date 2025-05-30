@@ -220,8 +220,8 @@ public class TowerController : NetworkBehaviour, IDamageAble
         if (IsDead) return; // ✅ 추가: 중복 방지
         IsDead = true;
         
-        // Rpc_TurnOffVisuals();
-        // if (!Object.HasStateAuthority) return;
+        Rpc_TurnOffVisuals();
+        if (!Object.HasStateAuthority) return;
         
         if (spawnCollider != null && spawnAreaImage != null)
         {
@@ -244,13 +244,13 @@ public class TowerController : NetworkBehaviour, IDamageAble
         Destroy(gameObject);
     }
     
-    // [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    // public void Rpc_TurnOffVisuals()
-    // {
-    //     if (spawnCollider != null) spawnCollider.SetActive(false);
-    //     if (spawnAreaImage != null) spawnAreaImage.SetActive(false);
-    //     if (hpBarObj != null) hpBarObj.SetActive(false);
-    // }
+     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
+     public void Rpc_TurnOffVisuals()
+     {
+         if (spawnCollider != null) spawnCollider.SetActive(false);
+         if (spawnAreaImage != null) spawnAreaImage.SetActive(false);
+         if (hpBarObj != null) hpBarObj.SetActive(false);
+     }
 
     private void OnDrawGizmos()
     {
