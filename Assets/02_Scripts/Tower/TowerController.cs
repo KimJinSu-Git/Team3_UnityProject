@@ -216,29 +216,25 @@ public class TowerController : NetworkBehaviour, IDamageAble
     
     public void Die()
     {
-        Debug.Log($"{towerType} 파괴됨!");
-        if (IsDead) return; 
+        if (IsDead) return;
         IsDead = true;
-        
-        if (spawnCollider   != null) spawnCollider.SetActive(false);
-        if (spawnAreaImage != null) spawnAreaImage.SetActive(false);
-        if (hpBarObj       != null) hpBarObj.SetActive(false);
-        
-        Rpc_TurnOffVisuals();
-         
-        
-        if (!Object.HasStateAuthority) return;
-        
-        if (!Object.HasStateAuthority) return;
-        if (towerType == TowerType.King)
-            GameManager.Instance.RPC_OnKingTowerDestroyed(this);
-        else
-            GameManager.Instance.RPC_OnPrincessTowerDestroyed(this);
 
-        Destroy(gameObject);
+        // 모든 클라이언트에게 비주얼 끄기
+        Rpc_TurnOffVisuals();
+
+        // 서버만 게임 매니저 호출 및 제거
+        if (Object.HasStateAuthority)
+        {
+            if (towerType == TowerType.King)
+                GameManager.Instance.RPC_OnKingTowerDestroyed(this);
+            else
+                GameManager.Instance.RPC_OnPrincessTowerDestroyed(this);
+
+            Runner.Despawn(Object); // 오브젝트 삭제
+        }
     }
     
-    [Rpc(RpcSources.All, RpcTargets.All)]
+    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
     public void Rpc_TurnOffVisuals()
     {
         if (spawnCollider != null) spawnCollider.SetActive(false);
