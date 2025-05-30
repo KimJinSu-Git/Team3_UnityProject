@@ -217,11 +217,11 @@
       "isLimited": false
     },
     {
-      "offerId": "Necro_Gold_20Q",
+      "offerId": "Archer_Gold_20Q",
       "item": {
-        "itemId": "Necro",
+        "itemId": "Archer",
         "title": "네크로맨서",
-        "icon": "card_Necro"
+        "icon": "card_Archer"
       },
       "quantity": 20,
       "price": 1000,
@@ -229,11 +229,11 @@
       "isLimited": false
     },
     {
-      "offerId": "Necro_Gem_20Q",
+      "offerId": "Archer_Gem_20Q",
       "item": {
-        "itemId": "Necro",
+        "itemId": "Archer",
         "title": "네크로맨서",
-        "icon": "card_Necro"
+        "icon": "card_Archer"
       },
       "quantity": 20,
       "price": 250,
@@ -241,11 +241,11 @@
       "isLimited": false
     },
     {
-      "offerId": "Necro_Gold_30Q",
+      "offerId": "Archer_Gold_30Q",
       "item": {
-        "itemId": "Necro",
+        "itemId": "Archer",
         "title": "네크로맨서",
-        "icon": "card_Necro"
+        "icon": "card_Archer"
       },
       "quantity": 30,
       "price": 1500,
@@ -253,11 +253,11 @@
       "isLimited": false
     },
     {
-      "offerId": "Necro_Gem_30Q",
+      "offerId": "Archer_Gem_30Q",
       "item": {
-        "itemId": "Necro",
+        "itemId": "Archer",
         "title": "네크로맨서",
-        "icon": "card_Necro"
+        "icon": "card_Archer"
       },
       "quantity": 30,
       "price": 375,
@@ -265,11 +265,11 @@
       "isLimited": false
     },
     {
-      "offerId": "Necro_Gold_40Q",
+      "offerId": "Archer_Gold_40Q",
       "item": {
-        "itemId": "Necro",
+        "itemId": "Archer",
         "title": "네크로맨서",
-        "icon": "card_Necro"
+        "icon": "card_Archer"
       },
       "quantity": 40,
       "price": 2000,
@@ -277,11 +277,11 @@
       "isLimited": false
     },
     {
-      "offerId": "Necro_Gem_40Q",
+      "offerId": "Archer_Gem_40Q",
       "item": {
-        "itemId": "Necro",
+        "itemId": "Archer",
         "title": "네크로맨서",
-        "icon": "card_Necro"
+        "icon": "card_Archer"
       },
       "quantity": 40,
       "price": 500,
