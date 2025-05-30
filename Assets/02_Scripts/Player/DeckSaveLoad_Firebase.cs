@@ -9,14 +9,14 @@ using UnityEngine;
 public class DeckSaveLoad_Firebase : MonoBehaviour
 {
     public static DeckSaveLoad_Firebase Instance;
-    private FirebaseFirestore firestore;
+    //private FirebaseFirestore firestore;
     private void Awake()
     {
         Instance = this;
     }
     void Start()
     {
-        firestore = FirebaseFirestore.DefaultInstance;
+        //firestore = FirebaseFirestore.DefaultInstance;
     }
     public void DeckSave_FireBase(string UserId, List<BaseData> deck, string documentName) // 처음에 모든 카드 정보 저장
     {
@@ -40,12 +40,12 @@ public class DeckSaveLoad_Firebase : MonoBehaviour
         {
             { "cards", DeckList }
         };
-        firestore.Collection("users").Document(UserId).Collection("deck").Document(documentName).SetAsync(deckData);
+        FirestoreManager.Instance.firestore.Collection("users").Document(UserId).Collection("deck").Document(documentName).SetAsync(deckData);
     }
 
     public async void DeckLoad_FireBase(string userId, string documnetName,bool totalDeck, Action<List<BaseData>> onDeckLoaded) // 모든 카드데이터 현제 스텟데이터 세팅해서 가져옴
     {
-        DocumentReference doRef = firestore.Collection("users").Document(userId).Collection("deck").Document(documnetName);
+        DocumentReference doRef = FirestoreManager.Instance.firestore.Collection("users").Document(userId).Collection("deck").Document(documnetName);
         
         DocumentSnapshot snapshot = await doRef.GetSnapshotAsync();
         if (snapshot.Exists)

@@ -14,7 +14,7 @@ public class DeckManager : MonoBehaviour
     private int maxCardNum = 6;
     public List<BaseData> currentPlayerDeck = new List<BaseData>();
     public List<BaseData> totalPlayerDeck = new List<BaseData>(); // 총덱
-    private FirebaseFirestore firestore;
+    //private FirebaseFirestore firestore;
 
     public CollectionPanel collectionPanel;
     
@@ -31,7 +31,7 @@ public class DeckManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        firestore = FirebaseFirestore.DefaultInstance;
+        //firestore = FirebaseFirestore.DefaultInstance;
     }
     private async void Start()
     {
@@ -81,7 +81,7 @@ public class DeckManager : MonoBehaviour
     }
     private DocumentReference  GetTotalPlayerDeckDocRef(string documentName)
     {
-        return firestore
+        return FirestoreManager.Instance.firestore
             .Collection("users")
             .Document(FirebaseAuth.DefaultInstance.CurrentUser.UserId.ToString())
             .Collection("deck")

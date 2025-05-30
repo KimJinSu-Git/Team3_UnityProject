@@ -99,7 +99,7 @@ public class BaseMonsterController : NetworkBehaviour, IDamageAble
     //     {
     //         agent.speed = monsterData.moveSpeed;
     //         agent.autoBraking = false;
-    //         currentHp = monsterData.maxHP;
+    //         currentHp = monsterData.maxHP;c
     //     }
     //
     //     var col = GetComponent<Collider>();
