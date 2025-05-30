@@ -217,40 +217,34 @@ public class TowerController : NetworkBehaviour, IDamageAble
     public void Die()
     {
         Debug.Log($"{towerType} 파괴됨!");
-        if (IsDead) return; // ✅ 추가: 중복 방지
+        if (IsDead) return; 
         IsDead = true;
         
+        if (spawnCollider   != null) spawnCollider.SetActive(false);
+        if (spawnAreaImage != null) spawnAreaImage.SetActive(false);
+        if (hpBarObj       != null) hpBarObj.SetActive(false);
+        
         Rpc_TurnOffVisuals();
+         
+        
         if (!Object.HasStateAuthority) return;
         
-        if (spawnCollider != null && spawnAreaImage != null)
-        {
-            spawnCollider.SetActive(false);
-            spawnAreaImage.SetActive(false);
-        }
-
-        if (hpBarObj != null)
-        {
-            hpBarObj.SetActive(false);
-        }
-           
+        if (!Object.HasStateAuthority) return;
         if (towerType == TowerType.King)
             GameManager.Instance.RPC_OnKingTowerDestroyed(this);
         else
-        {
             GameManager.Instance.RPC_OnPrincessTowerDestroyed(this);
-        }
 
         Destroy(gameObject);
     }
     
-     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-     public void Rpc_TurnOffVisuals()
-     {
-         if (spawnCollider != null) spawnCollider.SetActive(false);
-         if (spawnAreaImage != null) spawnAreaImage.SetActive(false);
-         if (hpBarObj != null) hpBarObj.SetActive(false);
-     }
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void Rpc_TurnOffVisuals()
+    {
+        if (spawnCollider != null) spawnCollider.SetActive(false);
+        if (spawnAreaImage != null) spawnAreaImage.SetActive(false);
+        if (hpBarObj != null) hpBarObj.SetActive(false);
+    }
 
     private void OnDrawGizmos()
     {
