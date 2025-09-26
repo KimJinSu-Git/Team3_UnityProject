@@ -59,31 +59,24 @@ public class Spawner_Network : NetworkBehaviour
     [Rpc(sources: RpcSources.All, targets: RpcTargets.StateAuthority)]
     public void RPC_SpawnSpell(string skillName, Vector3 spawnPos, PlayerRef player)
     {
-        // 스킬 데이터를 CardHandManager에서 가져오기
-        //SkillData skillData = null;
         BaseData baseData = null;
         GameObject spellPrefab = null;
 
-        // CardHandManager의 스킬 데이터에서 찾기
         if (CardHandManager.Instance.cardData.TryGetValue(skillName, out baseData))
         {
-            spellPrefab = baseData.prefab; // SkillData에 prefab 필드가 있다고 가정
+            spellPrefab = baseData.prefab;
         }
         if (baseData is SkillData spell)
         {
-            // 백업으로 SkillManager에서도 찾기
             if (baseData == null)
             {
                 baseData = SkillManager.Instance.GetSkillData(skillName);
                 spellPrefab = SkillManager.Instance.GetSpellPrefab(skillName);
             }
-
             if (spellPrefab == null || baseData == null)
             {
-                Debug.LogError($"[RPC_SpawnSpell] ❌ Spell prefab not found: {skillName}");
                 return;
             }
-
             Runner.Spawn(spellPrefab, spawnPos, Quaternion.identity, player, onBeforeSpawned: (runner, obj) =>
             {
                 if (obj.TryGetComponent(out ArrowRainSpell arrowRain))
@@ -94,7 +87,6 @@ public class Spawner_Network : NetworkBehaviour
                 {
                     fireball.Init(spell, spawnPos, player, GetKingTower(player));
                 }
-                // 다른 스킬 타입들도 여기에 추가 가능
             });
         }
     }

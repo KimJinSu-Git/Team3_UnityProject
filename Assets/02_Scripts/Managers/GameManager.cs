@@ -136,12 +136,9 @@ public class GameManager : NetworkBehaviour
     public void RPC_OnKingTowerDestroyed(TowerController tower)
     {
         if (currentState != GameState.Playing) return;
-
         Debug.Log("킹 타워 파괴 → 즉시 종료");
-
         List<Vector3> crownSpawnPositions = new List<Vector3>();
         crownSpawnPositions.Add(tower.transform.position);
-
         List<TowerController> targetPrincessTowers = IsEnemyTower(tower) ? enemyPrincessTowers : playerPrincessTowers;
         foreach (var pricessTower in targetPrincessTowers)
         {
@@ -151,7 +148,6 @@ public class GameManager : NetworkBehaviour
                 crownSpawnPositions.Add(pricessTower.transform.position);
             }
         }
-
         if (IsEnemyTower(tower))
         {
             myCrowns = 3;
@@ -162,8 +158,6 @@ public class GameManager : NetworkBehaviour
             enemyCrowns = 3;
             enemyCrownUI.AddCrownsFromPositions(crownSpawnPositions, false);
         }
-
-        
     }
 
     public void EndGame() //Host에서만 게임 종료
