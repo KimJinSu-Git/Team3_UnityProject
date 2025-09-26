@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cb8effa82bf75e43946a45f39bf3f1c, type: 3}
+  m_Name: Golem
+  m_EditorClassIdentifier: 
+  id: 2
+  cardName: 
+  description: "\uBB34\uC0DD\uBB3C \uC7AC\uB8CC\uB85C \uB9CC\uB4E4\uC5B4\uC9C4 \uC778\uACF5
+    \uC0DD\uBA85\uCCB4\uC785\uB2C8\uB2E4. \uB9C8\uBC95\uC774\uB098 \uC758\uC2DD\uC744
+    \uD1B5\uD574 \uC0DD\uBA85\uC744 \uBD80\uC5EC\uBC1B\uC73C\uBA70, \uC8FC\uC778\uC758
+    \uBA85\uB839\uC5D0 \uC808\uB300 \uBCF5\uC885\uD569\uB2C8\uB2E4"
+  cost: 4
+  damage: 120
+  prefab: {fileID: 7114386256712146724, guid: 9990ead7124b17f40baabf3847604d0b, type: 3}
+  icon: {fileID: 21300000, guid: 309f767ecfef3ba41a9eab2ac7268191, type: 3}
+  cardDataType: 0
+  rarity: 0
+  characterType: 0
+  projectilePrefab: {fileID: 0}
+  projectileSpeed: 5
+  level: 1
+  maxHP: 1930
+  moveSpeed: 4
+  attackRange: 2
+  detectionRadius: 0
+  attackSpeed: 1.5
+  spawnTime: 2
+  previewPrefab: {fileID: 116606279000311329, guid: a1e10e8481bbc8444a2b8ff32b5c5913,
+    type: 3}
+  baseHP: 0
+  baseDamage: 0
+  baseAttackSpeed: 0
+  baseMoveSpeed: 0
+  attackType: 0
+  cardType: 0
+  lifeDuration: -1

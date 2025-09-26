@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cb8effa82bf75e43946a45f39bf3f1c, type: 3}
+  m_Name: Mage
+  m_EditorClassIdentifier: 
+  id: 3
+  cardName: 
+  description: "\uACE0\uB300\uC758 \uC9C0\uC2DD\uC744 \uD1B5\uD574 \uC790\uC5F0 \uBC95\uCE59\uC744
+    \uAFF0\uB6AB\uACE0, \uC774\uB97C \uB9C8\uBC95\uC73C\uB85C \uBC14\uAFB8\uB294
+    \uC874\uC7AC"
+  cost: 3
+  damage: 46
+  prefab: {fileID: 8615670974151929401, guid: b77e1c6adaa548b4b97b902afc9494cb, type: 3}
+  icon: {fileID: 21300000, guid: 73477e0fe64e4e140a93d5462cdba191, type: 3}
+  cardDataType: 0
+  rarity: 0
+  characterType: 1
+  projectilePrefab: {fileID: 7597660938547843268, guid: ad44054c2164c324697a5fd9e625604f,
+    type: 3}
+  projectileSpeed: 8
+  level: 1
+  maxHP: 119
+  moveSpeed: 4
+  attackRange: 4
+  detectionRadius: 0
+  attackSpeed: 1.5
+  spawnTime: 2
+  previewPrefab: {fileID: 2629951923687184274, guid: c6b1206460906a744bbfbd64bab78651,
+    type: 3}
+  baseHP: 0
+  baseDamage: 0
+  baseAttackSpeed: 0
+  baseMoveSpeed: 0
+  attackType: 0
+  cardType: 0
+  lifeDuration: -1

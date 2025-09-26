@@ -1,4 +1,10 @@
-*unitypackage filter=lfs diff=lfs merge=lfs -text
-Assets/Plugins/Android/*.arr filter=lfs diff=lfs merge=lfs -text
+# Unity YAML Merge
+*.meta text
+*.unity text merge=unityyamlmerge
+*.prefab text merge=unityyamlmerge
+
+# Git LFS
 *.unitypackage filter=lfs diff=lfs merge=lfs -text
 Assets/Plugins/Android/*.aar filter=lfs diff=lfs merge=lfs -text
+Assets/Firebase/Plugins/x86_64/*.bundle filter=lfs diff=lfs merge=lfs -text
+Assets/Firebase/Plugins/x86_64/*.so filter=lfs diff=lfs merge=lfs -text
