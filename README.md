@@ -7,6 +7,14 @@ ___
 저는 **전투 흐름 제어, 유닛 AI, 투사체 및 마법 스킬 로직, 타워 동작**을 담당했습니다. <br/>
 Git을 통한 협업 과정에서 병합 충돌 문제를 겪었고, **씬·스크립트 분리 규칙**을 도입하여 효율적인 협업 환경을 구축했습니다.  
 ___
+📸 **인게임 이미지**
+<p align="center">
+  <img src="https://github.com/KimJinSu-Git/Team3_UnityProject/blob/main/Assets/ScreenShots/Image1.PNG" width="200"/> &nbsp;
+  <img src="https://github.com/KimJinSu-Git/Team3_UnityProject/blob/main/Assets/ScreenShots/Image2.PNG" width="200"/> &nbsp;
+  <img src="https://github.com/KimJinSu-Git/Team3_UnityProject/blob/main/Assets/ScreenShots/Image3.png" width="200"/>
+</p>
+
+___
 🔑 주요 구현 요소
 * **타워 시스템**
   * King/Princess Tower 프리팹 구성
