@@ -16,11 +16,11 @@ ___
 
 ___
 🔑 주요 구현 요소
-* **타워 시스템**
+* **타워 시스템** 👉 [TowerContoller.cs](https://github.com/KimJinSu-Git/Team3_UnityProject/blob/main/Assets/02_Scripts/Tower/TowerController.cs)
   * King/Princess Tower 프리팹 구성
   * 적 감지 시 공격 애니메이션 + 화살 발사
 * **유닛 시스템**
-  * NavMeshAgent를 활용한 경로 탐지
+  * NavMeshAgent를 활용한 경로 탐지 👉 [BaseMonsterController.cs](https://github.com/KimJinSu-Git/Team3_UnityProject/blob/main/Assets/02_Scripts/Monsters/BaseMonsterContorller.cs)
   * Idle, Move, Attack, Die FSM 상태 관리
 * **투사체/스킬 시스템**
   * Fireball, ArrowRain 마법 구현 (범위 판정 + 이펙트)
@@ -30,7 +30,7 @@ ___
   * 타이머, CrownScore UI 동기화
   * 게임 종료 시점(타워 파괴 조건)에 따라 승패 판정
 * **네트워크 처리**
-  * 타워 파괴/마법 소환 이벤트를 RPC로 브로드캐스트
+  * 타워 파괴/마법 소환 이벤트를 RPC로 브로드캐스트 👉 [ArrowRainSpell.cs](https://github.com/KimJinSu-Git/Team3_UnityProject/blob/main/Assets/02_Scripts/Magics/ArrowRainSpell.cs#L36)
 ___
 * **영상 바로가기** [SkullRoyal.avi](https://drive.google.com/file/d/1J9pS02dEnYSveLgmGjIX0Cc2bIAb5LII/view?usp=drive_link)
 * **문서 바로가기** [SkullRoyal.pdf](https://drive.google.com/file/d/1iamMj0SPfmjJTDc4XA81wQjZerIuj447/view?usp=drive_link)
