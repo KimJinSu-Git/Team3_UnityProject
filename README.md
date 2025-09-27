@@ -9,8 +9,8 @@ Git을 통한 협업 과정에서 병합 충돌 문제를 겪었고, **씬·스�
 ___
 📸 **인게임 이미지**
 <p align="center">
-  <img src="https://github.com/KimJinSu-Git/Team3_UnityProject/blob/main/Assets/ScreenShots/Image1.PNG" width="200"/> &nbsp;
-  <img src="https://github.com/KimJinSu-Git/Team3_UnityProject/blob/main/Assets/ScreenShots/Image2.PNG" width="200"/> &nbsp;
+  <img src="https://github.com/KimJinSu-Git/Team3_UnityProject/blob/main/Assets/ScreenShots/Image1.PNG" width="200"/> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+  <img src="https://github.com/KimJinSu-Git/Team3_UnityProject/blob/main/Assets/ScreenShots/Image2.PNG" width="200"/> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
   <img src="https://github.com/KimJinSu-Git/Team3_UnityProject/blob/main/Assets/ScreenShots/Image3.png" width="200"/>
 </p>
 
